@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <MyType>WindowsFormsWithCustomSubMain</MyType>
@@ -24,32 +25,29 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
     <SccProvider>SubversionScc</SccProvider>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>.\bin\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DocumentationFile>BiederDB.xml</DocumentationFile>
-    <DebugSymbols>True</DebugSymbols>
-    <DefineDebug>True</DefineDebug>
-    <DefineTrace>True</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
     <DefineConstants>Win32=True</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
-    <NoWarn>
-    </NoWarn>
-    <DebugType>full</DebugType>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <AdditionalParameters />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>.\bin\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DocumentationFile>BiederDB.xml</DocumentationFile>
-    <DebugSymbols>False</DebugSymbols>
-    <DefineDebug>False</DefineDebug>
-    <DefineTrace>True</DefineTrace>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
     <DefineConstants>Win32=True</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
-    <NoWarn>
-    </NoWarn>
     <DebugType>none</DebugType>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <AdditionalParameters />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -70,9 +68,6 @@
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
-    <Reference Include="System.XML">
-      <Name>System.XML</Name>
-    </Reference>
     <COMReference Include="AxMSHTML">
       <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
       <Lcid>0</Lcid>
@@ -87,6 +82,7 @@
       <VersionMinor>0</VersionMinor>
       <WrapperTool>primary</WrapperTool>
     </COMReference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -227,20 +223,11 @@
     <EmbeddedResource Include="delete_group.resX">
       <DependentUpon>delete_group.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="eingabe.resX">
-      <DependentUpon>eingabe.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmAbout.resX">
       <DependentUpon>frmAbout.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmColors.resX">
-      <DependentUpon>frmColors.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resX">
       <DependentUpon>frmLogin.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmOptions.resX">
-      <DependentUpon>frmOptions.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPassword.resX">
       <DependentUpon>frmPassword.vb</DependentUpon>
@@ -272,6 +259,15 @@
     <None Include="_UpgradeReport.htm">
       <SubType>Preview</SubType>
     </None>
+    <EmbeddedResource Include="eingabe.resx">
+      <DependentUpon>eingabe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmColors.resx">
+      <DependentUpon>frmColors.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOptions.resx">
+      <DependentUpon>frmOptions.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
