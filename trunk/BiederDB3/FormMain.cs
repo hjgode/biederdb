@@ -15,7 +15,20 @@ namespace BiederDB3
         public FormMain()
         {
             InitializeComponent();
-            global = new GlobalSettings();
+            GlobalSettings.settings _settings = new GlobalSettings.settings();
+            _settings.read();
+            if (_settings.bPathValidated != 0)
+            {
+                FormOptions frm = new FormOptions();
+                frm.ShowDialog();
+                _settings = new GlobalSettings.settings();
+                _settings.read();
+                if ( _settings.bPathValidated!=0)
+                {
+                    Utils.showWarningMsg("Kann nicht ohne korrekte Einstellungen weiter", "Options ungültig");
+                    Application.Exit();
+                }
+            }
         }
 
         private void menuExit_Click(object sender, EventArgs e)

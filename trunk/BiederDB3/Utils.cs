@@ -10,7 +10,20 @@ namespace BiederDB3
 {
     static class Utils
     {
-        static GlobalSettings _global = new GlobalSettings();
+        static string  _appPath = "";
+        public static string AppPath
+        {
+            get {
+                if (_appPath == "")
+                {
+                    _appPath = Path.GetDirectoryName(Application.ExecutablePath);
+                    if (!_appPath.EndsWith(@"\"))
+                        _appPath += @"\";
+                }
+                return _appPath;
+            }
+        }
+
         /// <summary>
         /// read the contents of a file in the application dir
         /// uses content dir if run from debug
@@ -22,7 +35,7 @@ namespace BiederDB3
             string s="";
             try
             {
-                string sPath = _global.AppPath;
+                string sPath = Utils.AppPath;
                 if (System.Diagnostics.Debugger.IsAttached)
                     sPath += "\\content\\";
                 using (StreamReader tr = new StreamReader(sPath + sTextFile))
@@ -41,7 +54,7 @@ namespace BiederDB3
             bool bRet = false;
             try
             {
-                string sPath = _global.AppPath;
+                string sPath = Utils.AppPath;
                 if (System.Diagnostics.Debugger.IsAttached)
                     sPath += "\\content\\";
                 using (StreamWriter sw = new StreamWriter(sPath + sTextFile))

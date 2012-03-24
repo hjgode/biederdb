@@ -102,5 +102,17 @@ namespace BiederDB3
                     return;
             this.Close();
         }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            if(cboGruppenAuswahl.SelectedIndex<cboGruppenAuswahl.Items.Count-1)
+                cboGruppenAuswahl.SelectedIndex++;
+        }
+
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            if (cboGruppenAuswahl.SelectedIndex > 0)
+                cboGruppenAuswahl.SelectedIndex--;
+        }
     }
 }

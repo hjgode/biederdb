@@ -29,7 +29,7 @@ namespace BiederDB3
             _settings = new GlobalSettings.settings();
             _settings = _settings.read();
 
-            lastDir = global.AppPath;
+            lastDir = Utils.AppPath;
 
             txtDatabase.Text = _settings.datenbank;
             txtWebDir.Text = _settings.webRoot;
@@ -120,7 +120,7 @@ namespace BiederDB3
             OpenFileDialog fd = new OpenFileDialog();
             fd.CheckFileExists = true;
             fd.CheckPathExists = true;
-            fd.InitialDirectory = global.AppPath;
+            fd.InitialDirectory = Utils.AppPath;
             fd.Filter = "Web Seite (*.htm)|*.htm";
             if (fd.ShowDialog() == DialogResult.OK)
                 txtWebHead.Text = fd.FileName;
@@ -133,7 +133,7 @@ namespace BiederDB3
             OpenFileDialog fd = new OpenFileDialog();
             fd.CheckFileExists = true;
             fd.CheckPathExists = true;
-            fd.InitialDirectory = global.AppPath;
+            fd.InitialDirectory = Utils.AppPath;
             fd.Filter = "Web Seite (*.htm)|*.htm";
             if (fd.ShowDialog() == DialogResult.OK)
                 txtWebStart.Text = fd.FileName;
@@ -147,7 +147,7 @@ namespace BiederDB3
             OpenFileDialog fd = new OpenFileDialog();            
             fd.CheckFileExists = true;
             fd.CheckPathExists = true;
-            fd.InitialDirectory = global.AppPath;
+            fd.InitialDirectory = Utils.AppPath;
             fd.Filter = "IrvanView Programm (iview.exe)|iview.exe|Programme (*.exe)|*.exe";
             if (fd.ShowDialog() == DialogResult.OK)
                 txtIviewExe.Text = fd.FileName;
