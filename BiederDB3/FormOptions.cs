@@ -27,7 +27,7 @@ namespace BiederDB3
 
             global = new GlobalSettings();
             _settings = new GlobalSettings.settings();
-            _settings = _settings.read();
+            _settings.read();
 
             lastDir = Utils.AppPath;
 

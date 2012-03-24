@@ -13,37 +13,12 @@ namespace BiederDB3
 {
     public class GlobalSettings
     {
-        public GlobalSettings()
-        {
-
-        }
 
         #region settings
 
-        public class defaultSettings:settings
-        {
-            public string datenbank = @"C:\Program Files\BiederDB\CDdatabase.mdb";
-            public string    sortField = "HGR_ID";
-            public string    webRoot = @"C:\Bieder.Web";
-            public string    webKopf = @"C:\Program Files\BiederDB\_top.htm";
-            public string    mainPage = @"C:\Program Files\BiederDB\_main.htm";
-            public string    iview = @"D:\TOOLS\irfanview\iview375.exe";
-            public int    showTime = 3;
-            public bool PasswortSchutzEin = false;
-            public string    CustomIndexFile = "index.htm";
-            public bool    UseCustomIndexFile = false;
-            public bool    bg_top = false;
-            public bool    bg_left = false;
-            public bool    bg_main = false;
-            public bool    bg_artikel = false;
-
-        }
-        [Serializable]
         public class settings
         {
-            [NonSerialized]
             public string programShellFolder;
-            //[XmlText(typeof(string))]
             public string datenbank;
             public string sortField;
             public string webRoot;
@@ -58,46 +33,93 @@ namespace BiederDB3
             public bool bg_left;
             public bool bg_main;
             public bool bg_artikel;
-
-            [NonSerialized]
             public string der_biedermann_default = "<blockquote><p>Der Biedermann, Landhausm&ouml;bel in vielen Varianten, Gr&uuml;nstr. 6, 42103 Wuppertal, Telefon: 0202-470068, Fax: 0202/6980567<br>&Ouml;ffnungszeiten: Mo-Fr 11-18:30 Uhr, Sa 10-16 Uhr</p></blockquote>";
 
-            [NonSerialized]
-            private GlobalSettings global = new GlobalSettings();
-
-            private void setDefaults()
-            {
-                datenbank = @"C:\Program Files\BiederDB\CDdatabase.mdb";
-                sortField = "HGR_ID";
-                webRoot = @"C:\Bieder.Web";
-                webKopf = @"C:\Program Files\BiederDB\_top.htm";
-                mainPage = @"C:\Program Files\BiederDB\_main.htm";
-                iview = @"D:\TOOLS\irfanview\iview375.exe";
-                showTime = 3;
-                PasswortSchutzEin = false;
-                CustomIndexFile = "index.htm";
-                UseCustomIndexFile = false;
-                bg_top = false;
-                bg_left = false;
-                bg_main = false;
-                bg_artikel = false;
-            }
+            static XMLsettings xmlsettings = null;
             public settings()
             {
-                //if (!File.Exists(Utils.AppPath + "settings.xml"))
-                //{
-                //    setDefaults();
-                //}
-                //else
-                //    read();
-                setDefaults();
-                programShellFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                datenbank = datenbank.Replace(@"C:\Program Files", programShellFolder);
-                webKopf = webKopf.Replace(@"C:\Program Files", programShellFolder);
-                mainPage = mainPage.Replace(@"C:\Program Files", programShellFolder);
-
+                if (xmlsettings != null)
+                    return;
+                try
+                {
+                    xmlsettings = new XMLsettings();
+                    if (File.Exists(Utils.xmlSettingsFile))
+                    {
+                        xmlsettings.readXML();
+                    }
+                    else
+                    {
+                        this.setDefaults();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    setDefaults();
+                    System.Diagnostics.Debug.WriteLine("Exception in settings(): " + ex.Message);
+                }
             }
+            private void setDefaults(){
+                xmlsettings.bg_artikel = defaultSettings.bg_artikel;
+                xmlsettings.bg_left = defaultSettings.bg_left;
+                xmlsettings.bg_main = defaultSettings.bg_main;
+                xmlsettings.bg_top = defaultSettings.bg_top;
+                xmlsettings.CustomIndexFile = defaultSettings.CustomIndexFile;
+                xmlsettings.datenbank = defaultSettings.datenbank;
+                xmlsettings.iview = defaultSettings.iview;
+                xmlsettings.mainPage = defaultSettings.mainPage;
+                xmlsettings.PasswortSchutzEin = defaultSettings.PasswortSchutzEin;
+                xmlsettings.showTime = defaultSettings.showTime;
+                xmlsettings.sortField = defaultSettings.sortField;
+                xmlsettings.UseCustomIndexFile = defaultSettings.UseCustomIndexFile;
+                xmlsettings.webKopf = defaultSettings.webKopf;
+                xmlsettings.webRoot = defaultSettings.webRoot;
+                
+                xmlsettings.saveXml();
+            }
+            //private void setDefaults()
+            //{
+            //    datenbank = @"C:\Program Files\BiederDB\CDdatabase.mdb";
+            //    sortField = "HGR_ID";
+            //    webRoot = @"C:\Bieder.Web";
+            //    webKopf = @"C:\Program Files\BiederDB\_top.htm";
+            //    mainPage = @"C:\Program Files\BiederDB\_main.htm";
+            //    iview = @"D:\TOOLS\irfanview\iview375.exe";
+            //    showTime = 3;
+            //    PasswortSchutzEin = false;
+            //    CustomIndexFile = "index.htm";
+            //    UseCustomIndexFile = false;
+            //    bg_top = false;
+            //    bg_left = false;
+            //    bg_main = false;
+            //    bg_artikel = false;
+            //}
+            public void read()
+            {
+                if (File.Exists(Utils.xmlSettingsFile))
+                {
+                    //xmlsettings = new XMLsettings();
+                    try
+                    {
+                        xmlsettings.readXML();
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerClass.log("Exception in settings(): " + ex.Message);
 
+                        //programShellFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                        xmlsettings.datenbank = xmlsettings.datenbank.Replace(@"C:\Program Files", programShellFolder);
+                        xmlsettings.webKopf = xmlsettings.webKopf.Replace(@"C:\Program Files", programShellFolder);
+                        xmlsettings.mainPage = xmlsettings.mainPage.Replace(@"C:\Program Files", programShellFolder);
+
+                        xmlsettings.saveXml();
+                    }
+                }
+                
+            }
+            public void save()
+            {
+                xmlsettings.saveXml();
+            }
             public int bPathValidated
             {
                 get
@@ -114,39 +136,74 @@ namespace BiederDB3
                     return iRet;
                 }
             }
-            public settings read()
+        }
+        /// <summary>
+        /// defines default settings
+        /// </summary>
+        public static class defaultSettings
+        {
+            public static string datenbank = @"C:\Program Files\BiederDB\CDdatabase.mdb";
+            public static string    sortField = "HGR_ID";
+            public static string    webRoot = @"C:\Bieder.Web";
+            public static string webKopf = @"C:\Program Files\BiederDB\_top.htm";
+            public static string mainPage = @"C:\Program Files\BiederDB\_main.htm";
+            public static string iview = @"D:\TOOLS\irfanview\iview375.exe";
+            public static int showTime = 3;
+            public static bool PasswortSchutzEin = false;
+            public static string CustomIndexFile = "index.htm";
+            public static bool UseCustomIndexFile = false;
+            public static bool bg_top = false;
+            public static bool bg_left = false;
+            public static bool bg_main = false;
+            public static bool bg_artikel = false;
+            public static string der_biedermann_default = "<blockquote><p>Der Biedermann, Landhausm&ouml;bel in vielen Varianten, Gr&uuml;nstr. 6, 42103 Wuppertal, Telefon: 0202-470068, Fax: 0202/6980567<br>&Ouml;ffnungszeiten: Mo-Fr 11-18:30 Uhr, Sa 10-16 Uhr</p></blockquote>";
+
+        }
+
+        /// <summary>
+        /// settings XML serialize/deserialize
+        /// </summary>
+        [Serializable]
+        public class XMLsettings
+        {
+            //[XmlText(typeof(string))]
+            public string datenbank;
+            public string sortField;
+            public string webRoot;
+            public string webKopf;
+            public string mainPage;
+            public string iview;
+            public int showTime;
+            public bool PasswortSchutzEin;
+            public string CustomIndexFile;
+            public bool UseCustomIndexFile;
+            public bool bg_top;
+            public bool bg_left;
+            public bool bg_main;
+            public bool bg_artikel;
+
+            public XMLsettings()
             {
-                if (System.IO.File.Exists(Utils.AppPath + "settings.xml"))
-                {
-                    return deserialize(Utils.AppPath + "settings.xml");
-                }
-                else
-                    return new defaultSettings();
-            }
-            public bool save()
-            {
-                serialize(this, Utils.AppPath + "settings.xml");
-                this.read();
-                return serialize(this, Utils.AppPath + "settings.xml");
             }
 
-            public static settings deserialize(string sXMLfile)
+            public XMLsettings readXML()
             {
-                try
-                {
-                    XmlSerializer xs = new XmlSerializer(typeof(settings));
-                    Stream stream = File.Open(Utils.AppPath + "settings.xml", FileMode.Open);
-                    settings sett = (settings)xs.Deserialize(stream);
-                    stream.Close();
-                    return sett;
-                }
-                catch (Exception ex)
-                {
-                    LoggerClass.log("Exception in settings deserialize: " + ex.Message);
-                    return new defaultSettings();
-                }
+                    return deserialize(Utils.xmlSettingsFile);
             }
-            public static bool serialize(settings datamodel, string sXMLfile)
+            public bool saveXml()
+            {
+                return serialize(this, Utils.xmlSettingsFile);
+            }
+
+            public static XMLsettings deserialize(string sXMLfile)
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(XMLsettings));
+                Stream stream = File.Open(Utils.xmlSettingsFile, FileMode.Open);
+                XMLsettings sett = (XMLsettings)xs.Deserialize(stream);
+                stream.Close();
+                return sett;
+            }
+            public static bool serialize(XMLsettings datamodel, string sXMLfile)
             {
                 bool bRet = false;
                 try
