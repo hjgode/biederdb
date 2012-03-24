@@ -23,7 +23,13 @@ namespace BiederDB3
                 return _appPath;
             }
         }
-
+        static string _xmlSettingsFile = "";
+        public static string xmlSettingsFile{
+            get {
+                if (_xmlSettingsFile == "")
+                    _xmlSettingsFile = Utils.AppPath + "settings.xml";
+                return _xmlSettingsFile; }
+        }
         /// <summary>
         /// read the contents of a file in the application dir
         /// uses content dir if run from debug
