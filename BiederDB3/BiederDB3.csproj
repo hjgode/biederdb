@@ -152,6 +152,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Utils.cs" />
+    <Compile Include="BiederDBSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\CDdatabase.Mdb">
