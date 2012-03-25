@@ -24,11 +24,12 @@ namespace BiederDB3
             public bool bg_main;
             public bool bg_artikel;
             public string der_biedermann_default = "<blockquote><p>Der Biedermann, Landhausm&ouml;bel in vielen Varianten, Gr&uuml;nstr. 6, 42103 Wuppertal, Telefon: 0202-470068, Fax: 0202/6980567<br>&Ouml;ffnungszeiten: Mo-Fr 11-18:30 Uhr, Sa 10-16 Uhr</p></blockquote>";
-		private genericSettings _mySettings;
+		private static genericSettings _mySettings;
 		public BiederDBSettings ()
 		{
-			_mySettings=new genericSettings();
-			_mySettings.GetSetting("datenbank", defaultSettings.datenbank);
+			if(_mySettings==null)
+				_mySettings=new genericSettings();
+			datenbank = _mySettings.GetSetting("datenbank", defaultSettings.datenbank);
 		}
         private static class defaultSettings
         {
