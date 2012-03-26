@@ -11,11 +11,11 @@ namespace BiederDB3
 {
     public partial class FormOptions : Form
     {
-        GlobalSettings global;
-        GlobalSettings.settings _settings;
+//        GlobalSettings global;
+//        GlobalSettings.settings _settings;
+        BiederDBSettings2 _settings;
         private string lastDir = "";
-
-        public FormOptions()
+        public FormOptions(ref BiederDBSettings2 theSettings)
         {
             InitializeComponent();
 
@@ -25,9 +25,7 @@ namespace BiederDB3
                 cboSortList.Items.Add(s);
             }
 
-            global = new GlobalSettings();
-            _settings = new GlobalSettings.settings();
-            _settings.read();
+            _settings = theSettings;
 
             lastDir = Utils.AppPath;
 
@@ -55,7 +53,23 @@ namespace BiederDB3
 
             numDiaTimeout.Value = _settings.showTime;
 
+            txtDatabase.Validating += new CancelEventHandler(txtFileName_Validating);
+            txtWebHead.Validating += new CancelEventHandler(txtFileName_Validating);
+            txtWebStart.Validating += new CancelEventHandler(txtFileName_Validating);
+            txtWebDir.Validating += new CancelEventHandler(txtFileName_Validating);
+            txtIviewExe.Validating += new CancelEventHandler(txtFileName_Validating);
+            
+            this.ValidateChildren();
             //_settings.save();
+        }
+
+        void txtFileName_Validating(object sender, CancelEventArgs e)
+        {
+            TextBox tBox = (TextBox)sender;
+            if (_settings.bIsValidFile(tBox.Text))
+                tBox.BackColor = Color.LightGreen;
+            else
+                tBox.BackColor = Color.LightPink;
         }
 
         private void btnDatabase_Click(object sender, EventArgs e)

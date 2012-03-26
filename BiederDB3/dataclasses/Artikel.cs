@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using System.Data.OleDb;
+using System.Data;
 
 namespace BiederDB3.dataclasses
 {
@@ -11,7 +12,7 @@ namespace BiederDB3.dataclasses
     {
         Datenbank db;
         bool bNewDB = false;
-
+        BiederDBSettings2 _settings = new BiederDBSettings2();
         public Artikel()
         {
             db = new Datenbank();
@@ -73,7 +74,63 @@ namespace BiederDB3.dataclasses
                 Besteld = 0;
             }
         }
-        public List<artikel> getArtikel()
+
+        public DataSet getDataset(string sFilter)
+        {
+            DataSet ds = new DataSet();
+            if (!db.connected)
+                db.doConnect();
+            try
+            {
+                //test for SortOrder field
+                OleDbCommand cmd;
+                OleDbDataAdapter da = new OleDbDataAdapter();
+                if (sFilter != "")
+                    cmd = new OleDbCommand("SELECT * from Artikel Where Hgr_Id='" + sFilter + "' order by " + _settings.sortField  /*Hgr_ID"*/ , db._connection);
+                else
+                    cmd = new OleDbCommand("SELECT * from Artikel order by " + _settings.sortField  /*Hgr_ID"*/ , db._connection);
+
+                LoggerClass.log("Executing: " + cmd.CommandText);
+
+                da.SelectCommand = cmd;
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                LoggerClass.log("Datenbank: getTable. Exception: " + ex.Message);
+            }
+            return ds;
+        }
+
+        public DataTable getTable(string sFilter)
+        {
+            DataTable dt = new DataTable();
+            if (!db.connected)
+                db.doConnect();
+            try
+            {
+                //test for SortOrder field
+                OleDbCommand cmd;
+                OleDbDataAdapter da= new OleDbDataAdapter();
+                //DataSet ds = new DataSet();
+                if(sFilter!="")
+                    cmd = new OleDbCommand("SELECT * from Artikel Where Hgr_Id='" + sFilter + "' order by " + _settings.sortField  /*Hgr_ID"*/ , db._connection);
+                else
+                    cmd = new OleDbCommand("SELECT * from Artikel order by " + _settings.sortField  /*Hgr_ID"*/ , db._connection);
+
+                LoggerClass.log("Executing: " + cmd.CommandText);
+
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+
+            }
+            catch (Exception ex)
+            {
+                LoggerClass.log("Datenbank: getTable. Exception: " + ex.Message);
+            }
+            return dt;
+        }
+        public List<artikel> getArtikel(int sFilter)
         {
             List<artikel> liste = new List<artikel>();
             if (!db.connected)
@@ -83,14 +140,19 @@ namespace BiederDB3.dataclasses
                 //test for SortOrder field
                 OleDbCommand cmd;
 
-                cmd = new OleDbCommand("SELECT * from Artikel order by Hgr_ID", db._connection);
+                if (sFilter != -1)
+                    cmd = new OleDbCommand("SELECT * from Artikel Where Hgr_Id=" + sFilter + " order by " + _settings.sortField  /*Hgr_ID"*/ , db._connection);
+                else
+                    cmd = new OleDbCommand("SELECT * from Artikel order by " + _settings.sortField  /*Hgr_ID"*/ , db._connection);
 
                 LoggerClass.log("Executing: " + cmd.CommandText);
                 OleDbDataReader rdr = cmd.ExecuteReader();
 
                 if (rdr.HasRows)
                 {
-                    string sArtNr = "", sOmschrijving = "", sFoto = "";
+                    string sArtNr = "";
+                    string sOmschrijving = "";
+                    string sFoto = "";
                     Single iH_PrijsOnb = 0;
                     Single iH_PrijsBew = 0;
                     Single iW_PrijsOnb = 0;
@@ -105,41 +167,18 @@ namespace BiederDB3.dataclasses
                         sArtNr = db.readerGetString(rdr, "ArtNr");
                         sOmschrijving = db.readerGetString(rdr, "Omschrijving");
                         sFoto = db.readerGetString(rdr, "Foto");
-                        liste.Add(new artikel(sArtNr, sOmschrijving, sFoto, (int)rdr["Hgr_ID"],(int)rdr["Art_ID"]));
-                        //dict.Add(rdr[""].ToString(), rdr[].ToString());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LoggerClass.log("Datenbank: getArtikel. Exception: " + ex.Message);
-            }
-            return liste;
-        }
-        public List<artikel> getArtikel(int iGruppenID)
-        {
-            List<artikel> liste = new List<artikel>();
-            if (!db.connected)
-                db.doConnect();
-            try
-            {
-                //test for SortOrder field
-                OleDbCommand cmd;
+                        iH_PrijsOnb = db.readerGetSingle(rdr, "H_PrijsOnb");
+                        iH_PrijsBew = db.readerGetSingle(rdr, "H_PrijsBew");
+                        iW_PrijsOnb = db.readerGetSingle(rdr, "W_PrijsOnb");
+                        iW_PrijsBew = db.readerGetSingle(rdr, "W_PrijsBew");
+                        iBesteld = db.readerGetSingle(rdr, "Besteld");
+                        sMaat = db.readerGetString(rdr, "Maat");
+                        bBewerkt = db.readerGetBool(rdr, "Bewerkt");
+                        iHgr_Id = db.readerGetInt(rdr, "Hgr_Id");
+                        iArt_ID = db.readerGetInt(rdr, "Art_ID");
 
-                cmd = new OleDbCommand("SELECT * from Artikel WHERE Hgr_ID="+ iGruppenID + " order by Art_ID", db._connection);
-
-                LoggerClass.log("Executing: " + cmd.CommandText);
-                OleDbDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.HasRows)
-                {
-                    string s1 = "", s2 = "", s3 = "";
-                    while (rdr.Read())
-                    {
-                        s1 = db.readerGetString(rdr, "ArtNr");
-                        s2 = db.readerGetString(rdr, "Omschrijving");
-                        s3 = db.readerGetString(rdr, "Foto");
-                        liste.Add(new artikel(s1, s2, s3, (int)rdr["Hgr_ID"],(int)rdr["Art_ID"]));
+                        liste.Add(new artikel(sArtNr, sOmschrijving, sFoto, iHgr_Id, iArt_ID));
+                        liste.Add(new artikel(sArtNr,sOmschrijving,iH_PrijsOnb, iH_PrijsBew, iW_PrijsOnb, iW_PrijsBew, iBesteld, sMaat, sFoto, bBewerkt, iHgr_Id, iArt_ID));
                         //dict.Add(rdr[""].ToString(), rdr[].ToString());
                     }
                 }

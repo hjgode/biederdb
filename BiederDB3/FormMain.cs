@@ -11,18 +11,18 @@ namespace BiederDB3
 {
     public partial class FormMain : Form
     {
-        GlobalSettings global;
+        //GlobalSettings global;
+        BiederDBSettings2 _settings;
         public FormMain()
         {
             InitializeComponent();
-            GlobalSettings.settings _settings = new GlobalSettings.settings();
-            _settings.read();
+            //GlobalSettings.settings _settings = new GlobalSettings.settings();
+            //_settings.read();
+            _settings = new BiederDBSettings2();
             if (_settings.bPathValidated != 0)
             {
-                FormOptions frm = new FormOptions();
+                FormOptions frm = new FormOptions(ref _settings);
                 frm.ShowDialog();
-                _settings = new GlobalSettings.settings();
-                _settings.read();
                 if ( _settings.bPathValidated!=0)
                 {
                     Utils.showWarningMsg("Kann nicht ohne korrekte Einstellungen weiter", "Options ungültig");
@@ -38,9 +38,9 @@ namespace BiederDB3
 
         private void mnuSettings_Click(object sender, EventArgs e)
         {
-            FormOptions fo = new FormOptions();
-            if (fo.ShowDialog() == DialogResult.OK)
-                ;
+            _settings = new BiederDBSettings2();
+            FormOptions fo = new FormOptions(ref _settings);
+            fo.ShowDialog();
             fo.Dispose();
         }
 
@@ -81,6 +81,13 @@ namespace BiederDB3
         private void mnuWebCleanup_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnDataEdit_Click(object sender, EventArgs e)
+        {
+            FormEdit  frm = new FormEdit();
+            frm.ShowDialog();
+            frm.Dispose();
         }
     }
 }

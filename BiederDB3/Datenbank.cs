@@ -6,14 +6,14 @@ using System.Text;
 using System.Data;
 using System.Data.OleDb;
 
+using System.ComponentModel;
+
 namespace BiederDB3
 {
     public class Datenbank:IDisposable
     {
         private bool _connected=false;
-        GlobalSettings _global = new GlobalSettings();
-        GlobalSettings.settings _settings = new GlobalSettings.settings();
-
+        BiederDBSettings2 _settings= new BiederDBSettings2();
         public OleDbConnection _connection;
         string _provider = @"Provider=Microsoft.Jet.OLEDB.4.0;";
         string _datasource = "Data source=";
@@ -120,5 +120,51 @@ namespace BiederDB3
             }
             return i;
         }
+        public Single readerGetSingle(OleDbDataReader rdr, string sField)
+        {
+            Single i = 0;
+            try
+            {
+                object o = rdr[sField];
+                if (o != null)
+                    i = (Single)o;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return i;
+        }
+        public bool readerGetBool(OleDbDataReader rdr, string sField)
+        {
+            bool i = false;
+            try
+            {
+                object o = rdr[sField];
+                if (o != null)
+                    i = (bool)o;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return i;
+        }
+        public T readerGetValue<T>(OleDbDataReader rdr, string sField)
+        {
+            object o = new object();
+            try
+            {
+                o = rdr[sField];
+                if (o != null)
+                    return (T)(o);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return (T)o;
+        }
+
     }
 }
