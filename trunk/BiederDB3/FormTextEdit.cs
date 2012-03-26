@@ -24,8 +24,7 @@ namespace BiederDB3
 
         private void btn_Standard_Click(object sender, EventArgs e)
         {
-            GlobalSettings.settings _s = new GlobalSettings.settings();
-            _s.read();
+            BiederDBSettings2 _s = new BiederDBSettings2();
             txtEdit.Text = Utils.replaceBRbyCR(_s.der_biedermann_default);
         }
 

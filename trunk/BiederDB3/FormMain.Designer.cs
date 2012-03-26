@@ -32,9 +32,10 @@
             this.mnuDatei = new System.Windows.Forms.ToolStripMenuItem();
             this.menuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDaten = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuGroupDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuGroupSort = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuGroupRename = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuGroupTextEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuGroupDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuWebCleanup = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCleanupData = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,7 +49,6 @@
             this.btnDiaShow = new System.Windows.Forms.Button();
             this.btnPublish2Web = new System.Windows.Forms.Button();
             this.btnBackupRestore = new System.Windows.Forms.Button();
-            this.mnuGroupSort = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -95,12 +95,12 @@
             this.mnuDaten.Size = new System.Drawing.Size(50, 20);
             this.mnuDaten.Text = "Daten";
             // 
-            // mnuGroupDelete
+            // mnuGroupSort
             // 
-            this.mnuGroupDelete.Name = "mnuGroupDelete";
-            this.mnuGroupDelete.Size = new System.Drawing.Size(215, 22);
-            this.mnuGroupDelete.Text = "Gruppe löschen";
-            this.mnuGroupDelete.Click += new System.EventHandler(this.mnuGroupDelete_Click);
+            this.mnuGroupSort.Name = "mnuGroupSort";
+            this.mnuGroupSort.Size = new System.Drawing.Size(215, 22);
+            this.mnuGroupSort.Text = "Gruppen sortieren";
+            this.mnuGroupSort.Click += new System.EventHandler(this.mnuGroupSort_Click);
             // 
             // mnuGroupRename
             // 
@@ -115,6 +115,13 @@
             this.mnuGroupTextEdit.Size = new System.Drawing.Size(215, 22);
             this.mnuGroupTextEdit.Text = "Gruppentexte";
             this.mnuGroupTextEdit.Click += new System.EventHandler(this.mnuGroupTextEdit_Click);
+            // 
+            // mnuGroupDelete
+            // 
+            this.mnuGroupDelete.Name = "mnuGroupDelete";
+            this.mnuGroupDelete.Size = new System.Drawing.Size(215, 22);
+            this.mnuGroupDelete.Text = "Gruppe löschen";
+            this.mnuGroupDelete.Click += new System.EventHandler(this.mnuGroupDelete_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -182,6 +189,7 @@
             this.btnDataEdit.TabIndex = 1;
             this.btnDataEdit.Text = "Daten bearbeiten";
             this.btnDataEdit.UseVisualStyleBackColor = true;
+            this.btnDataEdit.Click += new System.EventHandler(this.btnDataEdit_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -234,13 +242,6 @@
             this.btnBackupRestore.TabIndex = 4;
             this.btnBackupRestore.Text = "Backup/Restore (ZIP)";
             this.btnBackupRestore.UseVisualStyleBackColor = true;
-            // 
-            // mnuGroupSort
-            // 
-            this.mnuGroupSort.Name = "mnuGroupSort";
-            this.mnuGroupSort.Size = new System.Drawing.Size(215, 22);
-            this.mnuGroupSort.Text = "Gruppen sortieren";
-            this.mnuGroupSort.Click += new System.EventHandler(this.mnuGroupSort_Click);
             // 
             // FormMain
             // 
