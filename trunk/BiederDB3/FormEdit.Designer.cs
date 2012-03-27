@@ -78,8 +78,12 @@
             this._label1_3 = new System.Windows.Forms.Label();
             this._label1_4 = new System.Windows.Forms.Label();
             this.Label3 = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusArtID = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusDataChanged = new System.Windows.Forms.ToolStripStatusLabel();
             this.Frame1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictFoto)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnPrint
@@ -129,6 +133,7 @@
             this.txtPrijsOnb.TabIndex = 2;
             this.txtPrijsOnb.Text = "Besteld";
             this.ToolTip1.SetToolTip(this.txtPrijsOnb, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
+            this.txtPrijsOnb.Validated += new System.EventHandler(this.txtPrijsOnb_Validated);
             // 
             // txtPrijsBew
             // 
@@ -144,6 +149,7 @@
             this.txtPrijsBew.TabIndex = 3;
             this.txtPrijsBew.Text = "Besteld";
             this.ToolTip1.SetToolTip(this.txtPrijsBew, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
+            this.txtPrijsBew.Validated += new System.EventHandler(this.txtPrijsBew_Validated);
             // 
             // lstGroups
             // 
@@ -332,6 +338,7 @@
             this.btnSave.Text = "Sichern";
             this.ToolTip1.SetToolTip(this.btnSave, "Sichern des aktuellen Datensatzes");
             this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnClose
             // 
@@ -415,6 +422,7 @@
             this.chkBewerkt.TabIndex = 51;
             this.chkBewerkt.Text = "Bearbeitet";
             this.chkBewerkt.UseVisualStyleBackColor = false;
+            this.chkBewerkt.Validated += new System.EventHandler(this.chkBewerkt_Validated);
             // 
             // OpenFileDialog1
             // 
@@ -440,7 +448,7 @@
             this.lstHgr_Id.Cursor = System.Windows.Forms.Cursors.Default;
             this.lstHgr_Id.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.lstHgr_Id.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.lstHgr_Id.Location = new System.Drawing.Point(540, 66);
+            this.lstHgr_Id.Location = new System.Drawing.Point(540, 58);
             this.lstHgr_Id.Name = "lstHgr_Id";
             this.lstHgr_Id.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lstHgr_Id.Size = new System.Drawing.Size(94, 21);
@@ -464,13 +472,14 @@
             this.txtBesteld.Text = "Besteld";
             this.ToolTip1.SetToolTip(this.txtBesteld, "Hier eine 1 eingeben, damit Artikel für Web publiziert wird. Eine 2 eingeben, dam" +
                     "it in der DIA-Show sichtbar.");
+            this.txtBesteld.Validated += new System.EventHandler(this.txtBesteld_Validated);
             // 
             // btnNewHgr_Id
             // 
             this.btnNewHgr_Id.BackColor = System.Drawing.SystemColors.Control;
             this.btnNewHgr_Id.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnNewHgr_Id.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnNewHgr_Id.Location = new System.Drawing.Point(668, 66);
+            this.btnNewHgr_Id.Location = new System.Drawing.Point(668, 58);
             this.btnNewHgr_Id.Name = "btnNewHgr_Id";
             this.btnNewHgr_Id.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnNewHgr_Id.Size = new System.Drawing.Size(89, 21);
@@ -485,7 +494,7 @@
             this.btnFoto.BackColor = System.Drawing.SystemColors.Control;
             this.btnFoto.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnFoto.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnFoto.Location = new System.Drawing.Point(732, 42);
+            this.btnFoto.Location = new System.Drawing.Point(732, 143);
             this.btnFoto.Name = "btnFoto";
             this.btnFoto.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnFoto.Size = new System.Drawing.Size(25, 21);
@@ -525,6 +534,7 @@
             this.txtOmschrijving.TabIndex = 47;
             this.txtOmschrijving.Text = "Omschrijving";
             this.ToolTip1.SetToolTip(this.txtOmschrijving, "Geben Sie eine Beschreibung zum Artikel ein");
+            this.txtOmschrijving.Validated += new System.EventHandler(this.txtOmschrijving_Validated);
             // 
             // txtMaat
             // 
@@ -540,6 +550,7 @@
             this.txtMaat.TabIndex = 46;
             this.txtMaat.Text = "Maat";
             this.ToolTip1.SetToolTip(this.txtMaat, "Geben Sie hier die Masse des Artikels ein");
+            this.txtMaat.Validated += new System.EventHandler(this.txtMaat_Validated);
             // 
             // txtFoto
             // 
@@ -547,14 +558,15 @@
             this.txtFoto.BackColor = System.Drawing.SystemColors.Window;
             this.txtFoto.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtFoto.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtFoto.Location = new System.Drawing.Point(540, 42);
+            this.txtFoto.Location = new System.Drawing.Point(486, 143);
             this.txtFoto.MaxLength = 0;
             this.txtFoto.Name = "txtFoto";
             this.txtFoto.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtFoto.Size = new System.Drawing.Size(186, 20);
+            this.txtFoto.Size = new System.Drawing.Size(240, 20);
             this.txtFoto.TabIndex = 48;
             this.txtFoto.Text = "Foto";
             this.ToolTip1.SetToolTip(this.txtFoto, "Klicken Sie auf [...] um ein anderes Bild zu wählen");
+            this.txtFoto.Validated += new System.EventHandler(this.txtFoto_Validated);
             // 
             // txtHgrId
             // 
@@ -564,7 +576,7 @@
             this.txtHgrId.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtHgrId.Enabled = false;
             this.txtHgrId.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtHgrId.Location = new System.Drawing.Point(637, 69);
+            this.txtHgrId.Location = new System.Drawing.Point(637, 61);
             this.txtHgrId.MaxLength = 0;
             this.txtHgrId.Name = "txtHgrId";
             this.txtHgrId.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -591,6 +603,7 @@
             this.txtBewerkt.Text = "Bearbeitet";
             this.ToolTip1.SetToolTip(this.txtBewerkt, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
             this.txtBewerkt.Visible = false;
+            this.txtBewerkt.Validated += new System.EventHandler(this.txtBewerkt_Validated);
             // 
             // _Label4_2
             // 
@@ -714,7 +727,7 @@
             this._label1_3.BackColor = System.Drawing.Color.Transparent;
             this._label1_3.Cursor = System.Windows.Forms.Cursors.Default;
             this._label1_3.ForeColor = System.Drawing.SystemColors.WindowText;
-            this._label1_3.Location = new System.Drawing.Point(492, 42);
+            this._label1_3.Location = new System.Drawing.Point(483, 122);
             this._label1_3.Name = "_label1_3";
             this._label1_3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._label1_3.Size = new System.Drawing.Size(28, 13);
@@ -727,7 +740,7 @@
             this._label1_4.BackColor = System.Drawing.Color.Transparent;
             this._label1_4.Cursor = System.Windows.Forms.Cursors.Default;
             this._label1_4.ForeColor = System.Drawing.SystemColors.WindowText;
-            this._label1_4.Location = new System.Drawing.Point(492, 66);
+            this._label1_4.Location = new System.Drawing.Point(492, 58);
             this._label1_4.Name = "_label1_4";
             this._label1_4.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._label1_4.Size = new System.Drawing.Size(45, 13);
@@ -747,11 +760,35 @@
             this.Label3.Text = "Bild nicht vorhanden";
             this.Label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusArtID,
+            this.statusDataChanged});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 583);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(788, 22);
+            this.statusStrip1.TabIndex = 82;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusArtID
+            // 
+            this.statusArtID.Name = "statusArtID";
+            this.statusArtID.Size = new System.Drawing.Size(32, 17);
+            this.statusArtID.Text = "-----";
+            // 
+            // statusDataChanged
+            // 
+            this.statusDataChanged.Name = "statusDataChanged";
+            this.statusDataChanged.Size = new System.Drawing.Size(71, 17);
+            this.statusDataChanged.Text = "unverändert";
+            // 
             // FormEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 605);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.lstGroups);
@@ -795,6 +832,8 @@
             this.Frame1.ResumeLayout(false);
             this.Frame1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictFoto)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -851,5 +890,8 @@
         public System.Windows.Forms.Label _label1_3;
         public System.Windows.Forms.Label _label1_4;
         public System.Windows.Forms.Label Label3;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel statusArtID;
+        private System.Windows.Forms.ToolStripStatusLabel statusDataChanged;
     }
 }

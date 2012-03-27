@@ -15,6 +15,9 @@ namespace BiederDB3
     {
         Datenbank db;
         Artikel _artikelClass;
+        /// <summary>
+        /// current artikel data
+        /// </summary>
         Artikel.artikel _artikel;
         List<Artikel.artikel> _artikelListe = new List<Artikel.artikel>();
         BiederDBSettings2 _settings = new BiederDBSettings2();
@@ -25,6 +28,9 @@ namespace BiederDB3
         public FormEdit()
         {
             InitializeComponent();
+            db = new Datenbank();
+
+            //read Gruppentexte for artikel assignment
             _gTexts = new Gruppentexte();
 
             lstHgr_Id.Items.Clear();
@@ -32,9 +38,10 @@ namespace BiederDB3
             {
                 lstHgr_Id.Items.Add(g);
             }
-            //lstHgr_Id.Items.Insert(0, new Gruppentexte.gruppentext("Alle", -1, "Alle", 0));
+            lstHgr_Id.Items.Insert(0, new Gruppentexte.gruppentext("Nicht zugeordnet", -1, "Nicht zugeordnet", 0));
             lstHgr_Id.SelectedIndex = 0;
 
+            //read Gruppentexte for selection
             lstGroups.Items.Clear();
             foreach (Gruppentexte.gruppentext g in _gTexts.getGruppentexte())
             {
@@ -44,7 +51,7 @@ namespace BiederDB3
             lstGroups.Items.Insert(0, new Gruppentexte.gruppentext("Alle", -1, "Alle", 0));
             lstGroups.SelectedIndex = 0;
 
-            db = new Datenbank();
+            //read artikel
             _artikelClass = new Artikel();
             _artikelListe = _artikelClass.getArtikel(-1);
 
@@ -55,8 +62,9 @@ namespace BiederDB3
             }
             else
                 this.Enabled = false;
+
             bIsStarting = false;
-            bDataChanged = false;
+            DataChanged( false);
         }
         void readData(){
             txtArtNr.Text = _artikel.ArtNr;
@@ -67,9 +75,7 @@ namespace BiederDB3
             pictFoto.Image = new Bitmap(txtFoto.Text);
             txtHgrId.Text = _artikel.Hgr_ID.ToString();
 
-            Gruppentexte.gruppentext g = _gTexts.getGruppe(_artikel.Hgr_ID);
-            if(g.ID!=-1)
-                lstHgr_Id.SelectedIndex = lstHgr_Id.Items.IndexOf(g);
+            lstHgr_Id.SelectedIndex = selectHgrIdList(_artikel.Hgr_ID);
             
             txtHPrijsBew.Text = _artikel.H_PrijsBew.ToString();
             txtHPrijsOnb.Text = _artikel.H_PrijsOnb.ToString();
@@ -77,10 +83,24 @@ namespace BiederDB3
             txtPrijsOnb.Text = _artikel.W_PrijsOnb.ToString();
 
             txtOmschrijving.Text = _artikel.Omschrijving;
-            txtMaat.Text = _artikel.Maat;          
+            txtMaat.Text = _artikel.Maat;
 
+            statusArtID.Text = _artikel.Art_ID.ToString();
+            DataChanged(false);
         }
-
+        int selectHgrIdList(int hgrid)
+        {
+            int iRet=0;
+            for (int i=0; i<lstHgr_Id.Items.Count; i++)
+            {
+                Gruppentexte.gruppentext g = (Gruppentexte.gruppentext)lstHgr_Id.Items[i];
+                if (g.ID == hgrid)
+                {
+                    return i;
+                }
+            }
+            return iRet;
+        }
         private void btnMoveNext_Click(object sender, EventArgs e)
         {
             if (iCurrent < _artikelListe.Count - 1)
@@ -120,7 +140,8 @@ namespace BiederDB3
             if (bIsStarting || lstHgr_Id.SelectedIndex==-1)
                 return;
             txtHgrId.Text = ((Gruppentexte.gruppentext)(lstHgr_Id.SelectedItem)).ID.ToString();
-            bDataChanged = true;
+            _artikel.Hgr_ID = int.Parse(txtHgrId.Text, System.Globalization.CultureInfo.CurrentCulture);
+            DataChanged(true);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -134,6 +155,77 @@ namespace BiederDB3
         }
         private void saveData()
         {
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (_artikelClass.update(_artikel) > 0)
+                Utils.showInfoMsg("Datensatz gespeichert", "Daten bearbeiten");
+            DataChanged(false);
+            
+        }
+
+        private void txtPrijsOnb_Validated(object sender, EventArgs e)
+        {
+            _artikel.W_PrijsOnb = Single.Parse(txtPrijsOnb.Text);
+            txtPrijsOnb.BackColor = Color.LightGreen;
+            DataChanged(true);
+        }
+
+        private void txtPrijsBew_Validated(object sender, EventArgs e)
+        {
+            _artikel.W_PrijsBew = Single.Parse(txtPrijsBew.Text);
+            DataChanged(true);
+        }
+
+        private void txtOmschrijving_Validated(object sender, EventArgs e)
+        {
+            _artikel.Omschrijving = txtOmschrijving.Text;
+            DataChanged(true);
+        }
+
+        private void txtBesteld_Validated(object sender, EventArgs e)
+        {
+            _artikel.Besteld = Single.Parse(txtBesteld.Text);
+            DataChanged(true);
+        }
+
+        private void txtBewerkt_Validated(object sender, EventArgs e)
+        {
+            _artikel.Bewerkt = bool.Parse( chkBewerkt.Checked.ToString());
+            DataChanged(true);
+        }
+
+        private void txtMaat_Validated(object sender, EventArgs e)
+        {
+            _artikel.Maat = txtMaat.Text;
+            DataChanged(true);
+        }
+
+        private void txtFoto_Validated(object sender, EventArgs e)
+        {
+            _artikel.Foto = txtFoto.Text;
+            DataChanged(true);
+        }
+
+        private void chkBewerkt_Validated(object sender, EventArgs e)
+        {
+            _artikel.Bewerkt = bool.Parse( chkBewerkt.ToString());
+            DataChanged(true);
+        }
+        void DataChanged(bool bChanged)
+        {
+            if (bChanged)
+            {
+                statusDataChanged.Text = "geändert";
+                statusDataChanged.BackColor = Color.LightPink;
+            }
+            else
+            {
+                statusDataChanged.Text = "unverändert";
+                statusDataChanged.BackColor = Color.LightGreen;
+            }
+            bDataChanged = bChanged;
         }
     }
 }
