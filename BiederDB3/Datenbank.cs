@@ -97,7 +97,10 @@ namespace BiederDB3
             {
                 object o = rdr[sField];
                 if (o != null)
+                {
                     s = (string)o;
+                    s = s.Replace("''", "'");   // single quotes are special in msaccess
+                }
             }
             catch (Exception ex)
             {

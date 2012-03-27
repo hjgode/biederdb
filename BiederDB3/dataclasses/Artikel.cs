@@ -75,6 +75,39 @@ namespace BiederDB3.dataclasses
             }
         }
 
+        public int update(Artikel.artikel _artikel1){
+            int iRet=0;
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = db._connection;
+            try
+            {
+                System.Globalization.CultureInfo myInfo = System.Globalization.CultureInfo.InvariantCulture;
+                cmd.CommandText = "update Artikel set " +
+                    "ArtNr='" + _artikel1.ArtNr + "', " +
+                    "Omschrijving='" + _artikel1.Omschrijving + "', " +
+                    "H_PrijsOnb=" + _artikel1.H_PrijsOnb.ToString(myInfo) + ", " +
+                    "H_PrijsBew=" + _artikel1.H_PrijsBew.ToString(myInfo) + ", " +
+                    "W_PrijsOnb=" + _artikel1.W_PrijsOnb.ToString(myInfo) + ", " +
+                    "W_PrijsBew=" + _artikel1.W_PrijsBew.ToString(myInfo) + ", " +
+                    "Besteld=" + _artikel1.Besteld.ToString("0") + ", " +
+
+                    "Maat='" + _artikel1.Maat + "', " +
+                    "Foto='" + _artikel1.Foto.Replace("'", "''") + "', " +
+                    "Bewerkt=" + _artikel1.Bewerkt.ToString() + ", " +
+                    "Hgr_ID=" + _artikel1.Hgr_ID.ToString("0") + " " +
+
+                    " WHERE Art_ID=" + _artikel1.Art_ID.ToString() + ";";
+
+                int iCount = cmd.ExecuteNonQuery();
+                iRet = iCount;
+            }
+            catch (Exception ex)// {"Syntax error (missing operator) in query expression ''C:\\Applicaties\\Foto's artikelen\\Kasten\\wit032.jpeg', Bewerkt=False, Hgr_ID=58  WHERE Art_ID=2241;'."}
+            {
+                LoggerClass.log("Datenbank: updateArtikel. Exception: " + ex.Message);
+            }
+
+            return iRet;
+        }
         public DataSet getDataset(string sFilter)
         {
             DataSet ds = new DataSet();
