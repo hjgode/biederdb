@@ -415,7 +415,7 @@
             this.chkBewerkt.BackColor = System.Drawing.SystemColors.Control;
             this.chkBewerkt.Cursor = System.Windows.Forms.Cursors.Default;
             this.chkBewerkt.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.chkBewerkt.Location = new System.Drawing.Point(604, 99);
+            this.chkBewerkt.Location = new System.Drawing.Point(604, 115);
             this.chkBewerkt.Name = "chkBewerkt";
             this.chkBewerkt.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.chkBewerkt.Size = new System.Drawing.Size(90, 17);
@@ -451,7 +451,7 @@
             this.lstHgr_Id.Location = new System.Drawing.Point(540, 58);
             this.lstHgr_Id.Name = "lstHgr_Id";
             this.lstHgr_Id.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lstHgr_Id.Size = new System.Drawing.Size(94, 21);
+            this.lstHgr_Id.Size = new System.Drawing.Size(137, 21);
             this.lstHgr_Id.TabIndex = 49;
             this.ToolTip1.SetToolTip(this.lstHgr_Id, "Wählen Sie hier die Gruppe für den Artikel aus");
             this.lstHgr_Id.SelectedIndexChanged += new System.EventHandler(this.lstHgr_Id_SelectedIndexChanged);
@@ -463,7 +463,7 @@
             this.txtBesteld.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtBesteld.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtBesteld.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtBesteld.Location = new System.Drawing.Point(540, 99);
+            this.txtBesteld.Location = new System.Drawing.Point(540, 115);
             this.txtBesteld.MaxLength = 0;
             this.txtBesteld.Name = "txtBesteld";
             this.txtBesteld.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -479,10 +479,10 @@
             this.btnNewHgr_Id.BackColor = System.Drawing.SystemColors.Control;
             this.btnNewHgr_Id.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnNewHgr_Id.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnNewHgr_Id.Location = new System.Drawing.Point(668, 58);
+            this.btnNewHgr_Id.Location = new System.Drawing.Point(540, 85);
             this.btnNewHgr_Id.Name = "btnNewHgr_Id";
             this.btnNewHgr_Id.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnNewHgr_Id.Size = new System.Drawing.Size(89, 21);
+            this.btnNewHgr_Id.Size = new System.Drawing.Size(94, 21);
             this.btnNewHgr_Id.TabIndex = 71;
             this.btnNewHgr_Id.TabStop = false;
             this.btnNewHgr_Id.Text = "Neue Gruppe";
@@ -494,7 +494,7 @@
             this.btnFoto.BackColor = System.Drawing.SystemColors.Control;
             this.btnFoto.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnFoto.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnFoto.Location = new System.Drawing.Point(732, 143);
+            this.btnFoto.Location = new System.Drawing.Point(732, 182);
             this.btnFoto.Name = "btnFoto";
             this.btnFoto.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnFoto.Size = new System.Drawing.Size(25, 21);
@@ -558,11 +558,11 @@
             this.txtFoto.BackColor = System.Drawing.SystemColors.Window;
             this.txtFoto.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtFoto.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtFoto.Location = new System.Drawing.Point(486, 143);
+            this.txtFoto.Location = new System.Drawing.Point(388, 183);
             this.txtFoto.MaxLength = 0;
             this.txtFoto.Name = "txtFoto";
             this.txtFoto.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtFoto.Size = new System.Drawing.Size(240, 20);
+            this.txtFoto.Size = new System.Drawing.Size(338, 20);
             this.txtFoto.TabIndex = 48;
             this.txtFoto.Text = "Foto";
             this.ToolTip1.SetToolTip(this.txtFoto, "Klicken Sie auf [...] um ein anderes Bild zu wählen");
@@ -576,7 +576,7 @@
             this.txtHgrId.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtHgrId.Enabled = false;
             this.txtHgrId.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtHgrId.Location = new System.Drawing.Point(637, 61);
+            this.txtHgrId.Location = new System.Drawing.Point(700, 61);
             this.txtHgrId.MaxLength = 0;
             this.txtHgrId.Name = "txtHgrId";
             this.txtHgrId.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -593,7 +593,7 @@
             this.txtBewerkt.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtBewerkt.Enabled = false;
             this.txtBewerkt.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtBewerkt.Location = new System.Drawing.Point(700, 99);
+            this.txtBewerkt.Location = new System.Drawing.Point(700, 115);
             this.txtBewerkt.MaxLength = 0;
             this.txtBewerkt.Name = "txtBewerkt";
             this.txtBewerkt.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -610,7 +610,7 @@
             this._Label4_2.BackColor = System.Drawing.SystemColors.Control;
             this._Label4_2.Cursor = System.Windows.Forms.Cursors.Default;
             this._Label4_2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this._Label4_2.Location = new System.Drawing.Point(463, 256);
+            this._Label4_2.Location = new System.Drawing.Point(463, 297);
             this._Label4_2.Name = "_Label4_2";
             this._Label4_2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._Label4_2.Size = new System.Drawing.Size(313, 25);
@@ -623,7 +623,7 @@
             this._Label4_1.BackColor = System.Drawing.SystemColors.Control;
             this._Label4_1.Cursor = System.Windows.Forms.Cursors.Default;
             this._Label4_1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this._Label4_1.Location = new System.Drawing.Point(463, 231);
+            this._Label4_1.Location = new System.Drawing.Point(463, 272);
             this._Label4_1.Name = "_Label4_1";
             this._Label4_1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._Label4_1.Size = new System.Drawing.Size(313, 25);
@@ -637,7 +637,7 @@
             this._Label4_0.Cursor = System.Windows.Forms.Cursors.Default;
             this._Label4_0.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._Label4_0.ForeColor = System.Drawing.SystemColors.ControlText;
-            this._Label4_0.Location = new System.Drawing.Point(463, 198);
+            this._Label4_0.Location = new System.Drawing.Point(463, 239);
             this._Label4_0.Name = "_Label4_0";
             this._Label4_0.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._Label4_0.Size = new System.Drawing.Size(313, 23);
@@ -675,7 +675,7 @@
             this._label1_5.BackColor = System.Drawing.Color.Transparent;
             this._label1_5.Cursor = System.Windows.Forms.Cursors.Default;
             this._label1_5.ForeColor = System.Drawing.SystemColors.WindowText;
-            this._label1_5.Location = new System.Drawing.Point(492, 99);
+            this._label1_5.Location = new System.Drawing.Point(492, 115);
             this._label1_5.Name = "_label1_5";
             this._label1_5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._label1_5.Size = new System.Drawing.Size(34, 13);
@@ -727,7 +727,7 @@
             this._label1_3.BackColor = System.Drawing.Color.Transparent;
             this._label1_3.Cursor = System.Windows.Forms.Cursors.Default;
             this._label1_3.ForeColor = System.Drawing.SystemColors.WindowText;
-            this._label1_3.Location = new System.Drawing.Point(483, 122);
+            this._label1_3.Location = new System.Drawing.Point(385, 162);
             this._label1_3.Name = "_label1_3";
             this._label1_3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._label1_3.Size = new System.Drawing.Size(28, 13);

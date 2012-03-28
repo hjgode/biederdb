@@ -58,7 +58,7 @@ namespace BiederDB3
             if (_artikelListe.Count > 0)
             {
                 _artikel = _artikelListe[iCurrent];
-                readData();
+                //readData();
             }
             else
                 this.Enabled = false;
@@ -86,6 +86,10 @@ namespace BiederDB3
             txtMaat.Text = _artikel.Maat;
 
             statusArtID.Text = _artikel.Art_ID.ToString();
+            this.ValidateChildren();
+            
+            doValidate(this);
+            
             DataChanged(false);
         }
         int selectHgrIdList(int hgrid)
@@ -159,16 +163,23 @@ namespace BiederDB3
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            if (!doValidate(this))
+            {
+                Utils.showInfoMsg("Eingabefehler korrigieren", "Daten speichern");
+                return;
+            }
             if (_artikelClass.update(_artikel) > 0)
-                Utils.showInfoMsg("Datensatz gespeichert", "Daten bearbeiten");
+                Utils.showInfoMsg("Datensatz gespeichert", "Daten speichern");
+            else
+                Utils.showErrorMsg("Kein Datensatz gespeichert", "Daten speichern");
+
             DataChanged(false);
             
         }
 
         private void txtPrijsOnb_Validated(object sender, EventArgs e)
         {
-            _artikel.W_PrijsOnb = Single.Parse(txtPrijsOnb.Text);
-            txtPrijsOnb.BackColor = Color.LightGreen;
+            //_artikel.W_PrijsOnb = Single.Parse(txtPrijsOnb.Text);
             DataChanged(true);
         }
 
@@ -192,7 +203,10 @@ namespace BiederDB3
 
         private void txtBewerkt_Validated(object sender, EventArgs e)
         {
-            _artikel.Bewerkt = bool.Parse( chkBewerkt.Checked.ToString());
+            if (chkBewerkt.Checked)
+                _artikel.Bewerkt = true;
+            else
+                _artikel.Bewerkt = false;
             DataChanged(true);
         }
 
@@ -210,7 +224,7 @@ namespace BiederDB3
 
         private void chkBewerkt_Validated(object sender, EventArgs e)
         {
-            _artikel.Bewerkt = bool.Parse( chkBewerkt.ToString());
+            _artikel.Bewerkt = chkBewerkt.Checked;
             DataChanged(true);
         }
         void DataChanged(bool bChanged)
@@ -226,6 +240,36 @@ namespace BiederDB3
                 statusDataChanged.BackColor = Color.LightGreen;
             }
             bDataChanged = bChanged;
+        }
+        bool doValidate(Control ctrl)
+        {
+            bool bRet = true;
+            if (ctrl == null)
+                ctrl = this;
+            foreach (Control c in ctrl.Controls)
+            {
+                if (c.HasChildren)
+                    return doValidate(c);
+                if (c is TextBox)
+                {
+                    if (c.Name.Contains("Prijs"))
+                    {
+                        try
+                        {
+                            Single s = Single.Parse(c.Text);
+                            c.BackColor = Color.LightGreen;
+                        }
+                        catch (Exception)
+                        {
+                            c.BackColor = Color.LightPink;
+                            return false;
+                        }
+                    }
+                    else
+                        c.BackColor = Color.LightGreen;
+                }
+            }
+            return bRet;
         }
     }
 }

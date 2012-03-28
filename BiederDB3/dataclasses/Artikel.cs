@@ -198,6 +198,7 @@ namespace BiederDB3.dataclasses
                     while (rdr.Read())
                     {
                         sArtNr = db.readerGetString(rdr, "ArtNr");
+                        System.Diagnostics.Debug.WriteLine("Reader: read='" + sArtNr + "'");
                         sOmschrijving = db.readerGetString(rdr, "Omschrijving");
                         sFoto = db.readerGetString(rdr, "Foto");
                         iH_PrijsOnb = db.readerGetSingle(rdr, "H_PrijsOnb");
@@ -210,7 +211,6 @@ namespace BiederDB3.dataclasses
                         iHgr_Id = db.readerGetInt(rdr, "Hgr_Id");
                         iArt_ID = db.readerGetInt(rdr, "Art_ID");
 
-                        liste.Add(new artikel(sArtNr, sOmschrijving, sFoto, iHgr_Id, iArt_ID));
                         liste.Add(new artikel(sArtNr,sOmschrijving,iH_PrijsOnb, iH_PrijsBew, iW_PrijsOnb, iW_PrijsBew, iBesteld, sMaat, sFoto, bBewerkt, iHgr_Id, iArt_ID));
                         //dict.Add(rdr[""].ToString(), rdr[].ToString());
                     }
