@@ -73,12 +73,15 @@ namespace BiederDB3
             {
                 OleDbCommand cmd = new OleDbCommand("Select * from " + sTabelle, _connection);
                 OleDbDataReader rdr = cmd.ExecuteReader();
-                DataTable dt = rdr.GetSchemaTable();
+                DataTable dt = rdr.GetSchemaTable();                
                 if (dt.Rows.Count != 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
-                        sARR.Add(dt.Rows[i].ItemArray[0]);
+                        sARR.Add(dt.Rows[i].ItemArray[0]); //ColumnName 
+                        //System.Diagnostics.Debug.WriteLine("ColumnName: " + dt.Rows[i].ItemArray[0]); //ColumnName 
+                        //System.Diagnostics.Debug.WriteLine("ColumnSize: " + dt.Rows[i].ItemArray[2]); //ColumnSize 
+                        //System.Diagnostics.Debug.WriteLine("DataType:   " + dt.Rows[i].ItemArray[5]); //.NET DataType 
                     }
                 }
             }

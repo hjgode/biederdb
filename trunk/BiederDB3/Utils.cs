@@ -143,5 +143,56 @@ namespace BiederDB3
                 return false;
             return true;
         }
+
+        /// <summary>
+        /// check a string if is a decimal number using a comma (DE culture)
+        /// </summary>
+        /// <param name="sText">the string with the number inside</param>
+        /// <returns>True, if number is OK</returns>
+        public static bool isDecimal(ref string sText)
+        {
+            if (sText == ""){
+                sText = "0";
+                return true;
+            }
+            Single s1 = 0;
+            Single s2 = 0;
+            string sTest = "";
+            bool bRet = false;
+            string sParse = sText.Replace(",", ".");
+            try
+            {
+                //try to convert to a number
+                s1 = Single.Parse(sParse, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);  //this uses a dot as decimal char
+                //convert back to string to test result
+                sTest = s1.ToString();
+                s2 = Single.Parse(sTest, System.Globalization.CultureInfo.CurrentCulture);                  //uses a comma? as decimal
+                if (s1 == s2)
+                {
+                    sText = s2.ToString("0.00");
+                    bRet = true;
+                }
+            }
+            catch { }
+            return bRet;
+        }
+        /// <summary>
+        /// convert a decimal number string to a single value
+        /// used to convert text to a DB conform single format
+        /// </summary>
+        /// <param name="sText"></param>
+        /// <returns></returns>
+        public static Single getSingle(string sText)
+        {
+            Single s = 0;
+            try
+            {
+                s = Single.Parse(sText, System.Globalization.CultureInfo.CurrentCulture);
+            }
+            catch
+            {
+            }
+            return s;
+        }
     }
 }
