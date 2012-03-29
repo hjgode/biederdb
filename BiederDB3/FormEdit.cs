@@ -77,16 +77,15 @@ namespace BiederDB3
 
             lstHgr_Id.SelectedIndex = selectHgrIdList(_artikel.Hgr_ID);
             
-            txtHPrijsBew.Text = _artikel.H_PrijsBew.ToString();
-            txtHPrijsOnb.Text = _artikel.H_PrijsOnb.ToString();
-            txtPrijsBew.Text = _artikel.W_PrijsBew.ToString();
-            txtPrijsOnb.Text = _artikel.W_PrijsOnb.ToString();
+            txtWPrijsBew.Text = _artikel.W_PrijsBew.ToString("0.00");
+            txtWPrijsOnb.Text = _artikel.W_PrijsOnb.ToString("0.00");
+            txtHPrijsBew.Text = _artikel.H_PrijsBew.ToString("0.00");
+            txtHPrijsOnb.Text = _artikel.H_PrijsOnb.ToString("0.00");
 
             txtOmschrijving.Text = _artikel.Omschrijving;
             txtMaat.Text = _artikel.Maat;
 
             statusArtID.Text = _artikel.Art_ID.ToString();
-            this.ValidateChildren();
             
             doValidate(this);
             
@@ -185,7 +184,6 @@ namespace BiederDB3
 
         private void txtPrijsBew_Validated(object sender, EventArgs e)
         {
-            _artikel.W_PrijsBew = Single.Parse(txtPrijsBew.Text);
             DataChanged(true);
         }
 
@@ -256,8 +254,18 @@ namespace BiederDB3
                     {
                         try
                         {
-                            Single s = Single.Parse(c.Text);
-                            c.BackColor = Color.LightGreen;
+                            string s = c.Text;
+                            if (Utils.isDecimal(ref s))
+                            {
+                                //Single s = Single.Parse(c.Text);
+                                c.Text = s;
+                                c.BackColor = Color.LightGreen;
+                            }
+                            else
+                            {
+                                c.BackColor = Color.LightPink;
+                                return false;
+                            }
                         }
                         catch (Exception)
                         {
@@ -270,6 +278,66 @@ namespace BiederDB3
                 }
             }
             return bRet;
+        }
+
+        private void btnFoto_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fd = new OpenFileDialog();
+            fd.CheckFileExists = true;
+            fd.CheckPathExists = true;
+            fd.InitialDirectory = System.IO.Path.GetDirectoryName(txtFoto.Text);
+            fd.Filter = "Bilder (*.jpg)|*.jpg";
+            if (fd.ShowDialog() == DialogResult.OK)
+                txtFoto.Text = fd.FileName;
+            fd.Dispose();
+
+        }
+
+        private void pictFoto_Click(object sender, EventArgs e)
+        {
+            btnFoto_Click(sender, e);
+        }
+
+        bool bIsUpdateing = false;
+        private void txtBesteld_TextChanged(object sender, EventArgs e)
+        {
+            if (bIsUpdateing)
+                return;
+            Single s = 0;
+            string str = txtBesteld.Text;
+            if (Utils.isDecimal(ref str))
+            {
+                s = Single.Parse(str);
+                if (s == 1)
+                    chkVerwendungWeb.Checked = true;
+                else if (s == 2)
+                    chkVerwendungDia.Checked = true;
+                else
+                    chkVerwendungAnderes.Checked = true;
+            }
+            else
+                chkVerwendungAnderes.Checked = true;
+        }
+
+        private void chkVerwendungAnderes_CheckedChanged(object sender, EventArgs e)
+        {
+            bIsUpdateing = true;
+            txtBesteld.Text = "0";
+            bIsUpdateing = false;
+        }
+
+        private void chkVerwendungWeb_CheckedChanged(object sender, EventArgs e)
+        {
+            bIsUpdateing = true;
+            txtBesteld.Text = "1";
+            bIsUpdateing = false;
+        }
+
+        private void chkVerwendungDia_CheckedChanged(object sender, EventArgs e)
+        {
+            bIsUpdateing = true;
+            txtBesteld.Text = "2";
+            bIsUpdateing = false;
         }
     }
 }

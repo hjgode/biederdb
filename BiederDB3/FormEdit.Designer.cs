@@ -32,8 +32,8 @@
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.Timer1 = new System.Windows.Forms.Timer(this.components);
-            this.txtPrijsOnb = new System.Windows.Forms.TextBox();
-            this.txtPrijsBew = new System.Windows.Forms.TextBox();
+            this.txtHPrijsOnb = new System.Windows.Forms.TextBox();
+            this.txtHPrijsBew = new System.Windows.Forms.TextBox();
             this.lstGroups = new System.Windows.Forms.ComboBox();
             this.btnNeu = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
@@ -42,7 +42,7 @@
             this._label1_7 = new System.Windows.Forms.Label();
             this._label1_8 = new System.Windows.Forms.Label();
             this._label1_9 = new System.Windows.Forms.Label();
-            this.txtHPrijsBew = new System.Windows.Forms.TextBox();
+            this.txtWPrijsBew = new System.Windows.Forms.TextBox();
             this.btnMoveBack = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
@@ -51,7 +51,7 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnMoveNext = new System.Windows.Forms.Button();
             this.Frame1 = new System.Windows.Forms.GroupBox();
-            this.txtHPrijsOnb = new System.Windows.Forms.TextBox();
+            this.txtWPrijsOnb = new System.Windows.Forms.TextBox();
             this.chkBewerkt = new System.Windows.Forms.CheckBox();
             this.OpenFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -81,9 +81,14 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusArtID = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusDataChanged = new System.Windows.Forms.ToolStripStatusLabel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkVerwendungAnderes = new System.Windows.Forms.RadioButton();
+            this.chkVerwendungWeb = new System.Windows.Forms.RadioButton();
+            this.chkVerwendungDia = new System.Windows.Forms.RadioButton();
             this.Frame1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictFoto)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnPrint
@@ -119,37 +124,37 @@
             // 
             this.Timer1.Interval = 5000;
             // 
-            // txtPrijsOnb
+            // txtHPrijsOnb
             // 
-            this.txtPrijsOnb.AcceptsReturn = true;
-            this.txtPrijsOnb.BackColor = System.Drawing.SystemColors.Window;
-            this.txtPrijsOnb.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtPrijsOnb.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtPrijsOnb.Location = new System.Drawing.Point(8, 32);
-            this.txtPrijsOnb.MaxLength = 0;
-            this.txtPrijsOnb.Name = "txtPrijsOnb";
-            this.txtPrijsOnb.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtPrijsOnb.Size = new System.Drawing.Size(65, 20);
-            this.txtPrijsOnb.TabIndex = 2;
-            this.txtPrijsOnb.Text = "Besteld";
-            this.ToolTip1.SetToolTip(this.txtPrijsOnb, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
-            this.txtPrijsOnb.Validated += new System.EventHandler(this.txtPrijsOnb_Validated);
+            this.txtHPrijsOnb.AcceptsReturn = true;
+            this.txtHPrijsOnb.BackColor = System.Drawing.SystemColors.Window;
+            this.txtHPrijsOnb.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtHPrijsOnb.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtHPrijsOnb.Location = new System.Drawing.Point(8, 32);
+            this.txtHPrijsOnb.MaxLength = 0;
+            this.txtHPrijsOnb.Name = "txtHPrijsOnb";
+            this.txtHPrijsOnb.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtHPrijsOnb.Size = new System.Drawing.Size(65, 20);
+            this.txtHPrijsOnb.TabIndex = 2;
+            this.txtHPrijsOnb.Text = "Besteld";
+            this.ToolTip1.SetToolTip(this.txtHPrijsOnb, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
+            this.txtHPrijsOnb.Validated += new System.EventHandler(this.txtPrijsOnb_Validated);
             // 
-            // txtPrijsBew
+            // txtHPrijsBew
             // 
-            this.txtPrijsBew.AcceptsReturn = true;
-            this.txtPrijsBew.BackColor = System.Drawing.SystemColors.Window;
-            this.txtPrijsBew.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtPrijsBew.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtPrijsBew.Location = new System.Drawing.Point(88, 32);
-            this.txtPrijsBew.MaxLength = 0;
-            this.txtPrijsBew.Name = "txtPrijsBew";
-            this.txtPrijsBew.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtPrijsBew.Size = new System.Drawing.Size(73, 20);
-            this.txtPrijsBew.TabIndex = 3;
-            this.txtPrijsBew.Text = "Besteld";
-            this.ToolTip1.SetToolTip(this.txtPrijsBew, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
-            this.txtPrijsBew.Validated += new System.EventHandler(this.txtPrijsBew_Validated);
+            this.txtHPrijsBew.AcceptsReturn = true;
+            this.txtHPrijsBew.BackColor = System.Drawing.SystemColors.Window;
+            this.txtHPrijsBew.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtHPrijsBew.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtHPrijsBew.Location = new System.Drawing.Point(88, 32);
+            this.txtHPrijsBew.MaxLength = 0;
+            this.txtHPrijsBew.Name = "txtHPrijsBew";
+            this.txtHPrijsBew.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtHPrijsBew.Size = new System.Drawing.Size(73, 20);
+            this.txtHPrijsBew.TabIndex = 3;
+            this.txtHPrijsBew.Text = "Besteld";
+            this.ToolTip1.SetToolTip(this.txtHPrijsBew, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
+            this.txtHPrijsBew.Validated += new System.EventHandler(this.txtPrijsBew_Validated);
             // 
             // lstGroups
             // 
@@ -249,24 +254,24 @@
             this._label1_9.TabIndex = 34;
             this._label1_9.Text = "Behandelt:";
             // 
-            // txtHPrijsBew
+            // txtWPrijsBew
             // 
-            this.txtHPrijsBew.AcceptsReturn = true;
-            this.txtHPrijsBew.BackColor = System.Drawing.SystemColors.Window;
-            this.txtHPrijsBew.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtHPrijsBew.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtHPrijsBew.Enabled = false;
-            this.txtHPrijsBew.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtHPrijsBew.Location = new System.Drawing.Point(88, 80);
-            this.txtHPrijsBew.MaxLength = 0;
-            this.txtHPrijsBew.Name = "txtHPrijsBew";
-            this.txtHPrijsBew.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtHPrijsBew.Size = new System.Drawing.Size(57, 20);
-            this.txtHPrijsBew.TabIndex = 32;
-            this.txtHPrijsBew.TabStop = false;
-            this.txtHPrijsBew.Text = "Besteld";
-            this.ToolTip1.SetToolTip(this.txtHPrijsBew, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
-            this.txtHPrijsBew.Visible = false;
+            this.txtWPrijsBew.AcceptsReturn = true;
+            this.txtWPrijsBew.BackColor = System.Drawing.SystemColors.Window;
+            this.txtWPrijsBew.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtWPrijsBew.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtWPrijsBew.Enabled = false;
+            this.txtWPrijsBew.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtWPrijsBew.Location = new System.Drawing.Point(88, 80);
+            this.txtWPrijsBew.MaxLength = 0;
+            this.txtWPrijsBew.Name = "txtWPrijsBew";
+            this.txtWPrijsBew.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtWPrijsBew.Size = new System.Drawing.Size(57, 20);
+            this.txtWPrijsBew.TabIndex = 32;
+            this.txtWPrijsBew.TabStop = false;
+            this.txtWPrijsBew.Text = "Besteld";
+            this.ToolTip1.SetToolTip(this.txtWPrijsBew, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
+            this.txtWPrijsBew.Visible = false;
             // 
             // btnMoveBack
             // 
@@ -373,10 +378,10 @@
             // Frame1
             // 
             this.Frame1.BackColor = System.Drawing.SystemColors.Control;
+            this.Frame1.Controls.Add(this.txtWPrijsOnb);
+            this.Frame1.Controls.Add(this.txtWPrijsBew);
             this.Frame1.Controls.Add(this.txtHPrijsOnb);
             this.Frame1.Controls.Add(this.txtHPrijsBew);
-            this.Frame1.Controls.Add(this.txtPrijsOnb);
-            this.Frame1.Controls.Add(this.txtPrijsBew);
             this.Frame1.Controls.Add(this._label1_6);
             this.Frame1.Controls.Add(this._label1_7);
             this.Frame1.Controls.Add(this._label1_8);
@@ -391,24 +396,24 @@
             this.Frame1.TabStop = false;
             this.Frame1.Text = "Preise";
             // 
-            // txtHPrijsOnb
+            // txtWPrijsOnb
             // 
-            this.txtHPrijsOnb.AcceptsReturn = true;
-            this.txtHPrijsOnb.BackColor = System.Drawing.SystemColors.Window;
-            this.txtHPrijsOnb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtHPrijsOnb.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtHPrijsOnb.Enabled = false;
-            this.txtHPrijsOnb.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtHPrijsOnb.Location = new System.Drawing.Point(88, 56);
-            this.txtHPrijsOnb.MaxLength = 0;
-            this.txtHPrijsOnb.Name = "txtHPrijsOnb";
-            this.txtHPrijsOnb.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtHPrijsOnb.Size = new System.Drawing.Size(57, 20);
-            this.txtHPrijsOnb.TabIndex = 33;
-            this.txtHPrijsOnb.TabStop = false;
-            this.txtHPrijsOnb.Text = "Besteld";
-            this.ToolTip1.SetToolTip(this.txtHPrijsOnb, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
-            this.txtHPrijsOnb.Visible = false;
+            this.txtWPrijsOnb.AcceptsReturn = true;
+            this.txtWPrijsOnb.BackColor = System.Drawing.SystemColors.Window;
+            this.txtWPrijsOnb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtWPrijsOnb.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtWPrijsOnb.Enabled = false;
+            this.txtWPrijsOnb.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtWPrijsOnb.Location = new System.Drawing.Point(88, 56);
+            this.txtWPrijsOnb.MaxLength = 0;
+            this.txtWPrijsOnb.Name = "txtWPrijsOnb";
+            this.txtWPrijsOnb.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtWPrijsOnb.Size = new System.Drawing.Size(57, 20);
+            this.txtWPrijsOnb.TabIndex = 33;
+            this.txtWPrijsOnb.TabStop = false;
+            this.txtWPrijsOnb.Text = "Besteld";
+            this.ToolTip1.SetToolTip(this.txtWPrijsOnb, "Hier eine Zahl > 0 eingeben, damit Artikel für Web publiziert wird");
+            this.txtWPrijsOnb.Visible = false;
             // 
             // chkBewerkt
             // 
@@ -463,7 +468,7 @@
             this.txtBesteld.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtBesteld.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtBesteld.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtBesteld.Location = new System.Drawing.Point(540, 115);
+            this.txtBesteld.Location = new System.Drawing.Point(64, 19);
             this.txtBesteld.MaxLength = 0;
             this.txtBesteld.Name = "txtBesteld";
             this.txtBesteld.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -472,6 +477,7 @@
             this.txtBesteld.Text = "Besteld";
             this.ToolTip1.SetToolTip(this.txtBesteld, "Hier eine 1 eingeben, damit Artikel für Web publiziert wird. Eine 2 eingeben, dam" +
                     "it in der DIA-Show sichtbar.");
+            this.txtBesteld.TextChanged += new System.EventHandler(this.txtBesteld_TextChanged);
             this.txtBesteld.Validated += new System.EventHandler(this.txtBesteld_Validated);
             // 
             // btnNewHgr_Id
@@ -502,6 +508,7 @@
             this.btnFoto.Text = "...";
             this.ToolTip1.SetToolTip(this.btnFoto, "Hier klicken um ein anderes Bild auszuwählen");
             this.btnFoto.UseVisualStyleBackColor = false;
+            this.btnFoto.Click += new System.EventHandler(this.btnFoto_Click);
             // 
             // txtArtNr
             // 
@@ -610,7 +617,7 @@
             this._Label4_2.BackColor = System.Drawing.SystemColors.Control;
             this._Label4_2.Cursor = System.Windows.Forms.Cursors.Default;
             this._Label4_2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this._Label4_2.Location = new System.Drawing.Point(463, 297);
+            this._Label4_2.Location = new System.Drawing.Point(448, 388);
             this._Label4_2.Name = "_Label4_2";
             this._Label4_2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._Label4_2.Size = new System.Drawing.Size(313, 25);
@@ -623,7 +630,7 @@
             this._Label4_1.BackColor = System.Drawing.SystemColors.Control;
             this._Label4_1.Cursor = System.Windows.Forms.Cursors.Default;
             this._Label4_1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this._Label4_1.Location = new System.Drawing.Point(463, 272);
+            this._Label4_1.Location = new System.Drawing.Point(448, 363);
             this._Label4_1.Name = "_Label4_1";
             this._Label4_1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._Label4_1.Size = new System.Drawing.Size(313, 25);
@@ -637,7 +644,7 @@
             this._Label4_0.Cursor = System.Windows.Forms.Cursors.Default;
             this._Label4_0.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._Label4_0.ForeColor = System.Drawing.SystemColors.ControlText;
-            this._Label4_0.Location = new System.Drawing.Point(463, 239);
+            this._Label4_0.Location = new System.Drawing.Point(448, 330);
             this._Label4_0.Name = "_Label4_0";
             this._Label4_0.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._Label4_0.Size = new System.Drawing.Size(313, 23);
@@ -668,6 +675,7 @@
             this.pictFoto.TabIndex = 81;
             this.pictFoto.TabStop = false;
             this.ToolTip1.SetToolTip(this.pictFoto, "Doppelklicken um ein anderes Bild auszuwählen");
+            this.pictFoto.Click += new System.EventHandler(this.pictFoto_Click);
             // 
             // _label1_5
             // 
@@ -675,7 +683,7 @@
             this._label1_5.BackColor = System.Drawing.Color.Transparent;
             this._label1_5.Cursor = System.Windows.Forms.Cursors.Default;
             this._label1_5.ForeColor = System.Drawing.SystemColors.WindowText;
-            this._label1_5.Location = new System.Drawing.Point(492, 115);
+            this._label1_5.Location = new System.Drawing.Point(16, 19);
             this._label1_5.Name = "_label1_5";
             this._label1_5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this._label1_5.Size = new System.Drawing.Size(34, 13);
@@ -783,11 +791,62 @@
             this.statusDataChanged.Size = new System.Drawing.Size(71, 17);
             this.statusDataChanged.Text = "unverändert";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.chkVerwendungDia);
+            this.groupBox1.Controls.Add(this.chkVerwendungWeb);
+            this.groupBox1.Controls.Add(this.chkVerwendungAnderes);
+            this.groupBox1.Controls.Add(this.txtBesteld);
+            this.groupBox1.Controls.Add(this._label1_5);
+            this.groupBox1.Location = new System.Drawing.Point(467, 226);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(210, 85);
+            this.groupBox1.TabIndex = 83;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Best./Verwendung:";
+            // 
+            // chkVerwendungAnderes
+            // 
+            this.chkVerwendungAnderes.AutoSize = true;
+            this.chkVerwendungAnderes.Location = new System.Drawing.Point(13, 55);
+            this.chkVerwendungAnderes.Name = "chkVerwendungAnderes";
+            this.chkVerwendungAnderes.Size = new System.Drawing.Size(64, 17);
+            this.chkVerwendungAnderes.TabIndex = 73;
+            this.chkVerwendungAnderes.TabStop = true;
+            this.chkVerwendungAnderes.Text = "Anderes";
+            this.chkVerwendungAnderes.UseVisualStyleBackColor = true;
+            this.chkVerwendungAnderes.CheckedChanged += new System.EventHandler(this.chkVerwendungAnderes_CheckedChanged);
+            // 
+            // chkVerwendungWeb
+            // 
+            this.chkVerwendungWeb.AutoSize = true;
+            this.chkVerwendungWeb.Location = new System.Drawing.Point(83, 55);
+            this.chkVerwendungWeb.Name = "chkVerwendungWeb";
+            this.chkVerwendungWeb.Size = new System.Drawing.Size(48, 17);
+            this.chkVerwendungWeb.TabIndex = 73;
+            this.chkVerwendungWeb.TabStop = true;
+            this.chkVerwendungWeb.Text = "Web";
+            this.chkVerwendungWeb.UseVisualStyleBackColor = true;
+            this.chkVerwendungWeb.CheckedChanged += new System.EventHandler(this.chkVerwendungWeb_CheckedChanged);
+            // 
+            // chkVerwendungDia
+            // 
+            this.chkVerwendungDia.AutoSize = true;
+            this.chkVerwendungDia.Location = new System.Drawing.Point(137, 55);
+            this.chkVerwendungDia.Name = "chkVerwendungDia";
+            this.chkVerwendungDia.Size = new System.Drawing.Size(66, 17);
+            this.chkVerwendungDia.TabIndex = 73;
+            this.chkVerwendungDia.TabStop = true;
+            this.chkVerwendungDia.Text = "Diashow";
+            this.chkVerwendungDia.UseVisualStyleBackColor = true;
+            this.chkVerwendungDia.CheckedChanged += new System.EventHandler(this.chkVerwendungDia_CheckedChanged);
+            // 
             // FormEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 605);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.btnStop);
@@ -805,7 +864,6 @@
             this.Controls.Add(this.chkBewerkt);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.lstHgr_Id);
-            this.Controls.Add(this.txtBesteld);
             this.Controls.Add(this.btnNewHgr_Id);
             this.Controls.Add(this.btnFoto);
             this.Controls.Add(this.txtArtNr);
@@ -818,7 +876,6 @@
             this.Controls.Add(this._Label4_1);
             this.Controls.Add(this._Label4_0);
             this.Controls.Add(this.Label2);
-            this.Controls.Add(this._label1_5);
             this.Controls.Add(this.pictFoto);
             this.Controls.Add(this._label1_0);
             this.Controls.Add(this._label1_1);
@@ -834,6 +891,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictFoto)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -845,8 +904,8 @@
         public System.Windows.Forms.ToolTip ToolTip1;
         public System.Windows.Forms.Button btnStop;
         public System.Windows.Forms.Timer Timer1;
-        public System.Windows.Forms.TextBox txtPrijsOnb;
-        public System.Windows.Forms.TextBox txtPrijsBew;
+        public System.Windows.Forms.TextBox txtHPrijsOnb;
+        public System.Windows.Forms.TextBox txtHPrijsBew;
         public System.Windows.Forms.ComboBox lstGroups;
         public System.Windows.Forms.Button btnNeu;
         public System.Windows.Forms.Button btnStart;
@@ -855,7 +914,7 @@
         public System.Windows.Forms.Label _label1_7;
         public System.Windows.Forms.Label _label1_8;
         public System.Windows.Forms.Label _label1_9;
-        public System.Windows.Forms.TextBox txtHPrijsBew;
+        public System.Windows.Forms.TextBox txtWPrijsBew;
         public System.Windows.Forms.Button btnMoveBack;
         public System.Windows.Forms.Button btnInsert;
         public System.Windows.Forms.Button btnCopy;
@@ -864,7 +923,7 @@
         public System.Windows.Forms.Button btnClose;
         public System.Windows.Forms.Button btnMoveNext;
         public System.Windows.Forms.GroupBox Frame1;
-        public System.Windows.Forms.TextBox txtHPrijsOnb;
+        public System.Windows.Forms.TextBox txtWPrijsOnb;
         public System.Windows.Forms.CheckBox chkBewerkt;
         internal System.Windows.Forms.OpenFileDialog OpenFileDialog1;
         public System.Windows.Forms.Button btnSearch;
@@ -893,5 +952,9 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusArtID;
         private System.Windows.Forms.ToolStripStatusLabel statusDataChanged;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton chkVerwendungDia;
+        private System.Windows.Forms.RadioButton chkVerwendungWeb;
+        private System.Windows.Forms.RadioButton chkVerwendungAnderes;
     }
 }
