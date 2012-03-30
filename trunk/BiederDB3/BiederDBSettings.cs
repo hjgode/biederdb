@@ -19,6 +19,9 @@ namespace BiederDB3
 
         public int showTime;
 
+        /// <summary>
+        /// defines is SlideShow exit needs a password
+        /// </summary>
         public bool PasswortSchutzEin;
 
         public string CustomIndexFile;

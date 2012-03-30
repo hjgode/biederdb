@@ -94,11 +94,23 @@
     <Compile Include="FormOptions.Designer.cs">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPassword.Designer.cs">
+      <DependentUpon>FormPassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormProduktGruppenTexte.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormProduktGruppenTexte.Designer.cs">
       <DependentUpon>FormProduktGruppenTexte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSlideShow1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSlideShow1.Designer.cs">
+      <DependentUpon>FormSlideShow1.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTextEdit.cs">
       <SubType>Form</SubType>
@@ -133,8 +145,14 @@
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormPassword.resx">
+      <DependentUpon>FormPassword.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormProduktGruppenTexte.resx">
       <DependentUpon>FormProduktGruppenTexte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSlideShow1.resx">
+      <DependentUpon>FormSlideShow1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTextEdit.resx">
       <DependentUpon>FormTextEdit.cs</DependentUpon>
@@ -150,6 +168,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -170,6 +189,7 @@
     <Content Include="content\Der_Biedermann.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\sto361.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

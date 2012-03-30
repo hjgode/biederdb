@@ -194,5 +194,15 @@ namespace BiederDB3
             }
             return s;
         }
+
+        public static bool checkPassword()
+        {
+            bool bRet = false;
+            FormPassword fp= new FormPassword();
+            if (fp.ShowDialog() == DialogResult.OK)
+                bRet = true;
+            fp.Dispose();
+            return bRet;
+        }
     }
 }

@@ -56,6 +56,28 @@ namespace BiederDB3
             return bRet;
         }
 
+        public DataSet getDataset(string sCmd, ref int iResult)
+        {
+            DataSet ds = new DataSet();
+            if (!_connected)
+                doConnect();
+
+            OleDbDataAdapter da = new OleDbDataAdapter(sCmd, _connection);
+            iResult = da.Fill(ds);
+
+            return ds;
+        }
+        public DataTable getTable(string sCmd)
+        {
+            DataTable dt = new DataTable();
+            if (!_connected)
+                doConnect();
+
+            OleDbDataAdapter da = new OleDbDataAdapter(sCmd, _connection);
+            int iResult = da.Fill(dt);
+
+            return dt;
+        }
         void _connection_StateChange(object sender, StateChangeEventArgs e)
         {
             LoggerClass.log("Datenbank: ConnectionState=" + e.CurrentState.ToString());

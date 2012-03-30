@@ -89,5 +89,12 @@ namespace BiederDB3
             frm.ShowDialog();
             frm.Dispose();
         }
+
+        private void btnDiaShow_Click(object sender, EventArgs e)
+        {
+            FormSlideShow1 frm = new FormSlideShow1();
+            frm.ShowDialog();
+            frm.Dispose();
+        }
     }
 }
