@@ -220,6 +220,7 @@
             this.btnDiaShow.TabIndex = 2;
             this.btnDiaShow.Text = "Dia Show";
             this.btnDiaShow.UseVisualStyleBackColor = true;
+            this.btnDiaShow.Click += new System.EventHandler(this.btnDiaShow_Click);
             // 
             // btnPublish2Web
             // 
