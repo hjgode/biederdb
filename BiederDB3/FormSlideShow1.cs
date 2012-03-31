@@ -39,42 +39,48 @@ namespace BiederDB3
             _timer.Tick += new EventHandler(_timer_Tick);
           
         }
+        bool loadImage(string sFile)
+        {
+            bool bRet = false;
+            if (System.IO.File.Exists(sFile))
+            {
+                try
+                {
+                    System.Diagnostics.Debug.WriteLine("loadImage '" + sFile +"'");
+                    pictureBox.Image = Image.FromFile(sFile);// "C:\\Applicaties\\Foto's artikelen\\Stoelen\\sto361.jpg");
+                    bRet = true;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception in loadImage: " + sFile+"'");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("loadImage: File Not Found '" + sFile+"'");
+            }
+            return bRet;
+        }
 
         void _timer_Tick(object sender, EventArgs e)
         {
             if (chkOrderNormal.Checked)
             {
-                if (System.IO.File.Exists(_sImageList[iCurrent]))
-                {
-                    try
-                    {
-                        if (img != null)
-                        {
-                            img.Dispose();
-                            img = null;
-                        }
-                        img = Image.FromFile(_sImageList[iCurrent]);// "C:\\Applicaties\\Foto's artikelen\\Stoelen\\sto361.jpg");
-                        System.Diagnostics.Debug.WriteLine("_timer_Tick with '" + _sImageList[iCurrent]);
-                        pictureBox.Image = img;
-                    }
-                    catch(Exception ex) {
-                        System.Diagnostics.Debug.WriteLine("Exception in _timer_Tick: " + _sImageList[iCurrent]);
-                    }
-                }
+                loadImage(_sImageList[iCurrent]);
                 iCurrent++;
                 if (iCurrent == iCurrentMax)
                     iCurrent = 0;
             }
             else
             {
-                int iNext = RandomNumber(0, iCurrentMax);
-                pictureBox.Image = new Bitmap(_sImageList[iNext]);
+                iCurrent = RandomNumber(0, iCurrentMax);
+                System.Diagnostics.Debug.WriteLine("_timer_Tick with Random = " + iCurrent.ToString() + ", '" + _sImageList[iCurrent] + "'");
+                loadImage(_sImageList[iCurrent]);
             }
         }
         private void readData()
         {
             _screenSize = Screen.PrimaryScreen.Bounds;
-
             _passwordSchutz = _settings.PasswortSchutzEin;
             db = new Datenbank();
 
@@ -98,13 +104,17 @@ namespace BiederDB3
             if (_timer.Enabled)
             {
                 _timer.Enabled = false;
+                btnStart.Text = "START";
+                return;
             }
             string sCmd="";
             if (chkSelectAll.Checked)
                 sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID  where Artikel.Besteld>1;";
             else
                 sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID  where Artikel.Besteld>1 AND Artikel.HGR_ID=" + ((dataclasses.Gruppentexte.gruppentext)cboGruppenAuswahl.SelectedItem).ID.ToString() + ";";
-            int iCount = 0;
+            if (System.Diagnostics.Debugger.IsAttached)
+                sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID;";
+            
             dt = db.getTable(sCmd);
             //ds = db.getDataset(sCmd, ref iCount);
             //if (iCount == 0)
@@ -122,10 +132,24 @@ namespace BiederDB3
             }
             
             _timer.Enabled = true;
+            btnStart.Text="STOP";
         }
         private int RandomNumber(int min, int max)
         {
             return random.Next(min, max);
+        }
+
+        private void pictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            if (dt != null)
+            {
+                if (_timer.Enabled)
+                {
+                    g.DrawString(dt.Rows[iCurrent]["ArtNr"].ToString(), new Font("Arial", 12), new SolidBrush(Color.DarkBlue), new Point(25, 25));
+                    g.DrawString(dt.Rows[iCurrent]["Omschrijving"].ToString(), new Font("Arial", 12), new SolidBrush(Color.DarkBlue), new Point(25, 50));
+                }
+            }
         }
     }
 }
