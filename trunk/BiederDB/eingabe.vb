@@ -682,8 +682,7 @@ eingabefehler:
 	Private Sub definiere()
 		Dim anzahl, i As Short
 		' Welche Tabelle soll verwendet werden ? SQL-Befehl ...
-		'UPGRADE_WARNING: Couldn't resolve default property of object sortField. Click for more: 'ms-help://MS.VSCC.v90/dv_commoner/local/redirect.htm?keyword="6A50421D-15FE-4896-8A1B-2EC21E9037B2"'
-		abfrage = "SELECT * FROM artikel ORDER BY " & sortField
+		'UPGRADE_WARNING: Couldn't resolve default property of object sortField. Click for more: 'ms-help://MS.VSCC.v90/dv_commoner/local/redirect.htm?keyword="6A50421D-15FE-4896-8A1B-2EC21E9037Babfrage = "SELECT * FROM artikel ORDER BY " & sortField
 		' Meldung für das Anlegen der neuen Tabelle
 		neufrage = "Keine Daten vorhanden! Neuen Artikel hinzufügen?"
 		' wieviele Datenfelder ?
