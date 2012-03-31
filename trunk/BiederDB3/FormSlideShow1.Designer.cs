@@ -200,6 +200,8 @@
             this.pictureBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.pictureBox.Size = new System.Drawing.Size(640, 480);
             this.pictureBox.TabIndex = 11;
+            this.pictureBox.TabStop = false;
+            this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
             // 
             // FormSlideShow1
             // 
