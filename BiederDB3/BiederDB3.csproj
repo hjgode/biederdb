@@ -139,6 +139,9 @@
     <Compile Include="FormTextEdit.Designer.cs">
       <DependentUpon>FormTextEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageControl1.xaml.cs">
+      <DependentUpon>ImageControl1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LoggerClass.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
@@ -236,6 +239,12 @@
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ImageControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="transition\" />

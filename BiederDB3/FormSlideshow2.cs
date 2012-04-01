@@ -151,7 +151,8 @@ namespace BiederDB3
             m_Image.WritePixels(m_DirtyRt, m_Bits, pitch, 0); 
 
             // update the image control
-            WndImage.Image = (Bitmap)m_Image;
+            
+            ////WndImage.Image = (Bitmap)m_Image;
         }
 
         private void Transitions_SelectionChanged(int iNextTransition)
@@ -207,6 +208,11 @@ namespace BiederDB3
         {
             DoTransitionProxy update = new DoTransitionProxy(DoTransition);
             this.Invoke(update);
+        }
+
+        private void elementHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
+        {
+
         }       
 
     }
