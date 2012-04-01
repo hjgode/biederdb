@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using System.Threading;
+
 namespace BiederDB3
 {
     public partial class FormSlideshow2 : Form
@@ -18,13 +20,17 @@ namespace BiederDB3
         private SlidePL.CSlideImage m_SDImageA;
         private SlidePL.CSlideImage m_SDImageB;
         private SlidePL.CSlideImage m_SDImageC;
+        private byte[] m_Bits;                                          // bits of processed image C
 
         private SlidePL.CSlideTransition m_SDTransition;                // transition handle
         private SlidePL.ISlideFactory m_SDFactory;                      // transition factory
-        private Rectangle m_DirtyRt;                                    // dirty region
+        private System.Windows.Int32Rect m_DirtyRt;                                    // dirty region
         private int m_Percent;
+        private System.Windows.Media.Imaging.WriteableBitmap m_Image;   // WPF image for display
+        //private Bitmap m_Image;   // WPF image for display
+        private Thread m_Thread;                                        // thread instance
 
-        Timer _timer;
+        System.Windows.Forms.Timer _timer;
         private struct transEffect
         {
             public string name;
@@ -33,14 +39,14 @@ namespace BiederDB3
         }
         private transEffect[] _transitions;
 
-        List<string> _sFilelist;
+        string[] _sFilelist;
 
-
-        public FormSlideshow2(List<string> sFileList)
+        public FormSlideshow2(string[] sFileList)
         {
             _sFilelist = sFileList;
             _timer.Interval = 3000;
             _timer.Enabled = true;
+
         }
         private void LoadTransition()
         {
@@ -101,7 +107,7 @@ namespace BiederDB3
             }
             catch (Exception eExcep)
             {
-                MessageBox.Show(strImageFileName, "Can't load image A", MessageBoxButton.OK);
+                Utils.showErrorMsg(strImageFileName, "Can't load image A");
                 return;
             }
 
@@ -119,7 +125,7 @@ namespace BiederDB3
             }
             catch (Exception eExcep)
             {
-                MessageBox.Show(strImageFileName, "Can't load image B", MessageBoxButton.OK);
+                Utils.showErrorMsg(strImageFileName, "Can't load image B");
                 return;
             }
 
@@ -128,7 +134,7 @@ namespace BiederDB3
             int width = m_SDImageA.GetWidth();
 
             // init the dirty region
-            m_DirtyRt = new Int32Rect(0, 0, width, height);
+            m_DirtyRt = new System.Windows.Int32Rect(0, 0, width, height);
 
             // allocate a byte array to store image C's bits
             int pitch = width * 4;
@@ -140,12 +146,12 @@ namespace BiederDB3
 
             // copy image A's content to displaying image
             m_SDImageA.GetBits(ref m_Bits[0], pitch);
-            m_Image = new System.Windows.Media.Imaging.WriteableBitmap(width, height, 96, 96
-               , PixelFormats.Bgr32, null);
-            m_Image.WritePixels(m_DirtyRt, m_Bits, pitch, 0);
+            m_Image = new System.Windows.Media.Imaging.WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgr32, null);
+
+            m_Image.WritePixels(m_DirtyRt, m_Bits, pitch, 0); 
 
             // update the image control
-            WndImage.Source = m_Image;
+            WndImage.Image = (Bitmap)m_Image;
         }
 
         private void Transitions_SelectionChanged(int iNextTransition)
@@ -164,7 +170,7 @@ namespace BiederDB3
             m_SDTransition = m_SDFactory.CreateTransition(iTransition, 0);
 
             // create a thread to loop calling transition processing
-            Transitions.IsEnabled = false;
+            //Transitions.IsEnabled = false;
 
             m_Thread = new Thread(new ThreadStart(ThreadLoop));
             m_Thread.IsBackground = true;
@@ -193,14 +199,14 @@ namespace BiederDB3
             m_Image.WritePixels(m_DirtyRt, m_Bits, pitch, 0);
             m_Image.Unlock();
 
-            if (m_Percent >= 100)
-                Transitions.IsEnabled = true;
+            //if (m_Percent >= 100)
+            //    Transitions.IsEnabled = true;
         }
 
         private void OnProcess()
         {
             DoTransitionProxy update = new DoTransitionProxy(DoTransition);
-            this.Dispatcher.Invoke(update);
+            this.Invoke(update);
         }       
 
     }

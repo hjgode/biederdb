@@ -101,6 +101,7 @@ namespace BiederDB3
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+
             if (_timer.Enabled)
             {
                 _timer.Enabled = false;
@@ -130,6 +131,9 @@ namespace BiederDB3
             {                
                 _sImageList[i] = dt.Rows[i]["foto"].ToString();
             }
+
+            FormSlideshow2 frm = new FormSlideshow2(_sImageList);
+
             
             _timer.Enabled = true;
             btnStart.Text="STOP";
