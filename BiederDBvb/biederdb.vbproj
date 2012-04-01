@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{94804864-EC77-43E8-857E-37086183A8D7}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>BiederDB</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>BiederDB.Module2</StartupObject>
+    <AssemblyMajorVersion>3</AssemblyMajorVersion>
+    <AssemblyMinorVersion>5</AssemblyMinorVersion>
+    <AssemblyRevisionNumber>6</AssemblyRevisionNumber>
+    <GenerateRevisionNumber>True</GenerateRevisionNumber>
+    <AssemblyCompanyName>XEROX OFFICE PRINTING</AssemblyCompanyName>
+    <StartWithIE>False</StartWithIE>
+    <RootNamespace>BiederDB</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OptionStrict>On</OptionStrict>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>BiederDB.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>Win32=True</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <AdditionalParameters />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>BiederDB.xml</DocumentationFile>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>Win32=True</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>none</DebugType>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <AdditionalParameters />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="dao, Version=10.0.4504.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.VisualBasic.Compatibility">
+      <Name>Microsoft.VisualBasic.Compatibility</Name>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <COMReference Include="AxMSHTML">
+      <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>4</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="Microsoft.mshtml">
+      <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>4</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Microsoft.VisualBasic.Compatibility" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb" />
+    <Compile Include="bieder.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="db2web.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>db2web.vb</DependentUpon>
+    </Compile>
+    <Compile Include="db2web.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="delete_group.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>delete_group.vb</DependentUpon>
+    </Compile>
+    <Compile Include="delete_group.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="eingabe.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>eingabe.vb</DependentUpon>
+    </Compile>
+    <Compile Include="eingabe.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="farben.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmAbout.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmAbout.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAbout.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmColors.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmColors.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmColors.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogin.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOptions.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmOptions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmOptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPassword.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmPassword.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPassword.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_rename_group.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frm_rename_group.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frm_rename_group.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hauptform.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>Hauptform.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Hauptform.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Produktgruppentexte.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>Produktgruppentexte.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Produktgruppentexte.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="slidefrm1.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>slidefrm1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="slidefrm1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="slidefrm2.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>slidefrm2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="slidefrm2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SortGroups.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>SortGroups.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SortGroups.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="suchen.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>suchen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="suchen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextEdit.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>TextEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TextEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpgradeSupport.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="db2web.resX">
+      <DependentUpon>db2web.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="delete_group.resX">
+      <DependentUpon>delete_group.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAbout.resX">
+      <DependentUpon>frmAbout.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogin.resX">
+      <DependentUpon>frmLogin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPassword.resX">
+      <DependentUpon>frmPassword.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_rename_group.resX">
+      <DependentUpon>frm_rename_group.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Hauptform.resX">
+      <DependentUpon>Hauptform.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Produktgruppentexte.resX">
+      <DependentUpon>Produktgruppentexte.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="slidefrm1.resX">
+      <DependentUpon>slidefrm1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="slidefrm2.resX">
+      <DependentUpon>slidefrm2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SortGroups.resX">
+      <DependentUpon>SortGroups.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="suchen.resX">
+      <DependentUpon>suchen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextEdit.resX">
+      <DependentUpon>TextEdit.vb</DependentUpon>
+    </EmbeddedResource>
+    <None Include="_UpgradeReport.htm">
+      <SubType>Preview</SubType>
+    </None>
+    <EmbeddedResource Include="eingabe.resx">
+      <DependentUpon>eingabe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmColors.resx">
+      <DependentUpon>frmColors.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOptions.resx">
+      <DependentUpon>frmOptions.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
