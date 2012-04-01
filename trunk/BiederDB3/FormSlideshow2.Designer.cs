@@ -30,6 +30,7 @@
         {
             this.WndImage = new System.Windows.Forms.PictureBox();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.imageControl11 = new BiederDB3.ImageControl1();
             ((System.ComponentModel.ISupportInitialize)(this.WndImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,12 +44,13 @@
             // 
             // elementHost1
             // 
-            this.elementHost1.Location = new System.Drawing.Point(232, 57);
+            this.elementHost1.Location = new System.Drawing.Point(70, 31);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(190, 114);
+            this.elementHost1.Size = new System.Drawing.Size(358, 253);
             this.elementHost1.TabIndex = 1;
             this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = null;
+            this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
+            this.elementHost1.Child = this.imageControl11;
             // 
             // FormSlideshow2
             // 
@@ -68,5 +70,6 @@
 
         private System.Windows.Forms.PictureBox WndImage;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
+        private ImageControl1 imageControl11;
     }
 }
