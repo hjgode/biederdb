@@ -80,8 +80,10 @@ namespace BiederDB3
             fd.InitialDirectory = lastDir;
             fd.Filter = "MS Access (*.mdb)|*.mdb";
             if (fd.ShowDialog() == DialogResult.OK)
+            {
                 txtDatabase.Text = fd.FileName;
-            lastDir = System.IO.Path.GetDirectoryName(fd.FileName);
+                lastDir = System.IO.Path.GetDirectoryName(fd.FileName);
+            }
             fd.Dispose();
         }
 
