@@ -108,6 +108,12 @@ namespace BiederDB3
                 btnStart.Text = "START";
                 return;
             }
+            dataclasses.Artikel artClass = new BiederDB3.dataclasses.Artikel();
+            dataclasses.Artikel.artikel[] _art = artClass.getArtikel("");
+            ImageControl1 frm = new ImageControl1(_art);
+            frm.ShowDialog();
+            return;
+
             string sCmd="";
             if (chkSelectAll.Checked)
                 sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID  where Artikel.Besteld>1;";
@@ -132,9 +138,6 @@ namespace BiederDB3
                 _sImageList[i] = dt.Rows[i]["foto"].ToString();
             }
 
-            FormSlideshow2 frm = new FormSlideshow2(_sImageList);
-
-            
             _timer.Enabled = true;
             btnStart.Text="STOP";
         }
