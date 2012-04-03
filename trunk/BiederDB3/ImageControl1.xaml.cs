@@ -52,15 +52,21 @@ namespace BiederDB3
 
         dataclasses.Artikel.artikel[] _artikelListe;
 
-        public ImageControl1()
-        {
-            InitializeComponent();
-        }
+        //public ImageControl1()
+        //{
+        //    InitializeComponent();
+        //}
         public ImageControl1(dataclasses.Artikel.artikel[] artikelList)
         {
             InitializeComponent();
+            image1.MouseUp += new MouseButtonEventHandler(image1_MouseUp);
             _artikelListe = artikelList;
             startUp();
+        }
+
+        void image1_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
         }
         void startUp()
         {
