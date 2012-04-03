@@ -229,7 +229,10 @@ namespace BiederDB3
         protected delegate void DoTransitionProxy();
         protected void DoTransition()
         {
-            m_SDTransition.DoEffect(m_SDImageC, m_SDImageA, m_SDImageB, m_Percent, 0);
+            if(_iCurrTransition % 2 == 0)
+                m_SDTransition.DoEffect(m_SDImageC, m_SDImageA, m_SDImageB, m_Percent, 0);
+            else
+                m_SDTransition.DoEffect(m_SDImageC, m_SDImageB, m_SDImageA, m_Percent, 0);
 
             int pitch = m_SDImageC.GetWidth();
             pitch <<= 2;
