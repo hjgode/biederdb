@@ -218,6 +218,7 @@
             this.MinimizeBox = false;
             this.Name = "FormSlideShow1";
             this.Text = "Slideshow Viewer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSlideShow1_FormClosing);
             this.Frame2.ResumeLayout(false);
             this.Frame1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
