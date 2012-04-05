@@ -35,6 +35,9 @@ namespace BiederDB3
         //private Bitmap m_Image;   // WPF image for display
         private Thread m_Thread;                                        // thread instance
 
+        int iImageCurrent = 0;
+        int iImageNext = 1;
+        Random random;
         System.Windows.Forms.Timer _timer;
         private struct transEffect
         {
@@ -59,6 +62,7 @@ namespace BiederDB3
         public ImageControl1(dataclasses.Artikel.artikel[] artikelList)
         {
             InitializeComponent();
+            random = new Random();
             image1.MouseUp += new MouseButtonEventHandler(image1_MouseUp);
             _artikelListe = artikelList;
             startUp();
@@ -66,7 +70,18 @@ namespace BiederDB3
 
         void image1_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            this.Close();
+            BiederDBSettings2 _sett = new BiederDBSettings2();
+            if (_sett.PasswortSchutzEin)
+            {
+                FormPassword pb = new FormPassword();
+                if (pb.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    pb.Dispose();
+                    this.Close();
+                }
+            }
+            else
+                this.Close();
         }
         void startUp()
         {
@@ -87,6 +102,12 @@ namespace BiederDB3
                 _iCurrTransition++;
             else
                 _iCurrTransition = 0;
+
+            //calc next image
+            iImageCurrent = iImageNext;
+            iImageNext = RandomNumber(0, _artikelListe.Length);
+            LoadImages(iImageCurrent, iImageNext);
+
             Transitions_SelectionChanged(_iCurrTransition);
         }
 
@@ -124,6 +145,77 @@ namespace BiederDB3
                 //Transitions.Items.Add(item);
             }
             _iMaxTransition = iTransitionCount;
+        }
+        private void LoadImages(int iImageFrom, int iImageTo)
+        {
+            // get current working folder
+            string strWorkingDir = System.Environment.CurrentDirectory;
+
+            // create processing instance image A and instance image B
+            m_SDImageA = new SlidePL.CSlideImage();
+            m_SDImageB = new SlidePL.CSlideImage();
+
+            // create result image C
+            m_SDImageC = new SlidePL.CSlideImage();
+
+            // load image A
+            string strImageFileName = _artikelListe[iImageFrom].Foto;// _sFilelist[0];// strWorkingDir + "\\pics\\a.png";
+            try
+            {
+                // load image A
+                m_SDImageA.LoadFile(strImageFileName);
+
+                // make sure the image B's size == image A's size
+                m_SDImageB.SetSize(m_SDImageA.GetWidth(), m_SDImageA.GetHeight());
+            }
+            catch (Exception eExcep)
+            {
+                Utils.showErrorMsg(strImageFileName, "Can't load image A");
+                return;
+            }
+
+            // Load image B
+            strImageFileName = _artikelListe[iImageTo].Foto;// _sFilelist[1]; //strWorkingDir + "\\pics\\b.png";
+            try
+            {
+                SlidePL.CSlideImage ImageLoading = new SlidePL.CSlideImage();
+                ImageLoading.LoadFile(strImageFileName);
+                if (ImageLoading.GetWidth() == m_SDImageA.GetWidth() && ImageLoading.GetHeight() == m_SDImageA.GetHeight())
+                    m_SDImageB.CopyFrom(ImageLoading);
+                else
+                    ImageLoading.ResizeTo(m_SDImageB, 1);
+
+            }
+            catch (Exception eExcep)
+            {
+                Utils.showErrorMsg(strImageFileName, "Can't load image B");
+                return;
+            }
+
+            // get processing image's width and height
+            int height = m_SDImageA.GetHeight();
+            int width = m_SDImageA.GetWidth();
+
+            // init the dirty region
+            m_DirtyRt = new System.Windows.Int32Rect(0, 0, width, height);
+
+            // allocate a byte array to store image C's bits
+            int pitch = width * 4;
+            int total = pitch * height;
+            m_Bits = new byte[total];
+
+            // pass the array to Image C, the ImageC will hold this bits
+            m_SDImageC.Attach(width, height, pitch, ref m_Bits[0]);
+
+            // copy image A's content to displaying image
+            m_SDImageA.GetBits(ref m_Bits[0], pitch);
+            m_Image = new System.Windows.Media.Imaging.WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgr32, null);
+
+            m_Image.WritePixels(m_DirtyRt, m_Bits, pitch, 0);
+
+            // update the image control
+            image1.Source = m_Image;
+            ////WndImage.Image = (Bitmap)m_Image;
         }
 
         private void LoadImages()
@@ -235,10 +327,12 @@ namespace BiederDB3
         protected delegate void DoTransitionProxy();
         protected void DoTransition()
         {
-            if(_iCurrTransition % 2 == 0)
-                m_SDTransition.DoEffect(m_SDImageC, m_SDImageA, m_SDImageB, m_Percent, 0);
-            else
-                m_SDTransition.DoEffect(m_SDImageC, m_SDImageB, m_SDImageA, m_Percent, 0);
+            //if(_iCurrTransition % 2 == 0)
+            //    m_SDTransition.DoEffect(m_SDImageC, m_SDImageA, m_SDImageB, m_Percent, 0);
+            //else
+            //    m_SDTransition.DoEffect(m_SDImageC, m_SDImageB, m_SDImageA, m_Percent, 0);
+
+            m_SDTransition.DoEffect(m_SDImageC, m_SDImageA, m_SDImageB, m_Percent, 0);
 
             int pitch = m_SDImageC.GetWidth();
             pitch <<= 2;
@@ -256,5 +350,10 @@ namespace BiederDB3
             DoTransitionProxy update = new DoTransitionProxy(DoTransition);
             this.Dispatcher.Invoke(update);// this.Invoke(update);
         }
+        private int RandomNumber(int min, int max)
+        {
+            return random.Next(min, max);
+        }
+
     }
 }
