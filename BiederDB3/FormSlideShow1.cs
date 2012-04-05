@@ -82,6 +82,8 @@ namespace BiederDB3
         {
             _screenSize = Screen.PrimaryScreen.Bounds;
             _passwordSchutz = _settings.PasswortSchutzEin;
+            chk_passwort.Checked = _passwordSchutz;
+
             db = new Datenbank();
 
             _gTexte = new dataclasses.Gruppentexte(ref db);
@@ -101,6 +103,8 @@ namespace BiederDB3
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            _settings.PasswortSchutzEin = chk_passwort.Checked;
+            _settings.save();
 
             if (_timer.Enabled)
             {
@@ -157,6 +161,12 @@ namespace BiederDB3
                     g.DrawString(dt.Rows[iCurrent]["Omschrijving"].ToString(), new Font("Arial", 12), new SolidBrush(Color.DarkBlue), new Point(25, 50));
                 }
             }
+        }
+
+        private void FormSlideShow1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _settings.PasswortSchutzEin = chk_passwort.Checked;
+            _settings.save();
         }
     }
 }

@@ -62,13 +62,14 @@ namespace BiederDB3
         public ImageControl1(dataclasses.Artikel.artikel[] artikelList)
         {
             InitializeComponent();
+            this.Closing += new System.ComponentModel.CancelEventHandler(ImageControl1_Closing);
             random = new Random();
             image1.MouseUp += new MouseButtonEventHandler(image1_MouseUp);
             _artikelListe = artikelList;
             startUp();
         }
 
-        void image1_MouseUp(object sender, MouseButtonEventArgs e)
+        void ImageControl1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             BiederDBSettings2 _sett = new BiederDBSettings2();
             if (_sett.PasswortSchutzEin)
@@ -76,12 +77,17 @@ namespace BiederDB3
                 FormPassword pb = new FormPassword();
                 if (pb.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    pb.Dispose();
-                    this.Close();
+                    pb.Dispose();                    
                 }
+                else
+                    e.Cancel=true;
             }
-            else
-                this.Close();
+           
+        }
+
+        void image1_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
         }
         void startUp()
         {
