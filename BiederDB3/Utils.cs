@@ -204,5 +204,50 @@ namespace BiederDB3
             fp.Dispose();
             return bRet;
         }
+        public static string Right(string s, int len)
+        {
+            return s.Substring(s.Length - len);
+        }
+    }
+    public static class Strings
+    {
+        public static string Right(string s, int len)
+        {
+            return s.Substring(s.Length - len);
+        }
+        public static string Mid(string s, int iOffset, int iLen)
+        {
+            return s.Substring(iOffset, iLen);
+        }
+        public static string Left(string s, int iLen)
+        {
+            return s.Substring(0, iLen);
+        }
+    }
+    public static class Conversion
+    {
+        public static string Hex(int iVal, int iLen)
+        {
+            return iVal.ToString("x"+iLen.ToString());
+        }
+        public static string Hex(int iVal)
+        {
+            return iVal.ToString("x6");
+        }
+        public static int Val(string hexString)
+        {
+            if (hexString.StartsWith("&H"))
+            {
+                hexString = hexString.Substring(2);
+                return Int32.Parse(hexString, System.Globalization.NumberStyles.HexNumber);
+            }
+            else
+                return Int32.Parse(hexString, System.Globalization.NumberStyles.HexNumber);
+        }
+    }
+    public static class Constants
+    {
+        public static string ii = "\""; 
+        public static string vbCrLf="\r\n";
     }
 }

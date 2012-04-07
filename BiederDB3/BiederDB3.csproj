@@ -79,11 +79,18 @@
     <Compile Include="dataclasses\Artikel.cs" />
     <Compile Include="dataclasses\Gruppentexte.cs" />
     <Compile Include="Datenbank.cs" />
+    <Compile Include="farbe.cs" />
     <Compile Include="FormEdit.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormEdit.Designer.cs">
       <DependentUpon>FormEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFarben.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFarben.Designer.cs">
+      <DependentUpon>FormFarben.cs</DependentUpon>
     </Compile>
     <Compile Include="FormGruppenSort.cs">
       <SubType>Form</SubType>
@@ -157,6 +164,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormEdit.resx">
       <DependentUpon>FormEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFarben.resx">
+      <DependentUpon>FormFarben.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormGruppenSort.resx">
