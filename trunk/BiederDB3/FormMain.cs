@@ -96,5 +96,12 @@ namespace BiederDB3
             frm.ShowDialog();
             frm.Dispose();
         }
+
+        private void mnuColors_Click(object sender, EventArgs e)
+        {
+            FormFarben frm = new FormFarben();
+            frm.ShowDialog();
+            frm.Dispose();
+        }
     }
 }

@@ -71,13 +71,13 @@
             this.mnuDatei.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuExit});
             this.mnuDatei.Name = "mnuDatei";
-            this.mnuDatei.Size = new System.Drawing.Size(46, 20);
+            this.mnuDatei.Size = new System.Drawing.Size(44, 20);
             this.mnuDatei.Text = "Datei";
             // 
             // menuExit
             // 
             this.menuExit.Name = "menuExit";
-            this.menuExit.Size = new System.Drawing.Size(92, 22);
+            this.menuExit.Size = new System.Drawing.Size(103, 22);
             this.menuExit.Text = "Exit";
             this.menuExit.Click += new System.EventHandler(this.menuExit_Click);
             // 
@@ -92,54 +92,54 @@
             this.mnuWebCleanup,
             this.mnuCleanupData});
             this.mnuDaten.Name = "mnuDaten";
-            this.mnuDaten.Size = new System.Drawing.Size(50, 20);
+            this.mnuDaten.Size = new System.Drawing.Size(48, 20);
             this.mnuDaten.Text = "Daten";
             // 
             // mnuGroupSort
             // 
             this.mnuGroupSort.Name = "mnuGroupSort";
-            this.mnuGroupSort.Size = new System.Drawing.Size(215, 22);
+            this.mnuGroupSort.Size = new System.Drawing.Size(213, 22);
             this.mnuGroupSort.Text = "Gruppen sortieren";
             this.mnuGroupSort.Click += new System.EventHandler(this.mnuGroupSort_Click);
             // 
             // mnuGroupRename
             // 
             this.mnuGroupRename.Name = "mnuGroupRename";
-            this.mnuGroupRename.Size = new System.Drawing.Size(215, 22);
+            this.mnuGroupRename.Size = new System.Drawing.Size(213, 22);
             this.mnuGroupRename.Text = "Gruppe umbenennen";
             this.mnuGroupRename.Click += new System.EventHandler(this.mnuGroupRename_Click);
             // 
             // mnuGroupTextEdit
             // 
             this.mnuGroupTextEdit.Name = "mnuGroupTextEdit";
-            this.mnuGroupTextEdit.Size = new System.Drawing.Size(215, 22);
+            this.mnuGroupTextEdit.Size = new System.Drawing.Size(213, 22);
             this.mnuGroupTextEdit.Text = "Gruppentexte";
             this.mnuGroupTextEdit.Click += new System.EventHandler(this.mnuGroupTextEdit_Click);
             // 
             // mnuGroupDelete
             // 
             this.mnuGroupDelete.Name = "mnuGroupDelete";
-            this.mnuGroupDelete.Size = new System.Drawing.Size(215, 22);
+            this.mnuGroupDelete.Size = new System.Drawing.Size(213, 22);
             this.mnuGroupDelete.Text = "Gruppe löschen";
             this.mnuGroupDelete.Click += new System.EventHandler(this.mnuGroupDelete_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(215, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(213, 22);
             this.toolStripMenuItem2.Text = "-----";
             // 
             // mnuWebCleanup
             // 
             this.mnuWebCleanup.Name = "mnuWebCleanup";
-            this.mnuWebCleanup.Size = new System.Drawing.Size(215, 22);
+            this.mnuWebCleanup.Size = new System.Drawing.Size(213, 22);
             this.mnuWebCleanup.Text = "Für Web bereinigen";
             this.mnuWebCleanup.Click += new System.EventHandler(this.mnuWebCleanup_Click);
             // 
             // mnuCleanupData
             // 
             this.mnuCleanupData.Name = "mnuCleanupData";
-            this.mnuCleanupData.Size = new System.Drawing.Size(215, 22);
+            this.mnuCleanupData.Size = new System.Drawing.Size(213, 22);
             this.mnuCleanupData.Text = "Doppelte Daten bereinigen";
             // 
             // mnuOptions
@@ -148,21 +148,22 @@
             this.mnuSettings,
             this.mnuColors});
             this.mnuOptions.Name = "mnuOptions";
-            this.mnuOptions.Size = new System.Drawing.Size(69, 20);
+            this.mnuOptions.Size = new System.Drawing.Size(63, 20);
             this.mnuOptions.Text = "Optionen";
             // 
             // mnuSettings
             // 
             this.mnuSettings.Name = "mnuSettings";
-            this.mnuSettings.Size = new System.Drawing.Size(154, 22);
+            this.mnuSettings.Size = new System.Drawing.Size(162, 22);
             this.mnuSettings.Text = "Einstellungen";
             this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
             // 
             // mnuColors
             // 
             this.mnuColors.Name = "mnuColors";
-            this.mnuColors.Size = new System.Drawing.Size(154, 22);
+            this.mnuColors.Size = new System.Drawing.Size(162, 22);
             this.mnuColors.Text = "Internet Farben";
+            this.mnuColors.Click += new System.EventHandler(this.mnuColors_Click);
             // 
             // mnuHelp
             // 
@@ -175,7 +176,7 @@
             // mnuAbout
             // 
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(99, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(108, 22);
             this.mnuAbout.Text = "Über";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
             // 

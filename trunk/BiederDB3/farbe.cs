@@ -14,44 +14,50 @@ namespace BiederDB3
     using System.Runtime.InteropServices;
     public static class farbe
     {
-
+        //public farbe()
+        //{
+        //    read_colors();
+        //}
         public struct html_farben
         {
             public string name;
             public string html;
-                        public double rgb_Renamed;
+            public double rgb_Renamed;
+            public override string ToString()
+            {
+                return name;
+            }
         }
 
         public static html_farben[] farben;
 
-        public const short left_bgcolor = 1;
-        public const short left_txtcolor = 2;
-        public const short left_link = 3;
-        public const short left_vlink = 4;
-        public const short left_alink = 5;
-        public const short left_tbl_bgcolor = 6;
-        public const short left_tbl_bordercolor = 7;
-        public const short left_bordercolorlight = 8;
-        public const short left_bordercolordark = 9;
-        public const short portal_bgcolor = 10;
-        public const short portal_txtcolor = 11;
-        public const short portal_link = 12;
-        public const short portal_vlink = 13;
-        public const short portal_alink = 14;
-        public const short kategorie_bgcolor = 15;
-        public const short kategorie_txtcolor = 16;
-        public const short kategorie_link = 17;
-        public const short kategorie_vlink = 18;
-        public const short kategorie_alink = 19;
-        public const short artikel_bgcolor = 20;
-        public const short artikel_txtcolor = 21;
-        public const short artikel_link = 22;
-        public const short artikel_vlink = 23;
-        public const short artikel_alink = 24;
+        public const short left_bgcolor = 0;
+        public const short left_txtcolor = left_bgcolor+1;
+        public const short left_link = left_bgcolor + 2;
+        public const short left_vlink = left_bgcolor + 3;
+        public const short left_alink = left_bgcolor + 4;
+        public const short left_tbl_bgcolor = left_bgcolor + 5;
+        public const short left_tbl_bordercolor = left_bgcolor + 6;
+        public const short left_bordercolorlight = left_bgcolor + 7;
+        public const short left_bordercolordark = left_bgcolor + 8;
+        public const short portal_bgcolor = left_bgcolor + 9;
+        public const short portal_txtcolor = left_bgcolor + 10;
+        public const short portal_link = left_bgcolor + 11;
+        public const short portal_vlink = left_bgcolor + 12;
+        public const short portal_alink = left_bgcolor + 13;
+        public const short kategorie_bgcolor = left_bgcolor + 14;
+        public const short kategorie_txtcolor = left_bgcolor + 15;
+        public const short kategorie_link = left_bgcolor + 16;
+        public const short kategorie_vlink = left_bgcolor + 17;
+        public const short kategorie_alink = left_bgcolor + 18;
+        public const short artikel_bgcolor = left_bgcolor + 19;
+        public const short artikel_txtcolor = left_bgcolor + 20;
+        public const short artikel_link = left_bgcolor + 21;
+        public const short artikel_vlink = left_bgcolor + 22;
+        public const short artikel_alink = left_bgcolor + 23;
 
         public static int max_colors;
         [DllImport("oleaut32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-
         public static extern int OleTranslateColor(int lOleColor, int lHPalette, ref int lColorRef);
 
         public static int OleConvertColor(int Color)
@@ -98,12 +104,11 @@ namespace BiederDB3
         public static void read_colors()
         {
             int i = 0;
-                        i = 0;
-                        max_colors = 30;
+            i = 0;
+            max_colors = 30;
             farben = new html_farben[max_colors + 1];
 
-            int f = 0;
-            if (!System.IO.File.Exists(Utils.AppPath + "\\colors.dat"))
+            if (!System.IO.File.Exists(Utils.AppPath + "colors.dat"))
             {
                 farben[left_bgcolor].html = "#000000";
                 farben[left_txtcolor].html = "#FFFFFF";
@@ -133,7 +138,7 @@ namespace BiederDB3
             }
             else
             {
-                using (StreamReader sr = new StreamReader(Utils.AppPath + "\\colors.dat"))
+                using (StreamReader sr = new StreamReader(Utils.AppPath + "colors.dat"))
                 {
                     String line;
                     // Read and display lines from the file until the end of 
@@ -148,7 +153,7 @@ namespace BiederDB3
                 }
  
             }
-            i = 1;
+            i = 0;
             farben[i].name = "left_bgcolor";
             i = i + 1;
             farben[i].name = "left_txtcolor";
