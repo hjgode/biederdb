@@ -1,0 +1,1 @@
+"<img  src="+chr$(34)+"http://cgicounter.puretec.de/cgi-bin/cnt?clsid=86ee91a0ccefec60568de1c4fd0c04601"+chr$(34)+">"

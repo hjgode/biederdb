@@ -22,11 +22,11 @@ namespace BiederDB3
         public void create_sample()
         {
             write_top_htm();
-            System.IO.File.Copy(Utils.AppPath + "\\_top.htm", Utils.AppPath + "\\sample\\top.htm");
-            System.IO.File.Copy(Utils.AppPath + "\\_topback.gif", Utils.AppPath + "\\sample\\_topback.gif");
-            System.IO.File.Copy(Utils.AppPath + "\\_mainback.gif", Utils.AppPath + "\\sample\\_mainback.gif");
-            System.IO.File.Copy(Utils.AppPath + "\\_lftback.gif", Utils.AppPath + "\\sample\\_lftback.gif");
-            System.IO.File.Copy(Utils.AppPath + "\\_artback.gif", Utils.AppPath + "\\sample\\_artback.gif");
+            System.IO.File.Copy(Utils.AppPath + "_top.htm", Utils.AppPath + "sample\\top.htm");
+            System.IO.File.Copy(Utils.AppPath + "_topback.gif", Utils.AppPath + "sample\\_topback.gif");
+            System.IO.File.Copy(Utils.AppPath + "_mainback.gif", Utils.AppPath + "sample\\_mainback.gif");
+            System.IO.File.Copy(Utils.AppPath + "_lftback.gif", Utils.AppPath + "sample\\_lftback.gif");
+            System.IO.File.Copy(Utils.AppPath + "_artback.gif", Utils.AppPath + "sample\\_artback.gif");
             int f = 0;
             string txt = null;
             txt = "";
@@ -46,7 +46,7 @@ namespace BiederDB3
             txt = txt + "<font color=" + Constants.ii + farbe.farben[farbe.kategorie_alink].html + Constants.ii + ">Textfarbe aktiver Link</font><br>" + Constants.vbCrLf;
             txt = txt + "</body></html>" + Constants.vbCrLf;
             
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "\\sample\\kategorie.htm"))
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\kategorie.htm"))
             {
                 sw.WriteLine(txt);
             }
@@ -67,7 +67,7 @@ namespace BiederDB3
             txt = txt + "<font color=" + Constants.ii + farbe.farben[farbe.artikel_alink].html + Constants.ii + ">Textfarbe aktiver Link</font><br>" + Constants.vbCrLf;
             txt = txt + "</body></html>" + Constants.vbCrLf;
 
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "\\sample\\artikel.htm"))
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\artikel.htm"))
             {
                 sw.WriteLine(txt);
             }
@@ -89,7 +89,7 @@ namespace BiederDB3
             txt = txt + "<font color=" + Constants.ii + farbe.farben[farbe.portal_alink].html + Constants.ii + ">Textfarbe aktiver Link</font><br>" + Constants.vbCrLf;
             txt = txt + "</body></html>" + Constants.vbCrLf;
 
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "\\sample\\portal.htm"))
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\portal.htm"))
             {
                 sw.WriteLine(txt);
             }
@@ -118,7 +118,7 @@ namespace BiederDB3
             txt = txt + " <tr><td>Tabellentext<br>Rahmenfarbe normal,<br>hell und dunkel</td></tr>" + Constants.vbCrLf;
             txt = txt + "</body></html>" + Constants.vbCrLf;
             
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "\\sample\\left.htm"))
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\left.htm"))
             {
                 sw.WriteLine(txt);
             }
@@ -163,7 +163,7 @@ namespace BiederDB3
             htm = htm + Der_Biedermann;
             htm = htm + "</body>";
             htm = htm + "</html>";
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "\\_top.htm"))
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "_top.htm"))
             {
                 sw.WriteLine(htm);
             }
