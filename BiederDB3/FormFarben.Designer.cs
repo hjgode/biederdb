@@ -30,13 +30,13 @@
         {
             this.bt_defaultColors = new System.Windows.Forms.Button();
             this.WebBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.Combo1 = new System.Windows.Forms.ComboBox();
             this.bt_cancel = new System.Windows.Forms.Button();
             this.bt_ok = new System.Windows.Forms.Button();
             this.Label1 = new System.Windows.Forms.Label();
             this.cname = new System.Windows.Forms.Label();
             this.ColorTest = new System.Windows.Forms.Label();
             this.ColorHex = new System.Windows.Forms.Label();
+            this.combo2 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // bt_defaultColors
@@ -58,18 +58,6 @@
             this.WebBrowser1.Name = "WebBrowser1";
             this.WebBrowser1.Size = new System.Drawing.Size(513, 533);
             this.WebBrowser1.TabIndex = 12;
-            // 
-            // Combo1
-            // 
-            this.Combo1.BackColor = System.Drawing.SystemColors.Window;
-            this.Combo1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.Combo1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Combo1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.Combo1.Location = new System.Drawing.Point(12, 11);
-            this.Combo1.Name = "Combo1";
-            this.Combo1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Combo1.Size = new System.Drawing.Size(121, 21);
-            this.Combo1.TabIndex = 11;
             // 
             // bt_cancel
             // 
@@ -147,14 +135,23 @@
             this.ColorHex.TabIndex = 13;
             this.ColorHex.Text = "HTMLColor";
             // 
+            // combo2
+            // 
+            this.combo2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combo2.FormattingEnabled = true;
+            this.combo2.Location = new System.Drawing.Point(12, 12);
+            this.combo2.Name = "combo2";
+            this.combo2.Size = new System.Drawing.Size(120, 21);
+            this.combo2.TabIndex = 18;
+            // 
             // FormFarben
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 538);
+            this.Controls.Add(this.combo2);
             this.Controls.Add(this.bt_defaultColors);
             this.Controls.Add(this.WebBrowser1);
-            this.Controls.Add(this.Combo1);
             this.Controls.Add(this.bt_cancel);
             this.Controls.Add(this.bt_ok);
             this.Controls.Add(this.Label1);
@@ -173,12 +170,12 @@
 
         public System.Windows.Forms.Button bt_defaultColors;
         public System.Windows.Forms.WebBrowser WebBrowser1;
-        public System.Windows.Forms.ComboBox Combo1;
         public System.Windows.Forms.Button bt_cancel;
         public System.Windows.Forms.Button bt_ok;
         public System.Windows.Forms.Label Label1;
         public System.Windows.Forms.Label cname;
         public System.Windows.Forms.Label ColorTest;
         public System.Windows.Forms.Label ColorHex;
+        private System.Windows.Forms.ComboBox combo2;
     }
 }

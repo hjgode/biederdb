@@ -17,16 +17,30 @@ namespace BiederDB3
         {
             InitializeComponent();
             _settings = new BiederDBSettings2();
+
+            farbe.read_colors();
             
+            create_sample();
+            WebBrowser1.Navigate(Utils.AppPath + "sample\\sample.htm");
+
+            combo2.Items.Clear();
+            for (int x = 0; x < farbe.max_colors; x++)
+            {
+                combo2.Items.Insert(x, farbe.farben[x]);
+            }
+            combo2.SelectedIndex = 0;
+            ColorTest.BackColor = System.Drawing.ColorTranslator.FromOle(Convert.ToInt16(farbe.farben[0].rgb_Renamed));
+            cname.Text = farbe.farben[0].name;
+            ColorHex.Text = farbe.farben[0].html;
         }
         public void create_sample()
         {
             write_top_htm();
-            System.IO.File.Copy(Utils.AppPath + "_top.htm", Utils.AppPath + "sample\\top.htm");
-            System.IO.File.Copy(Utils.AppPath + "_topback.gif", Utils.AppPath + "sample\\_topback.gif");
-            System.IO.File.Copy(Utils.AppPath + "_mainback.gif", Utils.AppPath + "sample\\_mainback.gif");
-            System.IO.File.Copy(Utils.AppPath + "_lftback.gif", Utils.AppPath + "sample\\_lftback.gif");
-            System.IO.File.Copy(Utils.AppPath + "_artback.gif", Utils.AppPath + "sample\\_artback.gif");
+            System.IO.File.Copy(Utils.AppPath + "_top.htm", Utils.AppPath + "sample\\top.htm", true);
+            System.IO.File.Copy(Utils.AppPath + "_topback.gif", Utils.AppPath + "sample\\_topback.gif", true);
+            System.IO.File.Copy(Utils.AppPath + "_mainback.gif", Utils.AppPath + "sample\\_mainback.gif", true);
+            System.IO.File.Copy(Utils.AppPath + "_lftback.gif", Utils.AppPath + "sample\\_lftback.gif", true);
+            System.IO.File.Copy(Utils.AppPath + "_artback.gif", Utils.AppPath + "sample\\_artback.gif", true);
             int f = 0;
             string txt = null;
             txt = "";
@@ -131,7 +145,7 @@ namespace BiederDB3
             htm = htm + "<html>";
             htm = htm + "";
             htm = htm + "<head>";
-            htm = htm + "<title>Der Biedermann, Landhausmöbel in Wuppertal</title>";
+            htm = htm + "<title>Der Biedermann, Landhausm&ouml;bel in Wuppertal</title>";
             //UPGRADE_WARNING: Couldn't resolve default property of object keywords_htm. Click for more: 'ms-help://MS.VSCC.v90/dv_commoner/local/redirect.htm?keyword="6A50421D-15FE-4896-8A1B-2EC21E9037B2"'
             htm = htm + _settings.keywords_htm;
             //NEU okt 2006
@@ -150,7 +164,7 @@ namespace BiederDB3
             htm = htm + " alink=" + Constants.ii + farbe.farben[farbe.portal_alink].html + Constants.ii + ">" + Constants.vbCrLf;
             htm = htm + "<blockquote>";
             htm = htm + "<p><a href=" + Constants.ii + "index.htm" + Constants.ii + " target=" + Constants.ii + "_parent" + Constants.ii + ">";
-            if (bg_top == 1)
+            if (_settings.bg_top)
             {
                 htm = htm + "<img src=" + Constants.ii + "_topback.gif" + Constants.ii + " alt border=" + Constants.ii + "0" + Constants.ii + "></a><br>";
             }
@@ -160,7 +174,7 @@ namespace BiederDB3
             }
             htm = htm + "</blockquote>";
             //UPGRADE_WARNING: Couldn't resolve default property of object Der_Biedermann. Click for more: 'ms-help://MS.VSCC.v90/dv_commoner/local/redirect.htm?keyword="6A50421D-15FE-4896-8A1B-2EC21E9037B2"'
-            htm = htm + Der_Biedermann;
+            htm = htm + _settings.Der_Biedermann;
             htm = htm + "</body>";
             htm = htm + "</html>";
             using (StreamWriter sw = new StreamWriter(Utils.AppPath + "_top.htm"))
