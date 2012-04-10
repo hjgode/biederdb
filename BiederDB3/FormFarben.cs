@@ -22,14 +22,17 @@ namespace BiederDB3
             
             create_sample();
             WebBrowser1.Navigate(Utils.AppPath + "sample\\sample.htm");
-
-            combo2.Items.Clear();
+            fillList();
+        }
+        void fillList()
+        {
+            comboColors.Items.Clear();
             for (int x = 0; x < farbe.max_colors; x++)
             {
-                combo2.Items.Insert(x, farbe.farben[x]);
+                comboColors.Items.Insert(x, farbe.farben[x]);
             }
-            combo2.SelectedIndex = 0;
-            ColorTest.BackColor = System.Drawing.ColorTranslator.FromOle(Convert.ToInt16(farbe.farben[0].rgb_Renamed));
+            comboColors.SelectedIndex = 0;
+            ColorTest.BackColor = System.Drawing.ColorTranslator.FromOle(Convert.ToInt32(farbe.farben[0].rgb_Renamed));
             cname.Text = farbe.farben[0].name;
             ColorHex.Text = farbe.farben[0].html;
         }
@@ -41,7 +44,6 @@ namespace BiederDB3
             System.IO.File.Copy(Utils.AppPath + "_mainback.gif", Utils.AppPath + "sample\\_mainback.gif", true);
             System.IO.File.Copy(Utils.AppPath + "_lftback.gif", Utils.AppPath + "sample\\_lftback.gif", true);
             System.IO.File.Copy(Utils.AppPath + "_artback.gif", Utils.AppPath + "sample\\_artback.gif", true);
-            int f = 0;
             string txt = null;
             txt = "";
             txt = txt + "<html><head><title>Testpage</title></head>" + Constants.vbCrLf;
@@ -182,6 +184,71 @@ namespace BiederDB3
                 sw.WriteLine(htm);
             }
 
+        }
+
+        private void comboColors_SelectedIndexChanged(object sender, EventArgs e)
+        {
+		    if( comboColors.SelectedIndex == -1) 
+                return;
+            ColorTest.BackColor = System.Drawing.ColorTranslator.FromOle(Convert.ToInt32(farbe.farben[comboColors.SelectedIndex].rgb_Renamed));
+            cname.Text = farbe.farben[comboColors.SelectedIndex].name;
+
+        }
+
+        private void ColorTest_DoubleClick(object sender, EventArgs e)
+        {
+            int i = comboColors.SelectedIndex;
+            if (i == -1)
+                return;
+            int c = 0;
+            ColorDialog cdlg = new ColorDialog();
+            cdlg.Color = System.Drawing.ColorTranslator.FromOle(Convert.ToInt32(farbe.HTML2RGB(ref farbe.farben[i].html)));
+            cdlg.FullOpen = true;
+            if (cdlg.ShowDialog() == DialogResult.OK)
+            {
+                c = System.Drawing.ColorTranslator.ToOle(cdlg.Color);
+                farbe.farben[i].rgb_Renamed = c;
+                ColorHex.Text = farbe.RGB2HTML(c);
+                farbe.farben[i].html = farbe.RGB2HTML(c);
+                ColorTest.BackColor = System.Drawing.ColorTranslator.FromOle(c);
+                create_sample();
+                WebBrowser1.Navigate(Utils.AppPath + "sample\\sample.htm");
+            }
+
+        }
+
+        private void bt_defaultColors_Click(object sender, EventArgs e)
+        {
+            if (!Utils.showQuestionYesNo("Alle Farbanpassungen verwerfen und Standardfarben laden?", "Sicherheitsfrage"))
+			    return;
+		    else{
+                try 
+	            {
+                    System.IO.File.Delete(Utils.AppPath + "colors.dat");
+	            }
+	            catch (Exception)
+	            {
+	            }
+			    farbe.read_colors();
+                fillList();
+                comboColors.SelectedIndex=0;
+			    create_sample();
+			    WebBrowser1.Navigate(Utils.AppPath + "sample\\sample.htm");
+		    }
+
+        }
+
+        private void bt_ok_Click(object sender, EventArgs e)
+        {
+            if(Utils.showQuestionYesNo("Änderungen speichern?", "Internet-Farben"))
+                farbe.write_colors();
+            this.Close();
+        }
+
+        private void bt_cancel_Click(object sender, EventArgs e)
+        {
+            farbe.read_colors();
+            this.Close();
         }
 
     }
