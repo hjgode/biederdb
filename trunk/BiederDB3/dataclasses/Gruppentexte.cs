@@ -43,7 +43,18 @@ namespace BiederDB3.dataclasses
                 return GruppenName;
             }
         }
-
+        public gruppentext[] getGruppenTexte()
+        {
+            List<gruppentext> liste = getGruppentexte();
+            gruppentext[] gTexte = new gruppentext[liste.Count];
+            int i = 0;
+            foreach (gruppentext g in liste)
+            {
+                gTexte[i] = g;
+                i++;
+            }
+            return gTexte;
+        }
         /// <summary>
         /// return a list of Gruppen sorted by SortOrder
         /// </summary>

@@ -103,5 +103,12 @@ namespace BiederDB3
             frm.ShowDialog();
             frm.Dispose();
         }
+
+        private void btnPublish2Web_Click(object sender, EventArgs e)
+        {
+            FormPublishForWeb frm = new FormPublishForWeb();
+            frm.ShowDialog();
+            frm.Dispose();
+        }
     }
 }

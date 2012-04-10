@@ -233,6 +233,7 @@
             this.btnPublish2Web.TabIndex = 3;
             this.btnPublish2Web.Text = "Für Web publizieren";
             this.btnPublish2Web.UseVisualStyleBackColor = true;
+            this.btnPublish2Web.Click += new System.EventHandler(this.btnPublish2Web_Click);
             // 
             // btnBackupRestore
             // 
