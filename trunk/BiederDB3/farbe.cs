@@ -22,7 +22,7 @@ namespace BiederDB3
         {
             public string name;
             public string html;
-            public double rgb_Renamed;
+            public int rgb_Renamed;
             public override string ToString()
             {
                 return name;
@@ -86,10 +86,9 @@ namespace BiederDB3
                 }
             }
         }
-        public static double HTML2RGB(ref string HTMLColor)
+        public static int HTML2RGB(ref string HTMLColor)
         {
-            double functionReturnValue = 0;
-            int nRGBColor = 0;
+            int functionReturnValue = 0;
 
             if (Strings.Left(HTMLColor, 1) == "#")
             {
