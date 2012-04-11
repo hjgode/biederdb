@@ -19,7 +19,7 @@ Friend Class frmColors
             'On Error Resume Next
 			Kill((AppPath & "\colors.dat"))
 			On Error GoTo 0
-			read_colors()
+            farbe.read_colors()
 			create_sample()
 			WebBrowser1.Navigate(New System.URI((AppPath & "\sample\sample.htm")))
 		End If
@@ -288,4 +288,8 @@ Col_error:
 	
 	Sub save_arraycolors2names()
 	End Sub
+
+    Private Sub ColorTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ColorTest.Click
+
+    End Sub
 End Class

@@ -275,6 +275,7 @@
             this.radioExtern.TabStop = true;
             this.radioExtern.Text = "eigene:";
             this.radioExtern.UseVisualStyleBackColor = true;
+            this.radioExtern.CheckedChanged += new System.EventHandler(this.radioExtern_CheckedChanged);
             // 
             // radioIntern
             // 
@@ -287,6 +288,7 @@
             this.radioIntern.TabStop = true;
             this.radioIntern.Text = "intern";
             this.radioIntern.UseVisualStyleBackColor = true;
+            this.radioIntern.CheckedChanged += new System.EventHandler(this.radioIntern_CheckedChanged);
             // 
             // txtCustomIndexFile
             // 

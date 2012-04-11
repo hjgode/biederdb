@@ -46,10 +46,16 @@ namespace BiederDB3
             optionMain.Checked = _settings.bg_main;
             optionOben.Checked = _settings.bg_top;
 
-            txtCustomIndexFile.Text = _settings.CustomIndexFile;
-
-            radioExtern.Checked = _settings.UseCustomIndexFile;
-            radioIntern.Checked = !radioExtern.Checked;
+            txtCustomIndexFile.Text = _settings.startSeite;
+            if (txtCustomIndexFile.Text != "index.htm")
+            {
+                radioExtern.Checked = true;
+                _settings.UseCustomIndexFile = true;
+                radioIntern.Checked = false;
+                txtCustomIndexFile.Enabled = true;
+            }
+            else
+                txtCustomIndexFile.Enabled = false;
 
             numDiaTimeout.Value = _settings.showTime;
 
@@ -101,7 +107,7 @@ namespace BiederDB3
             _settings.bg_top = optionOben.Checked;
             _settings.showTime = (int)numDiaTimeout.Value;
 
-            _settings.CustomIndexFile = txtCustomIndexFile.Text;
+            _settings.startSeite = txtCustomIndexFile.Text;
 
             if (radioExtern.Checked)
                 _settings.UseCustomIndexFile = true;
@@ -182,6 +188,16 @@ namespace BiederDB3
         private void cboSortList_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtSortField.Text = cboSortList.Items[cboSortList.SelectedIndex].ToString();
+        }
+
+        private void radioIntern_CheckedChanged(object sender, EventArgs e)
+        {
+            txtCustomIndexFile.Enabled = !radioIntern.Checked;
+        }
+
+        private void radioExtern_CheckedChanged(object sender, EventArgs e)
+        {
+            txtCustomIndexFile.Enabled = radioExtern.Checked;
         }
     }
 }

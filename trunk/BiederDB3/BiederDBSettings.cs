@@ -16,6 +16,7 @@ namespace BiederDB3
         public string webKopf;
         public string mainPage;
         public string iview;
+        //public string StartSeite;
 
         public int showTime;
 
@@ -24,7 +25,7 @@ namespace BiederDB3
         /// </summary>
         public bool PasswortSchutzEin;
 
-        public string CustomIndexFile;
+        public string startSeite;
 
         public bool UseCustomIndexFile;
 
@@ -48,12 +49,15 @@ namespace BiederDB3
             iview = _mySettings.GetValue("iview", defaultSettings.iview);
             showTime = _mySettings.GetValue("showtime", defaultSettings.showTime);
             PasswortSchutzEin = _mySettings.GetValue("passwordschutzein", defaultSettings.PasswortSchutzEin);
-            CustomIndexFile = _mySettings.GetValue("customindex", defaultSettings.CustomIndexFile);
+            
+            startSeite = _mySettings.GetValue("customindex", defaultSettings.StartSeite);
             UseCustomIndexFile = _mySettings.GetValue("usecustomindexfile", defaultSettings.UseCustomIndexFile);
+
             bg_top = _mySettings.GetValue("bg_top", defaultSettings.bg_top);
             bg_left = _mySettings.GetValue("bg_left", defaultSettings.bg_left);
             bg_main = _mySettings.GetValue("bg_main", defaultSettings.bg_main);
             bg_artikel = _mySettings.GetValue("bg_artikel", defaultSettings.bg_artikel);
+            //StartSeite = _mySettings.GetValue("startseite", defaultSettings.startseite);
         }
         public int bPathValidated
         {
@@ -108,12 +112,13 @@ namespace BiederDB3
             _mySettings.SetValue("iview", iview);
             _mySettings.SetValue("showtime", showTime);
             _mySettings.SetValue("passwordschutzein", PasswortSchutzEin);
-            _mySettings.SetValue("customindex", CustomIndexFile);
+            _mySettings.SetValue("customindex", startSeite);
             _mySettings.SetValue("usecustomindexfile", UseCustomIndexFile);
             _mySettings.SetValue("bg_top", bg_top);
             _mySettings.SetValue("bg_left", bg_left);
             _mySettings.SetValue("bg_main", bg_main);
             _mySettings.SetValue("bg_artikel", bg_artikel);
+
             _mySettings.SaveConfiguration();
         }
         private static class defaultSettings
@@ -142,13 +147,14 @@ namespace BiederDB3
             public static string iview = @"D:\TOOLS\irfanview\iview375.exe";
             public static int showTime = 3;
             public static bool PasswortSchutzEin = false;
-            public static string CustomIndexFile = "index.htm";
+            public static string StartSeite = "index.htm";
             public static bool UseCustomIndexFile = false;
             public static bool bg_top = false;
             public static bool bg_left = false;
             public static bool bg_main = false;
             public static bool bg_artikel = false;
             public static string der_biedermann_default = "<blockquote><p>Der Biedermann, Landhausm&ouml;bel in vielen Varianten, Gr&uuml;nstr. 6, 42103 Wuppertal, Telefon: 0202-470068, Fax: 0202/6980567<br>&Ouml;ffnungszeiten: Mo-Fr 11-18:30 Uhr, Sa 10-16 Uhr</p></blockquote>";
+            //public static string startseite = "index.htm";
 
         } // class defaultSettings
         public string keywords_htm
