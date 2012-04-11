@@ -95,6 +95,12 @@
     <Compile Include="dataclasses\Gruppentexte.cs" />
     <Compile Include="Datenbank.cs" />
     <Compile Include="farbe.cs" />
+    <Compile Include="FileListBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FileListBox.Designer.cs">
+      <DependentUpon>FileListBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -181,6 +187,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileListBox.resx">
+      <DependentUpon>FileListBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEdit.resx">
@@ -350,7 +360,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="_publist.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="_publist.ini.web">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

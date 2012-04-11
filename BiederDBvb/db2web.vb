@@ -871,4 +871,8 @@ abort:
 		List2.Items.RemoveAt((List2.SelectedIndex))
 		ListChanged = True
 	End Sub
+
+    Private Sub List1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles List1.SelectedIndexChanged
+
+    End Sub
 End Class

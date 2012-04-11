@@ -56,7 +56,7 @@
             this.Label3 = new System.Windows.Forms.Label();
             this.Label2 = new System.Windows.Forms.Label();
             this.Label1 = new System.Windows.Forms.Label();
-            this.File1 = new System.Windows.Forms.ListBox();
+            this.File1 = new BiederDB3.FileListBox();
             this.SuspendLayout();
             // 
             // bt_AktuellBearbeiten
@@ -77,10 +77,10 @@
             this.bt_view.BackColor = System.Drawing.SystemColors.Control;
             this.bt_view.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_view.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_view.Location = new System.Drawing.Point(420, 107);
+            this.bt_view.Location = new System.Drawing.Point(401, 107);
             this.bt_view.Name = "bt_view";
             this.bt_view.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bt_view.Size = new System.Drawing.Size(65, 25);
+            this.bt_view.Size = new System.Drawing.Size(84, 25);
             this.bt_view.TabIndex = 51;
             this.bt_view.Text = "Anzeigen";
             this.bt_view.UseVisualStyleBackColor = false;
@@ -113,6 +113,7 @@
             this.bt_savelist.Text = "Liste speichern";
             this.ToolTip1.SetToolTip(this.bt_savelist, "Aktuelle Liste speichern");
             this.bt_savelist.UseVisualStyleBackColor = false;
+            this.bt_savelist.Click += new System.EventHandler(this.bt_savelist_Click);
             // 
             // bt_ab
             // 
@@ -165,10 +166,10 @@
             this.bt_cancel.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_cancel.Enabled = false;
             this.bt_cancel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_cancel.Location = new System.Drawing.Point(420, 75);
+            this.bt_cancel.Location = new System.Drawing.Point(401, 75);
             this.bt_cancel.Name = "bt_cancel";
             this.bt_cancel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bt_cancel.Size = new System.Drawing.Size(65, 25);
+            this.bt_cancel.Size = new System.Drawing.Size(84, 25);
             this.bt_cancel.TabIndex = 40;
             this.bt_cancel.Text = "Abbrechen";
             this.ToolTip1.SetToolTip(this.bt_cancel, "Abbrechen der Weberstellung");
@@ -232,6 +233,7 @@
             this.List2.Size = new System.Drawing.Size(121, 82);
             this.List2.TabIndex = 31;
             this.ToolTip1.SetToolTip(this.List2, "Doppelklicken zu Entfernen");
+            this.List2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.List2_MouseDoubleClick);
             // 
             // List1
             // 
@@ -244,16 +246,17 @@
             this.List1.Size = new System.Drawing.Size(121, 82);
             this.List1.TabIndex = 29;
             this.ToolTip1.SetToolTip(this.List1, "Doppleklicken zum Übernehmen");
+            this.List1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.List1_MouseDoubleClick);
             // 
             // bt_close
             // 
             this.bt_close.BackColor = System.Drawing.SystemColors.Control;
             this.bt_close.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_close.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_close.Location = new System.Drawing.Point(420, 43);
+            this.bt_close.Location = new System.Drawing.Point(401, 43);
             this.bt_close.Name = "bt_close";
             this.bt_close.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bt_close.Size = new System.Drawing.Size(65, 25);
+            this.bt_close.Size = new System.Drawing.Size(84, 25);
             this.bt_close.TabIndex = 28;
             this.bt_close.Text = "Schliessen";
             this.ToolTip1.SetToolTip(this.bt_close, "Fenster schliessen");
@@ -265,14 +268,15 @@
             this.bt_start.BackColor = System.Drawing.SystemColors.Control;
             this.bt_start.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_start.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_start.Location = new System.Drawing.Point(420, 11);
+            this.bt_start.Location = new System.Drawing.Point(401, 11);
             this.bt_start.Name = "bt_start";
             this.bt_start.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bt_start.Size = new System.Drawing.Size(65, 25);
+            this.bt_start.Size = new System.Drawing.Size(84, 25);
             this.bt_start.TabIndex = 27;
             this.bt_start.Text = "Start";
             this.ToolTip1.SetToolTip(this.bt_start, "Starten der Erstellung der Webseiten");
             this.bt_start.UseVisualStyleBackColor = false;
+            this.bt_start.Click += new System.EventHandler(this.bt_start_Click);
             // 
             // filesList
             // 
@@ -339,6 +343,7 @@
             this.bt_copy.TabIndex = 32;
             this.bt_copy.Text = "Übernehmen";
             this.bt_copy.UseVisualStyleBackColor = false;
+            this.bt_copy.Click += new System.EventHandler(this.bt_copy_Click);
             // 
             // Label6
             // 
@@ -414,10 +419,10 @@
             // 
             // File1
             // 
-            this.File1.FormattingEnabled = true;
-            this.File1.Location = new System.Drawing.Point(12, 314);
+            this.File1._sPath = "C:\\Programme\\Microsoft Visual Studio 9.0\\Common7\\IDE";
+            this.File1.Location = new System.Drawing.Point(12, 307);
             this.File1.Name = "File1";
-            this.File1.Size = new System.Drawing.Size(120, 43);
+            this.File1.Size = new System.Drawing.Size(121, 56);
             this.File1.TabIndex = 53;
             // 
             // FormPublishForWeb
@@ -491,6 +496,6 @@
         public System.Windows.Forms.Label Label3;
         public System.Windows.Forms.Label Label2;
         public System.Windows.Forms.Label Label1;
-        private System.Windows.Forms.ListBox File1;
+        private FileListBox File1;
     }
 }
