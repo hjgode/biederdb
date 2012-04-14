@@ -14,8 +14,12 @@ namespace BiederDB3
     {
         bool _bListChange = false;
         bool _bAbbruch = false;
+        bool _bStatus = true;
+        StreamWriter swLog;
+
         dataclasses.Gruppentexte.gruppentext[] _gTexte;
         BiederDBSettings2 _settings;
+
         public FormPublishForWeb()
         {
             InitializeComponent();
@@ -34,7 +38,7 @@ namespace BiederDB3
             txt_StartSeite.Text = _settings.startSeite;
             if (txt_StartSeite.Text != "index.htm")
                 Utils.showWarningMsg("Wenn Sie eine externe Datei als Hauptseite angeben, müssen Sie in diese einen Link auf die Datei 'index1.htm' einfügen, damit die generierten Webseiten erreichbar sind!", "ACHTUNG");
-
+            farbe.read_colors();
         }
 
         void readGroups()
@@ -146,6 +150,7 @@ namespace BiederDB3
 
         private void bt_start_Click(object sender, EventArgs e)
         {
+            //List2 enthält die zu publizierenden Kategorien
             if (List2.Items.Count == 0)
             {
                 Utils.showErrorMsg("Keine Gruppe(n) gewählt", "Für Web vorbereiten");
@@ -163,21 +168,137 @@ namespace BiederDB3
             }
 
             txt_status.Text = "Starte...";
-            bool bAbbruch = false;
             
-            StreamWriter swLog = new StreamWriter(Utils.AppPath + "_status.log", false);
+            //open a file to log messages
+            swLog = new StreamWriter(Utils.AppPath + "_status.log", false);
 
-            if (status("Abbruch"))
+            int NumLoops, MaxArtikel, ArtikelProSeite, LeftOver;
+            string SeiteZahl, beschreibung, foto, ArtNr, foto_th, masse;
+            int s, AnzahlSeiten, Rest, Seite, Artikel;
+            int nCount;
+
+            string KategorieHtml;
+            string ArtikelHtml;
+            string LeftHtml;
+            
+            int i, file_kategorie, file_Artikel, file_left;
+
+            int p;
+            string PortalHtml;
+            string[]PortalTexte;
+            string StandardText;
+            int f;
+            string tmp;
+
+            bt_view.Enabled = false;
+            bt_AktuellBearbeiten.Enabled = false;
+
+            if (!status("Abbruch"))
                 goto abbruch;
             weblist.Items.Clear();
 
+            //test output path
+            if (!System.IO.Directory.Exists(Text2.Text))
+            {
+                Utils.showErrorMsg("Fehler: Kann Verzeichnis: " + Text2.Text + "' nicht finden", "Ausgabefehler");
+                goto abbruch;
+            }
+            if(!Text2.Text.EndsWith("\\"))
+                Text2.Text+="\\";
+
+            _bAbbruch = false;
+            if (!status("Weberstellung, " +
+                DateTime.Now.ToShortDateString() +
+                DateTime.Now.ToShortTimeString()))
+                goto abbruch;
+
+            bt_start.Enabled = false;
+            bt_close.Enabled = false;
+            bt_cancel.Enabled = true;
+            
+            if (chk_nur1Gruppe.Checked)
+            {
+                if (!status("Erstelle nur Dateien für die Gruppe: '" + List2.SelectedItem.ToString() + "' neu"))
+                    goto abbruch;
+            }
+            else
+            {
+                //'Index-, Main- und Top-Datei kopieren
+                DateiKopie(Utils.AppPath + "_topback.gif", Text2.Text + "_topback.gif");
+                DateiKopie(Utils.AppPath + "_lftback.gif", Text2.Text + "_lftback.gif");
+                DateiKopie(Utils.AppPath + "_mainback.gif", Text2.Text + "_mainback.gif");
+                DateiKopie(Utils.AppPath + "_artback.gif", Text2.Text + "_artback.gif");
+                DateiKopie(Utils.AppPath + "_weg.gif", Text2.Text + "_weg.gif");
+                //'DateiKopie Utils.AppPath + "logo-falk.gif", Text2.text + "logo-falk.gif"
+                DateiKopie(Utils.AppPath + "_index.htm", Text2.Text + _settings.startSeite);
+                DateiKopie((Text3.Text), Text2.Text + "_main.htm");
+                DateiKopie((Text1.Text), Text2.Text + "_top.htm");
+                DateiKopie(Utils.AppPath + "_weg.htm", Text2.Text + "_weg.htm");
+                //'Die linke Seite sollte mit dem Start-Link anfangen
+                //'danach alle Kategorien listen. Das bedeutet eine index.htm, eine left.htm,
+                //'eine main.htm, eine top.htm,
+
+            LeftHtml = "";
+            LeftHtml = "<html>" + "\r\n" + "<head>" + "\r\n" + "<title>" + "Der Biedermann - Landhausmöbel in Wuppertal" + "</title>" + "\r\n";
+            LeftHtml = LeftHtml + "<meta http-equiv=" + "\"" + "Content-Type" + "\"" + " content=" + "\"" + "text/html; charset=ISO-8859-1" + "\"" + ">" + "\r\n";
+            LeftHtml = LeftHtml + "<meta name=" + "\"" + "GENERATOR" + "\"" + " content=" + "\"" + "bieder.db (c)HJ Gode" + "\"" + ">" + "\r\n";
+            LeftHtml = LeftHtml + _settings.keywords_htm + "\r\n" + "</head>";
+            LeftHtml = LeftHtml + "<body bgcolor=" + "\"" + farbe.farben[farbe.left_bgcolor].html + "\"" + " text=" + "\"" + farbe.farben[farbe.left_txtcolor].html + "\"";
+            if (_settings.bg_left)
+                LeftHtml = LeftHtml + " background=" + "\"" + "_lftback.gif" + "\"";
+            LeftHtml = LeftHtml + " link=" + "\"" + farbe.farben[farbe.left_link].html + "\"";
+            LeftHtml = LeftHtml + " vlink=" + "\"" + farbe.farben[farbe.left_vlink].html + "\"";
+            LeftHtml = LeftHtml + " alink=" + "\"" + farbe.farben[farbe.left_alink].html + "\"" + ">" + "\r\n";
+
+
+            }
+
+
+                    
+
+
         abbruch:
             swLog.Close();
+            bt_start.Enabled = true;
+            bt_close.Enabled = true;
+            bt_cancel.Enabled = false;
+            bt_view.Enabled = true;
+            bt_AktuellBearbeiten.Enabled = true;
+
         }
+        
+        void DateiKopie(string sSrc, string sTrg){
+            try{
+                status("Kopiere '" + sSrc +"' nach '" + sTrg +"'");
+                System.IO.File.Copy(sSrc, sTrg, true);
+                weblist.Items.Add(System.IO.Path.GetFileName(sTrg));
+            }
+            catch(Exception ex){
+                status("Kopieren fehlgeschlagen! " +ex.Message);
+            }
+        }
+
         bool status(String s)
         {
-            bool bRet = false;
-            return bRet;
+            Application.DoEvents();
+            if (_bAbbruch)
+            {
+                txt_status.Text="Abbruch durch Anwender";
+                _bStatus = false;
+                return false;
+            }
+            txt_status.Text = s;
+            if (swLog != null)
+            {
+                swLog.WriteLine(s);
+                swLog.Flush();
+            }
+            return true;
+        }
+
+        private void bt_cancel_Click(object sender, EventArgs e)
+        {
+            _bAbbruch = true;
         }
     }
 }
