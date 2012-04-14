@@ -174,6 +174,7 @@
             this.bt_cancel.Text = "Abbrechen";
             this.ToolTip1.SetToolTip(this.bt_cancel, "Abbrechen der Weberstellung");
             this.bt_cancel.UseVisualStyleBackColor = false;
+            this.bt_cancel.Click += new System.EventHandler(this.bt_cancel_Click);
             // 
             // Text3
             // 
@@ -282,7 +283,6 @@
             // 
             this.filesList.BackColor = System.Drawing.SystemColors.Window;
             this.filesList.Cursor = System.Windows.Forms.Cursors.Default;
-            this.filesList.Enabled = false;
             this.filesList.ForeColor = System.Drawing.SystemColors.WindowText;
             this.filesList.Location = new System.Drawing.Point(356, 307);
             this.filesList.Name = "filesList";
@@ -295,7 +295,6 @@
             // 
             this.weblist.BackColor = System.Drawing.SystemColors.Window;
             this.weblist.Cursor = System.Windows.Forms.Cursors.Default;
-            this.weblist.Enabled = false;
             this.weblist.ForeColor = System.Drawing.SystemColors.WindowText;
             this.weblist.Location = new System.Drawing.Point(220, 307);
             this.weblist.Name = "weblist";
@@ -481,6 +480,9 @@
         public System.Windows.Forms.TextBox Text3;
         public System.Windows.Forms.TextBox Text2;
         public System.Windows.Forms.TextBox Text1;
+        /// <summary>
+        /// List2 enthält die zu publizierenden Kategorien
+        /// </summary>
         public System.Windows.Forms.ListBox List2;
         public System.Windows.Forms.ListBox List1;
         public System.Windows.Forms.Button bt_close;
