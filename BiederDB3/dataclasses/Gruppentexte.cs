@@ -105,6 +105,19 @@ namespace BiederDB3.dataclasses
             return liste;
 
         }
+
+        public Gruppentexte.gruppentext getGruppenText(int iID)
+        {
+            List<gruppentext> _gtexte = this.getGruppentexte();
+            gruppentext gNew = new gruppentext("n/a", -1, "n/a", 0);
+            foreach (gruppentext g in _gtexte)
+            {
+                if (g.ID == iID)
+                    return g;
+            }
+            return gNew;
+        }
+
         public Gruppentexte.gruppentext getGruppe(int iID)
         {
             List<gruppentext> _gtexte = this.getGruppentexte();
