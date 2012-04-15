@@ -55,6 +55,52 @@ namespace BiederDB3
             }
             return s;
         }
+        public static string readFromFile(string sFile)
+        {
+            string s = "";
+            using (StreamReader sr = new StreamReader(sFile))
+            {
+                String line;
+                // Read and display lines from the file until the end of 
+                // the file is reached.
+                while ((line = sr.ReadLine()) != null)
+                {
+                    s += line;
+                }
+            }
+            return s;
+        }
+        public static string[] readLinesFromFile(string sFile)
+        {
+            string[] s;
+            int iCount = 0;
+            using (StreamReader sr = new StreamReader(sFile))
+            {
+                String line;
+                // Read and display lines from the file until the end of 
+                // the file is reached.
+                while ((line = sr.ReadLine()) != null)
+                {
+                    iCount++;
+                }
+            }
+            s = new string[iCount];
+            iCount = 0;
+            using (StreamReader sr = new StreamReader(sFile))
+            {
+                String line;
+                // Read and display lines from the file until the end of 
+                // the file is reached.
+                while ((line = sr.ReadLine()) != null)
+                {
+                    s[iCount] = line;
+                    iCount++;
+                }
+            }
+
+            return s;
+        }
+
         public static bool putFileContent(string sTextFile, string sContent)
         {
             bool bRet = false;

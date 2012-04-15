@@ -238,19 +238,57 @@ namespace BiederDB3
                 //'danach alle Kategorien listen. Das bedeutet eine index.htm, eine left.htm,
                 //'eine main.htm, eine top.htm,
 
-            LeftHtml = "";
-            LeftHtml = "<html>" + "\r\n" + "<head>" + "\r\n" + "<title>" + "Der Biedermann - Landhausmöbel in Wuppertal" + "</title>" + "\r\n";
-            LeftHtml = LeftHtml + "<meta http-equiv=" + "\"" + "Content-Type" + "\"" + " content=" + "\"" + "text/html; charset=ISO-8859-1" + "\"" + ">" + "\r\n";
-            LeftHtml = LeftHtml + "<meta name=" + "\"" + "GENERATOR" + "\"" + " content=" + "\"" + "bieder.db (c)HJ Gode" + "\"" + ">" + "\r\n";
-            LeftHtml = LeftHtml + _settings.keywords_htm + "\r\n" + "</head>";
-            LeftHtml = LeftHtml + "<body bgcolor=" + "\"" + farbe.farben[farbe.left_bgcolor].html + "\"" + " text=" + "\"" + farbe.farben[farbe.left_txtcolor].html + "\"";
-            if (_settings.bg_left)
-                LeftHtml = LeftHtml + " background=" + "\"" + "_lftback.gif" + "\"";
-            LeftHtml = LeftHtml + " link=" + "\"" + farbe.farben[farbe.left_link].html + "\"";
-            LeftHtml = LeftHtml + " vlink=" + "\"" + farbe.farben[farbe.left_vlink].html + "\"";
-            LeftHtml = LeftHtml + " alink=" + "\"" + farbe.farben[farbe.left_alink].html + "\"" + ">" + "\r\n";
+                //left
+                LeftHtml = "";
+                LeftHtml = "<html>" + "\r\n" + "<head>" + "\r\n" + "<title>" + "Der Biedermann - Landhausmöbel in Wuppertal" + "</title>" + "\r\n";
+                LeftHtml = LeftHtml + "<meta http-equiv=" + "\"" + "Content-Type" + "\"" + " content=" + "\"" + "text/html; charset=ISO-8859-1" + "\"" + ">" + "\r\n";
+                LeftHtml = LeftHtml + "<meta name=" + "\"" + "GENERATOR" + "\"" + " content=" + "\"" + "bieder.db (c)HJ Gode" + "\"" + ">" + "\r\n";
+                LeftHtml = LeftHtml + _settings.keywords_htm + "\r\n" + "</head>";
+                LeftHtml = LeftHtml + "<body bgcolor=" + "\"" + farbe.farben[farbe.left_bgcolor].html + "\"" + " text=" + "\"" + farbe.farben[farbe.left_txtcolor].html + "\"";
+                if (_settings.bg_left)
+                    LeftHtml = LeftHtml + " background=" + "\"" + "_lftback.gif" + "\"";
+                LeftHtml = LeftHtml + " link=" + "\"" + farbe.farben[farbe.left_link].html + "\"";
+                LeftHtml = LeftHtml + " vlink=" + "\"" + farbe.farben[farbe.left_vlink].html + "\"";
+                LeftHtml = LeftHtml + " alink=" + "\"" + farbe.farben[farbe.left_alink].html + "\"" + ">" + "\r\n";
 
+                //'Start-Link
+                LeftHtml = LeftHtml + "<table bgcolor=" + "\"" + farbe.farben[farbe.left_tbl_bgcolor].html + "\"";
+                LeftHtml = LeftHtml + " bordercolor=" + "\"" + farbe.farben[farbe.left_tbl_bordercolor].html + "\"";
+                LeftHtml = LeftHtml + " border=" + farbe.htmValue("2");
+                LeftHtml = LeftHtml + " bordercolorlight=" + "\"" + farbe.farben[farbe.left_bordercolorlight].html + "\"";
+                LeftHtml = LeftHtml + " bordercolordark=" + "\"" + farbe.farben[farbe.left_bordercolordark].html + "\"" + ">" + "\r\n";
+                LeftHtml = LeftHtml + "<tr><td align=" + farbe.htmValue("center") + "><a href=" + farbe.htmValue(_settings.startSeite) + " target=" + farbe.htmValue("_parent") + ">" + "START" + "</a><br></td></tr>" + "\r\n" + 
+                    "<tr><td align=" + farbe.htmValue("center") + "><a href=" + farbe.htmValue("aktuell.htm") + " target=" + farbe.htmValue("main") + ">" + "Aktuelles" + "</a><br></td></tr>" + "\r\n";
 
+                if (System.IO.File.Exists(Utils.AppPath + "stdgrp.txt")){
+                    string[] sInput = Utils.readLinesFromFile(Utils.AppPath + "stdgrp.txt");
+                    StandardText = "";
+                    for(int x=0; x<sInput.Length; x++)
+                        StandardText=Text2.Text + sInput[x] + Constants.vbCrLf;
+                }
+                else{
+                    StandardText = "Auf den Produktübersichtseiten finden Sie im oberen Bereich Zahlen für die einzelnen Seiten." +
+                        Constants.vbCrLf +
+                        "Klicken Sie auf die Seitenzahlen, um zwischen den Seiten zu wechseln." + Constants.vbCrLf +
+                        "Die Produktübersichtseiten enthalten kleine Abbildungen und Texte dazu." + Constants.vbCrLf + 
+                        "Klicken Sie auf eine Abbildung, um das Produktbild zu vergrössern.";
+                }
+
+                //'Portal-Texte lesen
+                PortalTexte = new string[List2.Items.Count];
+                    dataclasses.Gruppentexte _gruppen = new BiederDB3.dataclasses.Gruppentexte();
+                for(int i1 = 0; i1<List2.Items.Count;i1++){
+                    dataclasses.Gruppentexte.gruppentext _gText = (dataclasses.Gruppentexte.gruppentext) List2.Items[i1];
+                    PortalTexte[i1] = _gText.Gruppentext;
+
+                    //snap = db.CreateSnapshot("select Produkttext from HoofdGroep where hgr_id = " & VB6.GetItemData(List2, i))
+                    //If (IsDBNull(snap.Fields("Produkttext").Value)) Then
+                    //    PortalTexte(i) = text2htm(StandardText)
+                    //Else
+                    //    PortalTexte(i) = text2htm(snap.Fields("Produkttext").Value.ToString())
+                    //End If
+                }
+                //'Portal-Texte lesen ENDE
             }
 
 
