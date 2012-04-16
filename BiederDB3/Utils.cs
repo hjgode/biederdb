@@ -106,9 +106,12 @@ namespace BiederDB3
             bool bRet = false;
             try
             {
-                string sPath = Utils.AppPath;
-                if (System.Diagnostics.Debugger.IsAttached)
-                    sPath += "\\content\\";
+                string sPath="";
+                if(!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName( sTextFile))){
+                    sPath = Utils.AppPath;
+                    if (System.Diagnostics.Debugger.IsAttached)
+                        sPath += "\\content\\";
+                }
                 using (StreamWriter sw = new StreamWriter(sPath + sTextFile))
                 {
                     sw.WriteLine(sContent);
@@ -253,6 +256,221 @@ namespace BiederDB3
         public static string Right(string s, int len)
         {
             return s.Substring(s.Length - len);
+        }
+        public static string EscapeHtml(string inp)
+        {
+            string htm="";
+            int l;
+		    htm = "";
+		    for( l = 0; l<inp.Length; l++){
+			    switch (inp[l]){// Case Mid(inp, l, 1)
+				    case 'ä':
+					    htm = htm + "&auml;";
+                        break;
+				    case 'ö':
+					    htm = htm + "&ouml;";
+                        break;
+				    case 'ü':
+					    htm = htm + "&uuml;";
+                        break;
+				    case 'ß':
+					    htm = htm + "&szlig;";
+                        break;
+				    case 'Ä':
+					    htm = htm + "&Auml;";
+                        break;
+				    case 'Ö':
+					    htm = htm + "&Ouml;";
+                        break;
+				    case 'Ü':
+					    htm = htm + "&Uuml;";
+                        break;
+				    case '<':
+					    htm = htm + "&lt;";
+                        break;
+				    case '>':
+					    htm = htm + "&gt;";
+                        break;
+				    case '\r': //Is = Chr(13)
+					    htm = htm + "<br>";
+                        break;
+				    case '\n': //Is = Chr(10)
+					    //htm = htm;
+                        break;
+				    case 'Ø':// Is = Chr(216)
+					    htm = htm + "&Oslash;";
+                        break;
+				    default:
+					    htm = htm + inp[l];
+                        break;
+			    }
+		    }
+		    return htm;
+        }
+
+        public static string EscapeLink(String sIn){
+		    //'Wandelt Zeichen im String l in ISO-Code (zb Blank->%20)
+            int i=0;
+            string tmp;		
+		    tmp = "";
+            //tmp = System.Uri.EscapeDataString(sIn);
+            //return tmp;
+
+            byte[] bytes = Encoding.UTF8.GetBytes(sIn);
+            for (i = 0; i<sIn.Length; i++){
+                switch (sIn[i])
+                {
+                    case 'Ä':
+                        tmp += "%C4";
+                        break;
+                    case 'ä':
+                        tmp += "%E4";
+                        break;
+                    case 'Ö':
+                        tmp += "%D6";
+                        break;
+                    case 'ö':
+                        tmp += "%F6";
+                        break;
+                    case 'Ü':
+                        tmp += "%DC";
+                        break;
+                    case 'ü':
+                        tmp += "%FC";
+                        break;
+                    case 'ß':
+                        tmp += "%DF";
+                        break;
+                    default:
+                        tmp += sIn[i];
+                        break;
+                }
+                //if (bytes[i] > 48 && bytes[i] <= 127)
+                //{
+                //    tmp += Encoding.UTF8.GetString(bytes, i, 1);
+                //}
+                //else
+                //{
+                //    if (bytes[i] > 127)
+                //        tmp += "%" + string.Format("{0:x2}", Encoding.UTF8.GetString(bytes, i, 1));
+                //    else
+                //        tmp += Encoding.UTF8.GetString(bytes, i, 1);
+                //}
+            }
+		    //'Ä %C4, ä %E4, Ö %D6, ö %F6, Ü %DC, ü %FC, ß %DF
+		    return tmp;
+        }
+        public static bool isReadOnly(string sFile)
+        {
+            bool bRet = false;
+            if (System.IO.File.Exists(sFile))
+            {
+                if (System.IO.File.GetAttributes(sFile) == FileAttributes.ReadOnly)
+                    bRet = true;
+                else
+                    bRet = false;
+            }
+            else
+                bRet = false;
+            return bRet;
+        }
+        public static string Info_anfordern
+        {
+            get { return "http://cgi05.puretec.de/cgi-bin/fb_form?clsid=86ee91a0ccefec60568de1c4fd0c0460"; }
+        }
+        public static string Counter_htm
+        {
+            get { return "<img  src=" + Constants.ii + "http://cgicounter.puretec.de/cgi-bin/cnt?clsid=86ee91a0ccefec60568de1c4fd0c04601" + Constants.ii + ">"; }
+        }
+        public static string LoadFrameSet
+        {
+            get
+            {
+                BiederDBSettings2 _sett = new BiederDBSettings2();
+                return "<script language=" + Constants.ii + "JavaScript" + Constants.ii + Constants.vbCrLf + "><!--" + 
+                    Constants.vbCrLf + "if(top.frames.length < 1)" + Constants.vbCrLf + "top.location.href=" + Constants.ii + 
+                    _sett.startSeite + Constants.ii + ";" + Constants.vbCrLf + "// -->" + Constants.vbCrLf + "</script>";
+            }
+        }
+        public static string Top_Gif
+        {
+            get { 
+                BiederDBSettings2 _sett = new BiederDBSettings2();
+                return "<a href=" + Constants.ii + _sett.startSeite + Constants.ii + " target=" + Constants.ii + "_parent" + Constants.ii + "><img src=" + Constants.ii + "_topback.gif" + Constants.ii + " width=" + Constants.ii + "600" + Constants.ii + " height=" + Constants.ii + "60" + Constants.ii + " alt border=" + Constants.ii + "0" + Constants.ii + "></a><br>"; 
+            }
+        }
+        public static string htmValue(string inp)
+        {
+            string sRet = Constants.ii+Constants.ii;
+            if (inp != "")
+                sRet = Constants.ii + inp + Constants.ii;
+            return sRet;
+        }
+	    public static string text2htm(String inp){
+            string htm="";
+		    if (inp == ""){
+			    htm = Constants.ii + Constants.ii;
+			    return htm;
+		    }
+            int l;
+		    htm = "";
+		    for( l = 0; l<inp.Length; l++){
+			    switch (inp[l]){// Case Mid(inp, l, 1)
+				    case 'ä':
+					    htm = htm + "&auml;";
+                        break;
+				    case 'ö':
+					    htm = htm + "&ouml;";
+                        break;
+				    case 'ü':
+					    htm = htm + "&uuml;";
+                        break;
+				    case 'ß':
+					    htm = htm + "&szlig;";
+                        break;
+				    case 'Ä':
+					    htm = htm + "&Auml;";
+                        break;
+				    case 'Ö':
+					    htm = htm + "&Ouml;";
+                        break;
+				    case 'Ü':
+					    htm = htm + "&Uuml;";
+                        break;
+				    case '<':
+					    htm = htm + "&lt;";
+                        break;
+				    case '>':
+					    htm = htm + "&gt;";
+                        break;
+				    case '\r': //Is = Chr(13)
+					    htm = htm + "<br>";
+                        break;
+				    case '\n': //Is = Chr(10)
+					    //htm = htm;
+                        break;
+				    case 'Ø':// Is = Chr(216)
+					    htm = htm + "&Oslash;";
+                        break;
+				    default:
+					    htm = htm + inp[l];
+                        break;
+			    }
+		    }
+		    return htm;
+        }
+        public static bool existfile(string sFile)
+        {
+            bool bRet = false;
+            try
+            {
+                if (System.IO.File.Exists(sFile))
+                    bRet = true;
+            }
+            catch (Exception)
+            {
+            }
+            return bRet;
         }
     }
     public static class Strings
