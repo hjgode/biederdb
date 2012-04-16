@@ -163,7 +163,68 @@ namespace BiederDB3.dataclasses
             }
             return dt;
         }
+        
+        public artikel[] selectArtikel(string sSelect)
+        {
+            artikel[] liste = null;
+            if (!db.connected)
+                db.doConnect();
+            DataTable dt = new DataTable();
+            if (!db.connected)
+                db.doConnect();
+            try
+            {
+                //test for SortOrder field
+                OleDbCommand cmd;
+                OleDbDataAdapter da = new OleDbDataAdapter();
+                //DataSet ds = new DataSet();
+                cmd = new OleDbCommand(sSelect, db._connection);
 
+                LoggerClass.log("Executing: " + cmd.CommandText);
+
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+                liste = new artikel[dt.Rows.Count];
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    string sArtNr = "";
+                    string sOmschrijving = "";
+                    string sFoto = "";
+                    Single iH_PrijsOnb = 0;
+                    Single iH_PrijsBew = 0;
+                    Single iW_PrijsOnb = 0;
+                    Single iW_PrijsBew = 0;
+                    Single iBesteld = 0;
+                    string sMaat = "";
+                    bool bBewerkt = false;
+                    int iHgr_Id = 0;
+                    int iArt_ID = 0;
+
+                    sArtNr = dt.Rows[i]["ArtNr"].ToString();
+                    System.Diagnostics.Debug.WriteLine("Reader: read='" + sArtNr + "'");
+                    sOmschrijving = dt.Rows[i]["Omschrijving"].ToString();
+                    sFoto = dt.Rows[i]["Foto"].ToString();
+                    iH_PrijsOnb = (Single)dt.Rows[i]["H_PrijsOnb"];
+                    iH_PrijsBew = (Single)dt.Rows[i]["H_PrijsBew"];
+                    iW_PrijsOnb = (Single)dt.Rows[i]["W_PrijsOnb"];
+                    iW_PrijsBew = (Single)dt.Rows[i]["W_PrijsBew"];
+                    iBesteld = (Single)dt.Rows[i]["Besteld"];
+                    sMaat = dt.Rows[i]["Maat"].ToString();
+                    bBewerkt = (bool)dt.Rows[i]["Bewerkt"];
+                    iHgr_Id = (int)dt.Rows[i]["Hgr_Id"];
+                    iArt_ID = (int)dt.Rows[i]["Art_ID"];
+
+                    liste[i] = (new artikel(sArtNr, sOmschrijving, iH_PrijsOnb, iH_PrijsBew, iW_PrijsOnb, iW_PrijsBew, iBesteld, sMaat, sFoto, bBewerkt, iHgr_Id, iArt_ID));
+                    //dict.Add(rdr[""].ToString(), rdr[].ToString());
+
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerClass.log("Datenbank: getTable. Exception: " + ex.Message);
+            }
+            return liste;
+        }
         public artikel[] getArtikel(string sFilter)
         {
             artikel[] liste = null;
