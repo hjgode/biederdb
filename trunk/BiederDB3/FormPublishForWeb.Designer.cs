@@ -74,6 +74,7 @@
             this.bt_AktuellBearbeiten.TabIndex = 52;
             this.bt_AktuellBearbeiten.Text = "Aktuell bearbeiten";
             this.bt_AktuellBearbeiten.UseVisualStyleBackColor = false;
+            this.bt_AktuellBearbeiten.Click += new System.EventHandler(this.bt_AktuellBearbeiten_Click);
             // 
             // bt_view
             // 

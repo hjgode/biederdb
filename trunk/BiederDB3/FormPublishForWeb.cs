@@ -784,5 +784,36 @@ ExitFor_Artikel:
             p.Start();
         }
 
+        private void bt_AktuellBearbeiten_Click(object sender, EventArgs e)
+        {
+            string sRootPath = _settings.webRoot;
+            if (!sRootPath.EndsWith("\\"))
+                sRootPath += "\\";
+            IntPtr lastError;
+
+            string aktuellHtm = sRootPath + "aktuell.htm";
+	        if (System.IO.File.Exists(aktuellHtm)) {
+                if(Utils.showQuestionYesNo("Vorhandene aktuell.htm bearbeiten (J) oder überschreiben (N)?", _settings.webRoot + "aktuell.htm vorhanden"))
+                {
+                    lastError = Utils.ShellExecute(this.Handle, "Edit", aktuellHtm, "", "", Utils.SW_SHOWMAXIMIZED);
+                    if (lastError.ToInt32() < 32)
+                        Utils.showErrorMsg("Fehler " + lastError.ToInt32().ToString() + " beim Öffnen von " + aktuellHtm, "ShellExecute");
+		        }
+                else 
+                {
+                    System.IO.File.Copy(aktuellHtm, _settings.webRoot + "aktuell.htm",true);
+                    lastError = Utils.ShellExecute(this.Handle, "Edit", aktuellHtm, "", "", Utils.SW_SHOWMAXIMIZED);
+                    if (lastError.ToInt32() < 32)
+                        Utils.showErrorMsg("Fehler " + lastError.ToInt32().ToString() + " beim Öffnen von " + aktuellHtm, "ShellExecute");
+                }
+	        } else {
+		        System.IO.File.Copy(Utils.AppPath + "aktuell.htm", aktuellHtm,true);
+                lastError = Utils.ShellExecute(this.Handle, "Edit", aktuellHtm, "", "", Utils.SW_SHOWMAXIMIZED);
+                if (lastError.ToInt32() < 32)
+                    Utils.showErrorMsg("Fehler " + lastError.ToInt32().ToString() + " beim Öffnen von " + aktuellHtm, "ShellExecute");
+            }
+
+        }
+
     }
 }

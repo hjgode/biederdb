@@ -80,7 +80,26 @@ namespace BiederDB3
 
         private void mnuWebCleanup_Click(object sender, EventArgs e)
         {
-
+	        string foto1 = null;
+	        int dAnzahl = 0;
+	        if (Utils.showQuestionYesNo("Alle Datensätze, bei denen das Foto nicht gefunden werden kann auf Besteld=0 setzen? Sie werden dann nicht mehr im WEB publiziert.", "Frage")==false)
+		        return;
+            dataclasses.Artikel artikel = new BiederDB3.dataclasses.Artikel();
+            dataclasses.Artikel.artikel[] _artikel = artikel.selectArtikel("SELECT * FROM Artikel where Besteld>0 order By ArtNr");
+	        if ( _artikel.Length == 0) {
+		        Utils.showInfoMsg("Es wurden keine Daten mit Besteld>0 gefunden! Verarbeitung wird abgebrochen.", "FEHLER");
+		        return;
+	        }
+	        dAnzahl = 0;
+            foreach(dataclasses.Artikel.artikel art in _artikel){
+		        foto1 = art.Foto;// dy.Fields("Foto").Value.ToString();
+		        if (System.IO.File.Exists(foto1)==false) {
+			        dAnzahl = dAnzahl + 1;
+                    art.Besteld = 0;
+                    artikel.update(art);
+		        }
+	        }
+	        Utils.showInfoMsg("Es wurden " + dAnzahl + " Datensätze geändert.", "Daten bereinigt");
         }
 
         private void btnDataEdit_Click(object sender, EventArgs e)
