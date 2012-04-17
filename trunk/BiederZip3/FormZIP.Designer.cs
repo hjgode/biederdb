@@ -1,6 +1,6 @@
 ﻿namespace BiederZip3
 {
-    partial class Form1
+    partial class FormZIP
     {
         /// <summary>
         /// Required designer variable.
@@ -43,9 +43,9 @@
             this.opt_overwrite = new System.Windows.Forms.CheckBox();
             this.txtExtractTo = new System.Windows.Forms.TextBox();
             this.bt_targetdir = new System.Windows.Forms.Button();
+            this.Command1 = new System.Windows.Forms.Button();
             this.bt_restore = new System.Windows.Forms.Button();
             this.Text3 = new System.Windows.Forms.TextBox();
-            this.Command1 = new System.Windows.Forms.Button();
             this.Text2 = new System.Windows.Forms.TextBox();
             this.bt_remove = new System.Windows.Forms.Button();
             this.bt_zip_start = new System.Windows.Forms.Button();
@@ -82,6 +82,7 @@
             this.bt_add.TabIndex = 5;
             this.bt_add.Text = "&Hinzufügen";
             this.bt_add.UseVisualStyleBackColor = false;
+            this.bt_add.Click += new System.EventHandler(this.bt_add_Click);
             // 
             // List1
             // 
@@ -275,6 +276,20 @@
             this.bt_targetdir.Text = "&Zielverz.:";
             this.bt_targetdir.UseVisualStyleBackColor = false;
             // 
+            // Command1
+            // 
+            this.Command1.BackColor = System.Drawing.SystemColors.Control;
+            this.Command1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.Command1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Command1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Command1.Location = new System.Drawing.Point(9, 16);
+            this.Command1.Name = "Command1";
+            this.Command1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Command1.Size = new System.Drawing.Size(73, 22);
+            this.Command1.TabIndex = 10;
+            this.Command1.Text = "&Quelldatei:";
+            this.Command1.UseVisualStyleBackColor = false;
+            // 
             // bt_restore
             // 
             this.bt_restore.BackColor = System.Drawing.SystemColors.Control;
@@ -303,20 +318,6 @@
             this.Text3.Size = new System.Drawing.Size(217, 20);
             this.Text3.TabIndex = 11;
             this.Text3.Text = "C:\\Eigene Dateien\\biederdb.zip";
-            // 
-            // Command1
-            // 
-            this.Command1.BackColor = System.Drawing.SystemColors.Control;
-            this.Command1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.Command1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Command1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Command1.Location = new System.Drawing.Point(9, 16);
-            this.Command1.Name = "Command1";
-            this.Command1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Command1.Size = new System.Drawing.Size(73, 22);
-            this.Command1.TabIndex = 10;
-            this.Command1.Text = "&Quelldatei:";
-            this.Command1.UseVisualStyleBackColor = false;
             // 
             // Text2
             // 
@@ -374,6 +375,7 @@
             this.bt_autofill.TabIndex = 20;
             this.bt_autofill.Text = "Automatisch";
             this.bt_autofill.UseVisualStyleBackColor = false;
+            this.bt_autofill.Click += new System.EventHandler(this.bt_autofill_Click);
             // 
             // Frame1
             // 
@@ -401,7 +403,7 @@
             this.Frame1.TabStop = false;
             this.Frame1.Text = "Backup:";
             // 
-            // Form1
+            // FormZIP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -413,7 +415,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "FormZIP";
             this.Text = "BiederDBZip3";
             this.Frame2.ResumeLayout(false);
             this.Frame2.PerformLayout();
