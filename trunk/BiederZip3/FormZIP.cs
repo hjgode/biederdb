@@ -46,7 +46,9 @@ namespace BiederZip3
 
             BiederDB3.Datenbank _db = new BiederDB3.Datenbank();
             int iResult = _db.executeQuery("Drop table VList;");
+
             iResult = _db.executeQuery("SELECT DISTINCT FOTO INTO VList FROM Artikel where Besteld>0");
+
             //DataTable _dt = _db.getTable("SELECT DISTINCT FOTO INTO VList FROM Artikel where Besteld>0");
             BiederDB3.dataclasses.VList _vlist = new BiederDB3.dataclasses.VList();
             BiederDB3.dataclasses.VList.vlist[] vListe = _vlist.getVList("");
