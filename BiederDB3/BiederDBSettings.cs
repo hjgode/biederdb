@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Xml;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -167,7 +168,7 @@ namespace BiederDB3
                 if (System.IO.File.Exists(keyfile))
                 {
                     s = "";
-                    using (StreamReader sr = new StreamReader(keyfile))
+                    using (StreamReader sr = new StreamReader(keyfile, Encoding.GetEncoding(1252)))
                     {
                         String line;
                         // Read and display lines from the file until the end of 
@@ -194,7 +195,7 @@ namespace BiederDB3
                 string sDer_Biedermann="";
                 if(System.IO.File.Exists(Utils.AppPath+ "Der_Biedermann.txt"))
                 {
-                    using (StreamReader sr = new StreamReader(Utils.AppPath+ "Der_Biedermann.txt"))
+                    using (StreamReader sr = new StreamReader(Utils.AppPath + "Der_Biedermann.txt", Encoding.GetEncoding(1252)))
                     {
                         String line;
                         // Read and display lines from the file until the end of 

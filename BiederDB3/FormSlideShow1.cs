@@ -52,7 +52,7 @@ namespace BiederDB3
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine("Exception in loadImage: " + sFile+"'");
+                    System.Diagnostics.Debug.WriteLine("Exception in loadImage: " + sFile+"' Ex="+ex.Message);
                 }
             }
             else
@@ -118,32 +118,32 @@ namespace BiederDB3
             frm.ShowDialog();
             return;
 
-            string sCmd="";
-            if (chkSelectAll.Checked)
-                sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID  where Artikel.Besteld>1;";
-            else
-                sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID  where Artikel.Besteld>1 AND Artikel.HGR_ID=" + ((dataclasses.Gruppentexte.gruppentext)cboGruppenAuswahl.SelectedItem).ID.ToString() + ";";
-            if (System.Diagnostics.Debugger.IsAttached)
-                sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID;";
+            //string sCmd="";
+            //if (chkSelectAll.Checked)
+            //    sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID  where Artikel.Besteld>1;";
+            //else
+            //    sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID  where Artikel.Besteld>1 AND Artikel.HGR_ID=" + ((dataclasses.Gruppentexte.gruppentext)cboGruppenAuswahl.SelectedItem).ID.ToString() + ";";
+            //if (System.Diagnostics.Debugger.IsAttached)
+            //    sCmd = "SELECT Artikel.*, Hoofdgroep.Hoofdgroep FROM Hoofdgroep RIGHT JOIN Artikel ON Hoofdgroep.Hgr_ID = Artikel.Hgr_ID;";
             
-            dt = db.getTable(sCmd);
-            //ds = db.getDataset(sCmd, ref iCount);
-            //if (iCount == 0)
-            iCurrentMax=dt.Rows.Count;
-            if(iCurrentMax==0)
-            {
-                Utils.showErrorMsg("Keine Daten mit dieser Auswahl vorhanden", "Fehler bei Gruppenauswahl");
-                return;
-            }
-            LoggerClass.log("Slideshow started with " + iCurrentMax.ToString() + " articles...");
-            _sImageList = new string[dt.Rows.Count];
-            for (int i = 0; i < iCurrentMax; i++)
-            {                
-                _sImageList[i] = dt.Rows[i]["foto"].ToString();
-            }
+            //dt = db.getTable(sCmd);
+            ////ds = db.getDataset(sCmd, ref iCount);
+            ////if (iCount == 0)
+            //iCurrentMax=dt.Rows.Count;
+            //if(iCurrentMax==0)
+            //{
+            //    Utils.showErrorMsg("Keine Daten mit dieser Auswahl vorhanden", "Fehler bei Gruppenauswahl");
+            //    return;
+            //}
+            //LoggerClass.log("Slideshow started with " + iCurrentMax.ToString() + " articles...");
+            //_sImageList = new string[dt.Rows.Count];
+            //for (int i = 0; i < iCurrentMax; i++)
+            //{                
+            //    _sImageList[i] = dt.Rows[i]["foto"].ToString();
+            //}
 
-            _timer.Enabled = true;
-            btnStart.Text="STOP";
+            //_timer.Enabled = true;
+            //btnStart.Text="STOP";
         }
         private int RandomNumber(int min, int max)
         {

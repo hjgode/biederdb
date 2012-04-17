@@ -41,5 +41,9 @@ namespace BiederDB3
             sPath = _appPath;
             //fillList(sPath);
         }
+        public ListBox.ObjectCollection Items
+        {
+            get { return listBox1.Items; }
+        }
     }
 }

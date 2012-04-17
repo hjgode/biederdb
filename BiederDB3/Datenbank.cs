@@ -127,7 +127,7 @@ namespace BiederDB3
                     s = s.Replace("''", "'");   // single quotes are special in msaccess
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 
             }
@@ -142,7 +142,7 @@ namespace BiederDB3
                 if (o != null)
                     i = (int)o;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
             }
@@ -157,7 +157,7 @@ namespace BiederDB3
                 if (o != null)
                     i = (Single)o;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
             }
@@ -172,7 +172,7 @@ namespace BiederDB3
                 if (o != null)
                     i = (bool)o;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
             }
@@ -187,7 +187,7 @@ namespace BiederDB3
                 if (o != null)
                     return (T)(o);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
             }
