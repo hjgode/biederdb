@@ -107,7 +107,7 @@ namespace BiederDB3
             }
             catch (Exception eExcep)
             {
-                Utils.showErrorMsg(strImageFileName, "Can't load image A");
+                Utils.showErrorMsg(strImageFileName + " " + eExcep.Message, "Can't load image A");
                 return;
             }
 
@@ -125,7 +125,7 @@ namespace BiederDB3
             }
             catch (Exception eExcep)
             {
-                Utils.showErrorMsg(strImageFileName, "Can't load image B");
+                Utils.showErrorMsg(strImageFileName + " " + eExcep.Message, "Can't load image B");
                 return;
             }
 

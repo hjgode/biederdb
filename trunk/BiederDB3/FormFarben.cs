@@ -61,8 +61,8 @@ namespace BiederDB3
             txt = txt + "<font color=" + Constants.ii + farbe.farben[farbe.kategorie_vlink].html + Constants.ii + ">Textfarbe besuchter Link</font><br>" + Constants.vbCrLf;
             txt = txt + "<font color=" + Constants.ii + farbe.farben[farbe.kategorie_alink].html + Constants.ii + ">Textfarbe aktiver Link</font><br>" + Constants.vbCrLf;
             txt = txt + "</body></html>" + Constants.vbCrLf;
-            
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\kategorie.htm"))
+
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\kategorie.htm", false, Encoding.GetEncoding(1252)))
             {
                 sw.WriteLine(txt);
             }
@@ -83,7 +83,7 @@ namespace BiederDB3
             txt = txt + "<font color=" + Constants.ii + farbe.farben[farbe.artikel_alink].html + Constants.ii + ">Textfarbe aktiver Link</font><br>" + Constants.vbCrLf;
             txt = txt + "</body></html>" + Constants.vbCrLf;
 
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\artikel.htm"))
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\artikel.htm", false, Encoding.GetEncoding(1252)))
             {
                 sw.WriteLine(txt);
             }
@@ -105,7 +105,7 @@ namespace BiederDB3
             txt = txt + "<font color=" + Constants.ii + farbe.farben[farbe.portal_alink].html + Constants.ii + ">Textfarbe aktiver Link</font><br>" + Constants.vbCrLf;
             txt = txt + "</body></html>" + Constants.vbCrLf;
 
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\portal.htm"))
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\portal.htm", false, Encoding.GetEncoding(1252)))
             {
                 sw.WriteLine(txt);
             }
@@ -133,8 +133,8 @@ namespace BiederDB3
             txt = txt + " bordercolordark=" + Constants.ii + farbe.farben[farbe.left_bordercolordark].html + Constants.ii + ">";
             txt = txt + " <tr><td>Tabellentext<br>Rahmenfarbe normal,<br>hell und dunkel</td></tr>" + Constants.vbCrLf;
             txt = txt + "</body></html>" + Constants.vbCrLf;
-            
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\left.htm"))
+
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "sample\\left.htm", false, Encoding.GetEncoding(1252)))
             {
                 sw.WriteLine(txt);
             }
@@ -179,7 +179,7 @@ namespace BiederDB3
             htm = htm + _settings.Der_Biedermann;
             htm = htm + "</body>";
             htm = htm + "</html>";
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "_top.htm"))
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "_top.htm", false, Encoding.GetEncoding(1252)))
             {
                 sw.WriteLine(htm);
             }

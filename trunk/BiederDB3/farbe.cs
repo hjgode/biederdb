@@ -78,7 +78,7 @@ namespace BiederDB3
         }
         public static void write_colors()
         {
-            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "\\colors.dat"))
+            using (StreamWriter sw = new StreamWriter(Utils.AppPath + "\\colors.dat", false, Encoding.GetEncoding(1252)))
             {
                 for (int i = 0; i < max_colors; i++)
                 {
@@ -137,7 +137,7 @@ namespace BiederDB3
             }
             else
             {
-                using (StreamReader sr = new StreamReader(Utils.AppPath + "colors.dat"))
+                using (StreamReader sr = new StreamReader(Utils.AppPath + "colors.dat", Encoding.GetEncoding(1252)))
                 {
                     String line;
                     // Read and display lines from the file until the end of 

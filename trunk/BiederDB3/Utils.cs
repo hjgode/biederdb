@@ -44,7 +44,7 @@ namespace BiederDB3
                 string sPath = Utils.AppPath;
                 if (System.Diagnostics.Debugger.IsAttached)
                     sPath += "\\content\\";
-                using (StreamReader tr = new StreamReader(sPath + sTextFile))
+                using (StreamReader tr = new StreamReader(sPath + sTextFile, Encoding.GetEncoding(1252)))
                 {
                     s = tr.ReadToEnd();
                 }
@@ -58,7 +58,7 @@ namespace BiederDB3
         public static string readFromFile(string sFile)
         {
             string s = "";
-            using (StreamReader sr = new StreamReader(sFile))
+            using (StreamReader sr = new StreamReader(sFile, Encoding.GetEncoding(1252)))
             {
                 String line;
                 // Read and display lines from the file until the end of 
@@ -74,7 +74,7 @@ namespace BiederDB3
         {
             string[] s;
             int iCount = 0;
-            using (StreamReader sr = new StreamReader(sFile))
+            using (StreamReader sr = new StreamReader(sFile, Encoding.GetEncoding(1252)))
             {
                 String line;
                 // Read and display lines from the file until the end of 
@@ -86,7 +86,7 @@ namespace BiederDB3
             }
             s = new string[iCount];
             iCount = 0;
-            using (StreamReader sr = new StreamReader(sFile))
+            using (StreamReader sr = new StreamReader(sFile, Encoding.GetEncoding(1252)))
             {
                 String line;
                 // Read and display lines from the file until the end of 
@@ -112,7 +112,7 @@ namespace BiederDB3
                     if (System.Diagnostics.Debugger.IsAttached)
                         sPath += "\\content\\";
                 }
-                using (StreamWriter sw = new StreamWriter(sPath + sTextFile))
+                using (StreamWriter sw = new StreamWriter(sPath + sTextFile, false, Encoding.GetEncoding(1252)))
                 {
                     sw.WriteLine(sContent);
                     sw.Flush();

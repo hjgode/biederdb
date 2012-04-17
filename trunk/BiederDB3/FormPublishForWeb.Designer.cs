@@ -56,6 +56,9 @@
             this.Label3 = new System.Windows.Forms.Label();
             this.Label2 = new System.Windows.Forms.Label();
             this.Label1 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.File1 = new BiederDB3.FileListBox();
             this.SuspendLayout();
             // 
@@ -84,6 +87,7 @@
             this.bt_view.TabIndex = 51;
             this.bt_view.Text = "Anzeigen";
             this.bt_view.UseVisualStyleBackColor = false;
+            this.bt_view.Click += new System.EventHandler(this.bt_view_Click);
             // 
             // txt_StartSeite
             // 
@@ -129,6 +133,7 @@
             this.bt_ab.Text = "¯";
             this.ToolTip1.SetToolTip(this.bt_ab, "Eintrag nach unten schieben");
             this.bt_ab.UseVisualStyleBackColor = false;
+            this.bt_ab.Click += new System.EventHandler(this.bt_ab_Click);
             // 
             // bt_auf
             // 
@@ -144,6 +149,7 @@
             this.bt_auf.Text = "­";
             this.ToolTip1.SetToolTip(this.bt_auf, "Eintrag nach oben schieben");
             this.bt_auf.UseVisualStyleBackColor = false;
+            this.bt_auf.Click += new System.EventHandler(this.bt_auf_Click);
             // 
             // chk_nur1Gruppe
             // 
@@ -284,7 +290,7 @@
             this.filesList.BackColor = System.Drawing.SystemColors.Window;
             this.filesList.Cursor = System.Windows.Forms.Cursors.Default;
             this.filesList.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.filesList.Location = new System.Drawing.Point(356, 307);
+            this.filesList.Location = new System.Drawing.Point(356, 329);
             this.filesList.Name = "filesList";
             this.filesList.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.filesList.Size = new System.Drawing.Size(129, 56);
@@ -296,7 +302,7 @@
             this.weblist.BackColor = System.Drawing.SystemColors.Window;
             this.weblist.Cursor = System.Windows.Forms.Cursors.Default;
             this.weblist.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.weblist.Location = new System.Drawing.Point(220, 307);
+            this.weblist.Location = new System.Drawing.Point(220, 329);
             this.weblist.Name = "weblist";
             this.weblist.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.weblist.Size = new System.Drawing.Size(129, 56);
@@ -416,10 +422,46 @@
             this.Label1.TabIndex = 30;
             this.Label1.Text = "1. Kategorien auswählen:";
             // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.SystemColors.Control;
+            this.label7.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label7.Location = new System.Drawing.Point(12, 309);
+            this.label7.Name = "label7";
+            this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label7.Size = new System.Drawing.Size(121, 17);
+            this.label7.TabIndex = 36;
+            this.label7.Text = "Verzeichnis:";
+            // 
+            // label8
+            // 
+            this.label8.BackColor = System.Drawing.SystemColors.Control;
+            this.label8.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label8.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label8.Location = new System.Drawing.Point(220, 309);
+            this.label8.Name = "label8";
+            this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label8.Size = new System.Drawing.Size(121, 17);
+            this.label8.TabIndex = 36;
+            this.label8.Text = "Für Internet:";
+            // 
+            // label9
+            // 
+            this.label9.BackColor = System.Drawing.SystemColors.Control;
+            this.label9.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label9.Location = new System.Drawing.Point(355, 309);
+            this.label9.Name = "label9";
+            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label9.Size = new System.Drawing.Size(121, 17);
+            this.label9.TabIndex = 36;
+            this.label9.Text = "Überflüssig:";
+            // 
             // File1
             // 
-            this.File1._sPath = "C:\\Programme\\Microsoft Visual Studio 9.0\\Common7\\IDE";
-            this.File1.Location = new System.Drawing.Point(12, 307);
+            this.File1._sPath = "C:\\Program Files (x86)\\Microsoft Visual Studio 9.0\\Common7\\IDE\\";
+            this.File1.Location = new System.Drawing.Point(12, 329);
             this.File1.Name = "File1";
             this.File1.Size = new System.Drawing.Size(121, 56);
             this.File1.TabIndex = 53;
@@ -428,7 +470,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(499, 372);
+            this.ClientSize = new System.Drawing.Size(499, 397);
             this.ControlBox = false;
             this.Controls.Add(this.File1);
             this.Controls.Add(this.bt_AktuellBearbeiten);
@@ -453,6 +495,9 @@
             this.Controls.Add(this.bt_start);
             this.Controls.Add(this.Label6);
             this.Controls.Add(this.Label5);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.Label4);
             this.Controls.Add(this.Label3);
             this.Controls.Add(this.Label2);
@@ -499,5 +544,8 @@
         public System.Windows.Forms.Label Label2;
         public System.Windows.Forms.Label Label1;
         private FileListBox File1;
+        public System.Windows.Forms.Label label7;
+        public System.Windows.Forms.Label label8;
+        public System.Windows.Forms.Label label9;
     }
 }
