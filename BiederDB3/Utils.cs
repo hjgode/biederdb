@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Runtime.InteropServices;
 
 using System.Windows.Forms;
 
@@ -10,6 +11,15 @@ namespace BiederDB3
 {
     static class Utils
     {
+        [DllImport("shell32.dll")]
+	    public static extern IntPtr ShellExecute (IntPtr iHwnd, string lpOperation, string lpFile, string lpParams, string lpDirectory, int nShowCmd);
+        //"ShellExecuteA"(ByVal hwnd As Integer, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Integer) As Integer
+	    public const int SW_SHOWNORMAL = 1;
+        public const short SW_SHOWMAXIMIZED = 3;
+        public enum ShellExecuteErrors
+        {
+            SE_ERR_NOASSOC = 31, //There is no application associated with the given file name extension. This error will also be returned if you attempt to print a file that is not printable. 	
+        }
         static string  _appPath = "";
         public static string AppPath
         {
@@ -169,15 +179,15 @@ namespace BiederDB3
             return s;
         }
         public static void showInfoMsg(string sText, string sTitle){
-            System.Windows.Forms.MessageBox.Show(sText, sText, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
+            System.Windows.Forms.MessageBox.Show(sText, sTitle, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
         }
         public static void showErrorMsg(string sText, string sTitle)
         {
-            System.Windows.Forms.MessageBox.Show(sText, sText, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
+            System.Windows.Forms.MessageBox.Show(sText, sTitle, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
         }
         public static void showWarningMsg(string sText, string sTitle)
         {
-            System.Windows.Forms.MessageBox.Show(sText, sText, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
+            System.Windows.Forms.MessageBox.Show(sText, sTitle, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
         }
         /// <summary>
         /// show Yes No question
