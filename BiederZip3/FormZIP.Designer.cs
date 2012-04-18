@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Text1 = new System.Windows.Forms.TextBox();
+            this.txtFile = new System.Windows.Forms.TextBox();
             this.bt_add = new System.Windows.Forms.Button();
             this.List1 = new System.Windows.Forms.ListBox();
             this.bt_back = new System.Windows.Forms.Button();
@@ -43,31 +43,32 @@
             this.opt_overwrite = new System.Windows.Forms.CheckBox();
             this.txtExtractTo = new System.Windows.Forms.TextBox();
             this.bt_targetdir = new System.Windows.Forms.Button();
-            this.Command1 = new System.Windows.Forms.Button();
+            this.bt_ZipFileRestore = new System.Windows.Forms.Button();
             this.bt_restore = new System.Windows.Forms.Button();
-            this.Text3 = new System.Windows.Forms.TextBox();
-            this.Text2 = new System.Windows.Forms.TextBox();
+            this.txtRestoreFile = new System.Windows.Forms.TextBox();
+            this.txtBackupfile = new System.Windows.Forms.TextBox();
             this.bt_remove = new System.Windows.Forms.Button();
             this.bt_zip_start = new System.Windows.Forms.Button();
             this.bt_autofill = new System.Windows.Forms.Button();
             this.Frame1 = new System.Windows.Forms.GroupBox();
+            this.bt_TEST = new System.Windows.Forms.Button();
             this.Frame2.SuspendLayout();
             this.Frame1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // Text1
+            // txtFile
             // 
-            this.Text1.AcceptsReturn = true;
-            this.Text1.BackColor = System.Drawing.SystemColors.Window;
-            this.Text1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.Text1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Text1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.Text1.Location = new System.Drawing.Point(103, 16);
-            this.Text1.MaxLength = 0;
-            this.Text1.Name = "Text1";
-            this.Text1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Text1.Size = new System.Drawing.Size(249, 20);
-            this.Text1.TabIndex = 4;
+            this.txtFile.AcceptsReturn = true;
+            this.txtFile.BackColor = System.Drawing.SystemColors.Window;
+            this.txtFile.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtFile.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFile.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtFile.Location = new System.Drawing.Point(9, 16);
+            this.txtFile.MaxLength = 0;
+            this.txtFile.Name = "txtFile";
+            this.txtFile.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtFile.Size = new System.Drawing.Size(343, 20);
+            this.txtFile.TabIndex = 4;
             // 
             // bt_add
             // 
@@ -75,7 +76,7 @@
             this.bt_add.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_add.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_add.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_add.Location = new System.Drawing.Point(135, 55);
+            this.bt_add.Location = new System.Drawing.Point(135, 42);
             this.bt_add.Name = "bt_add";
             this.bt_add.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.bt_add.Size = new System.Drawing.Size(73, 27);
@@ -91,10 +92,10 @@
             this.List1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.List1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.List1.ItemHeight = 14;
-            this.List1.Location = new System.Drawing.Point(103, 103);
+            this.List1.Location = new System.Drawing.Point(9, 75);
             this.List1.Name = "List1";
             this.List1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.List1.Size = new System.Drawing.Size(249, 88);
+            this.List1.Size = new System.Drawing.Size(343, 116);
             this.List1.TabIndex = 6;
             // 
             // bt_back
@@ -103,13 +104,14 @@
             this.bt_back.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_back.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_back.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_back.Location = new System.Drawing.Point(386, 383);
+            this.bt_back.Location = new System.Drawing.Point(383, 383);
             this.bt_back.Name = "bt_back";
             this.bt_back.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bt_back.Size = new System.Drawing.Size(129, 25);
+            this.bt_back.Size = new System.Drawing.Size(129, 36);
             this.bt_back.TabIndex = 25;
             this.bt_back.Text = "&Zurück zu BiederDB";
             this.bt_back.UseVisualStyleBackColor = false;
+            this.bt_back.Click += new System.EventHandler(this.bt_back_Click);
             // 
             // bt_zipfilename
             // 
@@ -124,6 +126,7 @@
             this.bt_zipfilename.TabIndex = 8;
             this.bt_zipfilename.Text = "Back&updatei:";
             this.bt_zipfilename.UseVisualStyleBackColor = false;
+            this.bt_zipfilename.Click += new System.EventHandler(this.bt_zipfilename_Click);
             // 
             // bt_search
             // 
@@ -131,13 +134,14 @@
             this.bt_search.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_search.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_search.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_search.Location = new System.Drawing.Point(8, 55);
+            this.bt_search.Location = new System.Drawing.Point(411, 59);
             this.bt_search.Name = "bt_search";
             this.bt_search.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bt_search.Size = new System.Drawing.Size(89, 27);
+            this.bt_search.Size = new System.Drawing.Size(89, 37);
             this.bt_search.TabIndex = 3;
             this.bt_search.Text = "&Datei suchen";
             this.bt_search.UseVisualStyleBackColor = false;
+            this.bt_search.Click += new System.EventHandler(this.bt_search_Click);
             // 
             // bt_close
             // 
@@ -145,13 +149,14 @@
             this.bt_close.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_close.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_close.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_close.Location = new System.Drawing.Point(386, 338);
+            this.bt_close.Location = new System.Drawing.Point(383, 341);
             this.bt_close.Name = "bt_close";
             this.bt_close.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bt_close.Size = new System.Drawing.Size(129, 25);
+            this.bt_close.Size = new System.Drawing.Size(129, 36);
             this.bt_close.TabIndex = 24;
             this.bt_close.Text = "B&eenden";
             this.bt_close.UseVisualStyleBackColor = false;
+            this.bt_close.Click += new System.EventHandler(this.bt_close_Click);
             // 
             // opt_onlynewer
             // 
@@ -175,13 +180,14 @@
             this.bt_suchdir.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_suchdir.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_suchdir.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_suchdir.Location = new System.Drawing.Point(8, 103);
+            this.bt_suchdir.Location = new System.Drawing.Point(411, 102);
             this.bt_suchdir.Name = "bt_suchdir";
             this.bt_suchdir.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bt_suchdir.Size = new System.Drawing.Size(89, 24);
+            this.bt_suchdir.Size = new System.Drawing.Size(89, 37);
             this.bt_suchdir.TabIndex = 15;
             this.bt_suchdir.Text = "&Verz. suchen";
             this.bt_suchdir.UseVisualStyleBackColor = false;
+            this.bt_suchdir.Click += new System.EventHandler(this.bt_suchdir_Click);
             // 
             // bt_change
             // 
@@ -189,13 +195,14 @@
             this.bt_change.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_change.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_change.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_change.Location = new System.Drawing.Point(207, 55);
+            this.bt_change.Location = new System.Drawing.Point(207, 42);
             this.bt_change.Name = "bt_change";
             this.bt_change.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.bt_change.Size = new System.Drawing.Size(73, 27);
             this.bt_change.TabIndex = 2;
             this.bt_change.Text = "&Bearbeiten";
             this.bt_change.UseVisualStyleBackColor = false;
+            this.bt_change.Click += new System.EventHandler(this.bt_change_Click);
             // 
             // lblFiles
             // 
@@ -207,7 +214,7 @@
             this.lblFiles.Location = new System.Drawing.Point(159, 240);
             this.lblFiles.Name = "lblFiles";
             this.lblFiles.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblFiles.Size = new System.Drawing.Size(193, 25);
+            this.lblFiles.Size = new System.Drawing.Size(340, 25);
             this.lblFiles.TabIndex = 22;
             // 
             // Frame2
@@ -217,9 +224,9 @@
             this.Frame2.Controls.Add(this.opt_overwrite);
             this.Frame2.Controls.Add(this.txtExtractTo);
             this.Frame2.Controls.Add(this.bt_targetdir);
-            this.Frame2.Controls.Add(this.Command1);
+            this.Frame2.Controls.Add(this.bt_ZipFileRestore);
             this.Frame2.Controls.Add(this.bt_restore);
-            this.Frame2.Controls.Add(this.Text3);
+            this.Frame2.Controls.Add(this.txtRestoreFile);
             this.Frame2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Frame2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Frame2.Location = new System.Drawing.Point(12, 287);
@@ -275,20 +282,22 @@
             this.bt_targetdir.TabIndex = 13;
             this.bt_targetdir.Text = "&Zielverz.:";
             this.bt_targetdir.UseVisualStyleBackColor = false;
+            this.bt_targetdir.Click += new System.EventHandler(this.bt_targetdir_Click);
             // 
-            // Command1
+            // bt_ZipFileRestore
             // 
-            this.Command1.BackColor = System.Drawing.SystemColors.Control;
-            this.Command1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.Command1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Command1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Command1.Location = new System.Drawing.Point(9, 16);
-            this.Command1.Name = "Command1";
-            this.Command1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Command1.Size = new System.Drawing.Size(73, 22);
-            this.Command1.TabIndex = 10;
-            this.Command1.Text = "&Quelldatei:";
-            this.Command1.UseVisualStyleBackColor = false;
+            this.bt_ZipFileRestore.BackColor = System.Drawing.SystemColors.Control;
+            this.bt_ZipFileRestore.Cursor = System.Windows.Forms.Cursors.Default;
+            this.bt_ZipFileRestore.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bt_ZipFileRestore.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.bt_ZipFileRestore.Location = new System.Drawing.Point(9, 16);
+            this.bt_ZipFileRestore.Name = "bt_ZipFileRestore";
+            this.bt_ZipFileRestore.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.bt_ZipFileRestore.Size = new System.Drawing.Size(73, 22);
+            this.bt_ZipFileRestore.TabIndex = 10;
+            this.bt_ZipFileRestore.Text = "&Quelldatei:";
+            this.bt_ZipFileRestore.UseVisualStyleBackColor = false;
+            this.bt_ZipFileRestore.Click += new System.EventHandler(this.Command1_Click);
             // 
             // bt_restore
             // 
@@ -304,35 +313,38 @@
             this.bt_restore.Text = "Daten &wiederherstellen";
             this.bt_restore.UseVisualStyleBackColor = false;
             // 
-            // Text3
+            // txtRestoreFile
             // 
-            this.Text3.AcceptsReturn = true;
-            this.Text3.BackColor = System.Drawing.SystemColors.Window;
-            this.Text3.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.Text3.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Text3.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.Text3.Location = new System.Drawing.Point(88, 16);
-            this.Text3.MaxLength = 0;
-            this.Text3.Name = "Text3";
-            this.Text3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Text3.Size = new System.Drawing.Size(217, 20);
-            this.Text3.TabIndex = 11;
-            this.Text3.Text = "C:\\Eigene Dateien\\biederdb.zip";
+            this.txtRestoreFile.AcceptsReturn = true;
+            this.txtRestoreFile.BackColor = System.Drawing.SystemColors.Window;
+            this.txtRestoreFile.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtRestoreFile.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRestoreFile.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtRestoreFile.Location = new System.Drawing.Point(88, 16);
+            this.txtRestoreFile.MaxLength = 0;
+            this.txtRestoreFile.Name = "txtRestoreFile";
+            this.txtRestoreFile.ReadOnly = true;
+            this.txtRestoreFile.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtRestoreFile.Size = new System.Drawing.Size(217, 20);
+            this.txtRestoreFile.TabIndex = 11;
+            this.txtRestoreFile.Text = "C:\\Eigene Dateien\\biederdb.zip";
             // 
-            // Text2
+            // txtBackupfile
             // 
-            this.Text2.AcceptsReturn = true;
-            this.Text2.BackColor = System.Drawing.SystemColors.Window;
-            this.Text2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.Text2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Text2.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.Text2.Location = new System.Drawing.Point(103, 203);
-            this.Text2.MaxLength = 0;
-            this.Text2.Name = "Text2";
-            this.Text2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Text2.Size = new System.Drawing.Size(249, 20);
-            this.Text2.TabIndex = 1;
-            this.Text2.Text = "C:\\Eigene Dateien\\biederdb.zip";
+            this.txtBackupfile.AcceptsReturn = true;
+            this.txtBackupfile.BackColor = System.Drawing.SystemColors.Window;
+            this.txtBackupfile.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtBackupfile.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBackupfile.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtBackupfile.Location = new System.Drawing.Point(103, 203);
+            this.txtBackupfile.MaxLength = 0;
+            this.txtBackupfile.Name = "txtBackupfile";
+            this.txtBackupfile.ReadOnly = true;
+            this.txtBackupfile.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtBackupfile.Size = new System.Drawing.Size(249, 20);
+            this.txtBackupfile.TabIndex = 1;
+            this.txtBackupfile.Text = "e:\\biederdb.zip";
+            this.txtBackupfile.TextChanged += new System.EventHandler(this.txtBackupfile_TextChanged);
             // 
             // bt_remove
             // 
@@ -340,7 +352,7 @@
             this.bt_remove.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_remove.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_remove.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_remove.Location = new System.Drawing.Point(279, 55);
+            this.bt_remove.Location = new System.Drawing.Point(279, 42);
             this.bt_remove.Name = "bt_remove";
             this.bt_remove.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.bt_remove.Size = new System.Drawing.Size(73, 27);
@@ -361,6 +373,7 @@
             this.bt_zip_start.TabIndex = 7;
             this.bt_zip_start.Text = "Backup-Datei &erstellen";
             this.bt_zip_start.UseVisualStyleBackColor = false;
+            this.bt_zip_start.Click += new System.EventHandler(this.bt_zip_start_Click);
             // 
             // bt_autofill
             // 
@@ -368,10 +381,10 @@
             this.bt_autofill.Cursor = System.Windows.Forms.Cursors.Default;
             this.bt_autofill.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bt_autofill.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.bt_autofill.Location = new System.Drawing.Point(8, 16);
+            this.bt_autofill.Location = new System.Drawing.Point(411, 16);
             this.bt_autofill.Name = "bt_autofill";
             this.bt_autofill.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bt_autofill.Size = new System.Drawing.Size(89, 27);
+            this.bt_autofill.Size = new System.Drawing.Size(89, 37);
             this.bt_autofill.TabIndex = 20;
             this.bt_autofill.Text = "Automatisch";
             this.bt_autofill.UseVisualStyleBackColor = false;
@@ -380,6 +393,7 @@
             // Frame1
             // 
             this.Frame1.BackColor = System.Drawing.SystemColors.Control;
+            this.Frame1.Controls.Add(this.bt_TEST);
             this.Frame1.Controls.Add(this.bt_autofill);
             this.Frame1.Controls.Add(this.bt_remove);
             this.Frame1.Controls.Add(this.bt_suchdir);
@@ -387,10 +401,10 @@
             this.Frame1.Controls.Add(this.bt_zip_start);
             this.Frame1.Controls.Add(this.List1);
             this.Frame1.Controls.Add(this.bt_add);
-            this.Frame1.Controls.Add(this.Text1);
+            this.Frame1.Controls.Add(this.txtFile);
             this.Frame1.Controls.Add(this.bt_search);
             this.Frame1.Controls.Add(this.bt_change);
-            this.Frame1.Controls.Add(this.Text2);
+            this.Frame1.Controls.Add(this.txtBackupfile);
             this.Frame1.Controls.Add(this.lblFiles);
             this.Frame1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Frame1.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -402,6 +416,16 @@
             this.Frame1.TabIndex = 22;
             this.Frame1.TabStop = false;
             this.Frame1.Text = "Backup:";
+            // 
+            // bt_TEST
+            // 
+            this.bt_TEST.Location = new System.Drawing.Point(411, 145);
+            this.bt_TEST.Name = "bt_TEST";
+            this.bt_TEST.Size = new System.Drawing.Size(88, 37);
+            this.bt_TEST.TabIndex = 23;
+            this.bt_TEST.Text = "TEST";
+            this.bt_TEST.UseVisualStyleBackColor = true;
+            this.bt_TEST.Click += new System.EventHandler(this.bt_TEST_Click);
             // 
             // FormZIP
             // 
@@ -427,7 +451,7 @@
 
         #endregion
 
-        public System.Windows.Forms.TextBox Text1;
+        public System.Windows.Forms.TextBox txtFile;
         public System.Windows.Forms.Button bt_add;
         public System.Windows.Forms.ListBox List1;
         public System.Windows.Forms.Button bt_back;
@@ -443,13 +467,14 @@
         public System.Windows.Forms.TextBox txtExtractTo;
         public System.Windows.Forms.Button bt_targetdir;
         public System.Windows.Forms.Button bt_restore;
-        public System.Windows.Forms.TextBox Text3;
-        public System.Windows.Forms.Button Command1;
-        public System.Windows.Forms.TextBox Text2;
+        public System.Windows.Forms.TextBox txtRestoreFile;
+        public System.Windows.Forms.Button bt_ZipFileRestore;
+        public System.Windows.Forms.TextBox txtBackupfile;
         public System.Windows.Forms.Button bt_remove;
         public System.Windows.Forms.Button bt_zip_start;
         public System.Windows.Forms.Button bt_autofill;
         public System.Windows.Forms.GroupBox Frame1;
+        private System.Windows.Forms.Button bt_TEST;
     }
 }
 
