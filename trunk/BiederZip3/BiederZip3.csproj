@@ -115,6 +115,7 @@
     <Content Include="BiederDBSettings.XML">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ICSharpCode.SharpZipLib.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
