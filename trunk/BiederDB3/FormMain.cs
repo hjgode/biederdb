@@ -132,7 +132,11 @@ namespace BiederDB3
 
         private void btnBackupRestore_Click(object sender, EventArgs e)
         {
-
+            System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
+            myProcess.StartInfo.FileName = Utils.AppPath + "BiederZip3.exe";
+            myProcess.Start();
+            myProcess.Close();
+            Application.Exit();
         }
     }
 }
