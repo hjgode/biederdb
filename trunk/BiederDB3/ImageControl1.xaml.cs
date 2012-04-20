@@ -22,6 +22,7 @@ namespace BiederDB3
     /// 
     public partial class ImageControl1 : Window
     {
+        BiederDBSettings2 _settings = new BiederDBSettings2();
         private SlidePL.CSlideImage m_SDImageA;
         private SlidePL.CSlideImage m_SDImageB;
         private SlidePL.CSlideImage m_SDImageC;
@@ -52,41 +53,60 @@ namespace BiederDB3
         /// allow next transition
         /// </summary>
         bool _bTransitionEnabled = true;
-
+        bool _bRandom = true;
         dataclasses.Artikel.artikel[] _artikelListe;
 
         //public ImageControl1()
         //{
         //    InitializeComponent();
         //}
-        public ImageControl1(dataclasses.Artikel.artikel[] artikelList)
+        public ImageControl1(dataclasses.Artikel.artikel[] artikelList, bool bRandom)
         {
             InitializeComponent();
+            this.SizeChanged += new SizeChangedEventHandler(ImageControl1_SizeChanged);
             this.Closing += new System.ComponentModel.CancelEventHandler(ImageControl1_Closing);
             random = new Random();
             image1.MouseUp += new MouseButtonEventHandler(image1_MouseUp);
+            this.MouseLeftButtonUp+=new MouseButtonEventHandler(image1_MouseUp);
             _artikelListe = artikelList;
+            _bRandom = bRandom;
+            
             startUp();
+        }
+
+        void ImageControl1_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Size sNew = e.NewSize;
+            //ratio
+            int ratioNew = (int)(sNew.Width / sNew.Height);
+            // Figure out the ratio
+            double ratioX = (double)sNew.Width / (double)640;
+            double ratioY = (double)sNew.Height / (double)480;
+            double ratio = ratioX < ratioY ? ratioX : ratioY; // use whichever multiplier is smaller
+            double newHeight = Convert.ToInt32(480 * ratio);
+            double newWidth = Convert.ToInt32(640 * ratio);
+            this.image1.Width = newWidth;
+            this.image1.Height = newHeight;
         }
 
         void ImageControl1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            BiederDBSettings2 _sett = new BiederDBSettings2();
-            if (_sett.PasswortSchutzEin)
-            {
-                FormPassword pb = new FormPassword();
-                if (pb.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    pb.Dispose();                    
-                }
-                else
-                    e.Cancel=true;
-            }
            
         }
 
         void image1_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            if (_settings.PasswortSchutzEin)
+            {
+                FormPassword frm = new FormPassword();
+                if (frm.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                {
+                    frm.Dispose();
+                    return;
+                }
+            }
+            _timer.Enabled = false;
+            m_Thread.Abort();
             this.Close();
         }
         void startUp()
@@ -94,7 +114,7 @@ namespace BiederDB3
             LoadTransition();
             LoadImages();
             _timer = new System.Windows.Forms.Timer();
-            _timer.Interval = 3000;
+            _timer.Interval = _settings.showTime * 1000;// 3000;
             _timer.Tick += new EventHandler(_timer_Tick);
             _timer.Enabled = true;
             //image1.Source = new BitmapImage(new Uri( _artikelListe[0].Foto, UriKind.Absolute));
@@ -104,16 +124,26 @@ namespace BiederDB3
         {
             if (!_bTransitionEnabled)
                 return;
+
             if (_iCurrTransition < _iMaxTransition - 1)
                 _iCurrTransition++;
             else
                 _iCurrTransition = 0;
 
-            //calc next image
             iImageCurrent = iImageNext;
-            iImageNext = RandomNumber(0, _artikelListe.Length);
+            if (_bRandom)
+            {
+                //calc next image
+                iImageNext = RandomNumber(0, _artikelListe.Length);
+                System.Diagnostics.Debug.WriteLine("Next image: " + iImageNext.ToString() + ", max=" + _artikelListe.Length.ToString());
+            }
+            else
+            {
+                iImageNext++;
+                if (iImageNext > _artikelListe.Length)
+                    iImageNext = 0;
+            }
             LoadImages(iImageCurrent, iImageNext);
-
             Transitions_SelectionChanged(_iCurrTransition);
         }
 
@@ -164,6 +194,7 @@ namespace BiederDB3
             // create result image C
             m_SDImageC = new SlidePL.CSlideImage();
 
+            System.Diagnostics.Debug.WriteLine("LoadImages: '" + _artikelListe[iImageTo].Foto + "', '" + _artikelListe[iImageFrom].Foto);
             // load image A
             string strImageFileName = _artikelListe[iImageFrom].Foto;// _sFilelist[0];// strWorkingDir + "\\pics\\a.png";
             try
@@ -178,6 +209,22 @@ namespace BiederDB3
             {
                 Utils.showErrorMsg(strImageFileName + " " + eExcep.Message, "Can't load image A");
                 return;
+            }
+
+            // get processing image's width and height
+            int height = 0;
+            int width = 0;
+            try
+            {
+                height = m_SDImageA.GetHeight();
+                width = m_SDImageA.GetWidth();
+                if (height == 0 || width == 0)
+                    return;
+            }
+            catch (Exception ex)
+            {
+                Utils.showErrorMsg(strImageFileName + " " + ex.Message, "Error getting width/height");
+                return;                
             }
 
             // Load image B
@@ -198,9 +245,6 @@ namespace BiederDB3
                 return;
             }
 
-            // get processing image's width and height
-            int height = m_SDImageA.GetHeight();
-            int width = m_SDImageA.GetWidth();
 
             // init the dirty region
             m_DirtyRt = new System.Windows.Int32Rect(0, 0, width, height);
@@ -222,6 +266,7 @@ namespace BiederDB3
             // update the image control
             image1.Source = m_Image;
             ////WndImage.Image = (Bitmap)m_Image;
+            textBlock1.Text = _artikelListe[iImageTo].ArtNr +"\r\n" + _artikelListe[iImageTo].Omschrijving;
         }
 
         private void LoadImages()

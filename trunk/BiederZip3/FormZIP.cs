@@ -275,11 +275,7 @@ namespace BiederZip3
                 {
                     addLog("Adding " + s);
                     System.Diagnostics.Debug.WriteLine("Adding " + s);
-#if ICSharpCode
                     compressFile(s, zipStream);
-#else
-                    zipFile.AddFile(s, System.IO.Path.GetDirectoryName(s));
-#endif
                 }
             }
 

@@ -114,9 +114,18 @@ namespace BiederDB3
             }
             dataclasses.Artikel artClass = new BiederDB3.dataclasses.Artikel();
             dataclasses.Artikel.artikel[] _art = artClass.getArtikel("");
-            ImageControl1 frm = new ImageControl1(_art);
-            frm.ShowDialog();
-            return;
+            try
+            {
+                ImageControl1 frm = new ImageControl1(_art, chkOrderRandom.Checked);
+                frm.ShowDialog();
+                frm = null;
+                return;
+            }
+            catch (Exception ex)
+            {
+                Utils.showErrorMsg(ex.Message +"\r\n" + ex.InnerException, "Error in ImageControl1");
+                return;
+            }
 
             //string sCmd="";
             //if (chkSelectAll.Checked)
