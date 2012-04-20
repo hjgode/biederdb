@@ -1,8 +1,9 @@
 ﻿<Window x:Class="BiederDB3.ImageControl1"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Height="300" Width="300" WindowState="Maximized">
+    Height="323" Width="480" WindowState="Maximized"  WindowStyle="None">
     <Grid>
-        <Image Name="image1" Stretch="Fill" />
+        <Image Name="image1" Stretch="Fill" Margin="39,0,45,0" />
+        <TextBlock Height="117" HorizontalAlignment="Left" Margin="14,15,0,0" Name="textBlock1" VerticalAlignment="Top" Width="194" TextWrapping="Wrap" Background="LightSteelBlue" />
     </Grid>
 </Window>
