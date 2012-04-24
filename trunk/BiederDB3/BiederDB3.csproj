@@ -161,6 +161,12 @@
     <Compile Include="FormSlideShow1.Designer.cs">
       <DependentUpon>FormSlideShow1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSlideshow2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSlideshow2.Designer.cs">
+      <DependentUpon>FormSlideshow2.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTextEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +175,12 @@
     </Compile>
     <Compile Include="ImageControl1.xaml.cs">
       <DependentUpon>ImageControl1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ImageTransition3.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImageTransition3.Designer.cs">
+      <DependentUpon>ImageTransition3.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageTransitionsClass.cs" />
     <Compile Include="LoggerClass.cs" />
@@ -228,6 +240,9 @@
       <DependentUpon>FormSlideShow1.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormSlideshow2.resx">
+      <DependentUpon>FormSlideshow2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormTextEdit.resx">
       <DependentUpon>FormTextEdit.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -235,6 +250,9 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageTransition3.resx">
+      <DependentUpon>ImageTransition3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

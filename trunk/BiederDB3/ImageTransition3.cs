@@ -1,18 +1,18 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Threading;
+using System.Data;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
-using System.Collections.Generic;
+using System.Threading;
 
-namespace ImageTransitions
+namespace BiederDB3
 {
-    /// <summary>
-    /// Summary description for ImageTransitionControl.
-    /// </summary>
-    public class ImageTransitionControl : PictureBox
+    public partial class ImageTransitionControl : UserControl
     {
         System.Threading.Timer t;
         //Variables used in the timing system
@@ -30,6 +30,55 @@ namespace ImageTransitions
         /// </summary>
         public int _nVDivs = 4;
 
+        /// <summary>
+        /// transition time in seconds
+        /// </summary>
+        public float TransitionTime
+        {
+            get { return (float)_transitionTime.TotalSeconds; }
+            set { _transitionTime = new TimeSpan(0, 0, 0, 0, (int)(1000 * value)); }
+        }
+        //Called to start the transition off
+        public void Go()
+        {
+            if (_running)
+                return;
+            t.Change(40, 40);
+            System.Diagnostics.Debug.WriteLine("Transformation started");
+            this._currentPercentage = 0;
+            _running = true;
+            _startTime = DateTime.Now;
+            this.Invalidate();
+        }
+        public void stop()
+        {
+            try
+            {
+                t.Change(0, Timeout.Infinite);
+            }
+            catch (Exception)
+            {
+            }
+            //t.Dispose();
+            _running = false;
+        }
+        //Services the tick event and re-calculates the percentage done
+        void Tick(object state)
+        {
+            TimeSpan ts = DateTime.Now - this._startTime;
+            _currentPercentage = (float)(100f / this._transitionTime.TotalSeconds * ts.TotalSeconds);
+            if (_currentPercentage >= 100 || _running == false)
+            {
+                _currentPercentage = 100;
+                _running = false;
+                t.Change(0, Timeout.Infinite);//stop timer
+                System.Diagnostics.Debug.WriteLine("Transformation stopped");
+                OnRaiseTransitionDone(new TransitionEventArgs(this.TransitionType.ToString(), _currentPercentage));
+            }
+            else
+                OnRaiseTransitionDone(new TransitionEventArgs(this.TransitionType.ToString(), _currentPercentage));
+            this.Invalidate();
+        }
 
         public enum TransitionTypes
         {
@@ -60,6 +109,7 @@ namespace ImageTransitions
 
 
         Image _imageA;
+
         public Image ImageA
         {
             get { return _imageA; }
@@ -67,89 +117,12 @@ namespace ImageTransitions
             {
                 _imageA = value;
                 if (value != null)
-                    scaleImage(this, _imageA);
+                    this.BackgroundImage = ImageA;
+
+                //    scaleImage(this, _imageA);
             }
         }
 
-        //Generate new image dimensions
-        private Size GenerateImageDimensions(int currW, int currH, int destW, int destH)
-        {
-            //double to hold the final multiplier to use when scaling the image
-            double multiplier = 0;
-
-            //string for holding layout
-            string layout;
-
-            //determine if it's Portrait or Landscape
-            if (currH > currW) layout = "portrait";
-            else layout = "landscape";
-
-            switch (layout.ToLower())
-            {
-                case "portrait":
-                    //calculate multiplier on heights
-                    if (destH > destW)
-                    {
-                        multiplier = (double)destW / (double)currW;
-                    }
-
-                    else
-                    {
-                        multiplier = (double)destH / (double)currH;
-                    }
-                    break;
-                case "landscape":
-                    //calculate multiplier on widths
-                    if (destH > destW)
-                    {
-                        multiplier = (double)destW / (double)currW;
-                    }
-
-                    else
-                    {
-                        multiplier = (double)destH / (double)currH;
-                    }
-                    break;
-            }
-
-            //return the new image dimensions
-            return new Size((int)(currW * multiplier), (int)(currH * multiplier));
-        }
-        // see http://www.dreamincode.net/code/snippet2376.htm
-        //Resize the image
-        private Image scaleImage(Control pb, Image imgOrg)
-        {
-            //create a temp image
-            Image img = imgOrg;
-            Bitmap finalImg = null;
-            try
-            {
-                //calculate the size of the image
-                Size imgSize = GenerateImageDimensions(img.Width, img.Height,
-                               pb.Width, pb.Height);
-
-                //create a new Bitmap with the proper dimensions
-                finalImg = new Bitmap(img, imgSize.Width, imgSize.Height);
-
-                //create a new Graphics object from the image
-                Graphics gfx = Graphics.FromImage(img);
-
-                //clean up the image (take care of any image loss from resizing)
-                gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-            }
-            catch (System.Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-            return finalImg;
-        }
-
-        //Sample usage
-        //	private void Form1_Load(object sender, EventArgs e)
-        //	{
-        //	    SetImage(pictureBox1);
-        //	}
         Image _imageB;
         public Image ImageB
         {
@@ -157,65 +130,35 @@ namespace ImageTransitions
             set
             {
                 _imageB = value;
-                if (value != null)
-                    _imageB = scaleImage(this, _imageB);
+                //if (value != null)
+                //    _imageB = scaleImage(this, _imageB);
             }
         }
 
         public ImageTransitionControl()
         {
+            InitializeComponent();
             this.Width = 160;
             this.Height = 160;
+            t = new System.Threading.Timer(new TimerCallback(Tick), null, 40, Timeout.Infinite);
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
+            //pictureBox1.Paint += new PaintEventHandler(pictureBox1_Paint);
         }
 
-        /// <summary>
-        /// transition time in seconds
-        /// </summary>
-        public float TransitionTime
+        void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            get { return (float)_transitionTime.TotalSeconds; }
-            set { _transitionTime = new TimeSpan(0, 0, 0, 0, (int)(1000 * value)); }
+            OnPaint(e);
         }
-
-
-        //Called to start the transition off
-        public void Go()
-        {
-            if (_running)
-                return;
-            t = new System.Threading.Timer(new TimerCallback(Tick), null, 40, 40);
-            System.Diagnostics.Debug.WriteLine("Transformation started");
-            this._currentPercentage = 0;
-            _running = true;
-            _startTime = DateTime.Now;
-            Invalidate();
-        }
-
-        //Services the tick event and re-calculates the percentage done
-        void Tick(object state)
-        {
-            TimeSpan ts = DateTime.Now - this._startTime;
-            _currentPercentage = (float)(100f / this._transitionTime.TotalSeconds * ts.TotalSeconds);
-            if (_currentPercentage > 100)
-            {
-                _currentPercentage = 100;
-                _running = false;
-                t.Change(40, Timeout.Infinite);//stop timer
-                System.Diagnostics.Debug.WriteLine("Transformation stopped");
-                OnRaiseTransitionDone(new TransitionEventArgs(this.TransitionType.ToString(), _currentPercentage));
-            }
-            else
-                OnRaiseTransitionDone(new TransitionEventArgs(this.TransitionType.ToString(), _currentPercentage));
-            Invalidate();
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             if (_imageA == null || _imageB == null)
+            {
+                //base.OnPaint(e);
                 return;
-            e.Graphics.DrawImage(_imageA, new Rectangle(0, 0, (int)(this.Width), this.Height),
-                                  0, 0, _imageA.Width, _imageB.Height, GraphicsUnit.Pixel);
+            }
+            //if(_currentPercentage>=100)
+            //    e.Graphics.DrawImage(_imageA, new Rectangle(0, 0, (int)(this.Width), this.Height),
+            //                      0, 0, _imageA.Width, _imageB.Height, GraphicsUnit.Pixel);
             Matrix mx;
             int w;
             int h;
@@ -357,8 +300,8 @@ namespace ImageTransitions
                     mx = new Matrix(
                         _currentPercentage / 100 + 0.1f, 0,
                         0, _currentPercentage / 100 + 0.1f,
-                        (this.Width/2) - (this.Width / 2 * (_currentPercentage / 100)) , 
-                        (this.Height / 2) - (this.Height/ 2 * (_currentPercentage / 100))
+                        (this.Width / 2) - (this.Width / 2 * (_currentPercentage / 100)),
+                        (this.Height / 2) - (this.Height / 2 * (_currentPercentage / 100))
                         );// (this.Width * _currentPercentage / 100) - this.Width
                     // the matrix modifies the Graphics object
                     e.Graphics.Transform = mx;
@@ -395,7 +338,7 @@ namespace ImageTransitions
                      * [ 3 2 ]
                     */
                     //start at top and go down to bottom
-                    mx = new Matrix(1, 0, 0, 1, 0, (this.Height * _currentPercentage / 100) - this.Height); 
+                    mx = new Matrix(1, 0, 0, 1, 0, (this.Height * _currentPercentage / 100) - this.Height);
                     // the matrix modifies the Graphics object
                     e.Graphics.Transform = mx;
                     // the image is drawn
@@ -409,7 +352,7 @@ namespace ImageTransitions
                      * [ 3 2 ]
                     */
                     //start at bottom and go up to top
-                    mx = new Matrix(1, 0, 0, 1, 0, this.Height - (this.Height * _currentPercentage / 100)); 
+                    mx = new Matrix(1, 0, 0, 1, 0, this.Height - (this.Height * _currentPercentage / 100));
                     // the matrix modifies the Graphics object
                     e.Graphics.Transform = mx;
                     // the image is drawn
@@ -460,12 +403,12 @@ namespace ImageTransitions
                         //for each stripe, find the source in the overlay image
                         Rectangle src = new Rectangle(
                             y * (_imageB.Width / _nVDivs), 0,
-                            _imageB.Width / _nVDivs, _imageB.Height );
+                            _imageB.Width / _nVDivs, _imageB.Height);
                         //calculate the destination
                         Rectangle drc = new Rectangle(
                             y * (Width / _nVDivs), 0,
                             (int)((Width / _nVDivs) * _currentPercentage / 100), Height);
-                        
+
                         drc.Offset((Width / (_nVDivs * 2)) - drc.Width / 2, 0);
                         //draw the slice
                         e.Graphics.DrawImage(_imageB, drc, src, GraphicsUnit.Pixel);
@@ -474,14 +417,14 @@ namespace ImageTransitions
                     break;
             }
 
-            if (_currentPercentage == 100)
-            {
-                _running = false;
-                if (t != null)
-                    t.Dispose();
-                t = null;
-            }
-            base.OnPaint(e);
+            //if (_currentPercentage == 100)
+            //{
+            //    _running = false;
+            //    if (t != null)
+            //        t.Dispose();
+            //    t = null;
+            //}
+            //base.OnPaint(e);
         }
         //event stuff
         public class TransitionEventArgs : EventArgs
@@ -498,13 +441,14 @@ namespace ImageTransitions
                 get { return _msg; }
                 set { _msg = value; }
             }
-            public float percentDone{
+            public float percentDone
+            {
                 get { return _percentDone; }
                 set { _percentDone = value; }
             }
         }
         public delegate void transistionDone(object sender, TransitionEventArgs e);
-        public event EventHandler <TransitionEventArgs> onTransitionDone;
+        public event EventHandler<TransitionEventArgs> onTransitionDone;
         protected virtual void OnRaiseTransitionDone(TransitionEventArgs e)
         {
             EventHandler<TransitionEventArgs> handler = onTransitionDone;
@@ -515,5 +459,25 @@ namespace ImageTransitions
                 handler(this, e);
             }
         }
+
+        //private void InitializeComponent()
+        //{
+        //    this.pictureBox1 = new System.Windows.Forms.PictureBox();
+        //    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+        //    ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+        //    this.SuspendLayout();
+        //    // 
+        //    // pictureBox1
+        //    // 
+        //    this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+        //    this.pictureBox1.Name = "pictureBox1";
+        //    this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+        //    this.pictureBox1.TabIndex = 0;
+        //    this.pictureBox1.TabStop = false;
+        //    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+        //    ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+        //    this.ResumeLayout(false);
+
+        //}
     }
 }
