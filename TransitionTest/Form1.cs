@@ -16,28 +16,31 @@ namespace TransitionTest
         public Form1()
         {
             InitializeComponent();
-            pictureBox1.Image = Image.FromFile(".\\bed653.jpg");
+            cboTransType.Items.Clear();
+            foreach (ImageTransitionControl.TransitionTypes t in Enum.GetValues(typeof(ImageTransitionControl.TransitionTypes)))
+            {
+                cboTransType.Items.Add(t);
+            }
+            cboTransType.SelectedIndex = 0;
         }
         static int iPercent=0;
         private void button1_Click(object sender, EventArgs e)
         {
+            int iSel = cboTransType.SelectedIndex;
+            if (iSel == -1)
+                return;
 
-            ImageTransitions.ImageTransitionsClass.blend _blend = new ImageTransitionsClass.blend();
-            
-            Image img_to = Image.FromFile(".\\kle701.jpg");
+            imageTransitionControl1.ImageA=Image.FromFile(".\\bed653.jpg");
+            imageTransitionControl1.ImageB=Image.FromFile(".\\kle701.jpg");
+            imageTransitionControl1.TransitionTime = 3;
 
-            for (iPercent = 0; iPercent <= 100; iPercent += 10)
-            {
-                label1.Text = iPercent.ToString();
-                _blend.transitionRender(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent, 0, 1);
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(100);
-            }
+            imageTransitionControl1.TransitionType = (ImageTransitionControl.TransitionTypes)cboTransType.SelectedItem; //ImageTransitions.ImageTransitionControl.TransitionTypes.BarnDoor;
+            imageTransitionControl1.Go();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = Image.FromFile(".\\bed653.jpg");
+            imageTransitionControl1.Image = Image.FromFile(".\\bed653.jpg");
 
         }
 
@@ -50,16 +53,16 @@ namespace TransitionTest
             for (iPercent = 0; iPercent <= 100; iPercent += 10)
             {
                 label1.Text = iPercent.ToString();
-                if(chkBottom.Checked)
-                    _blend.img_bottom(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
-                else if(chkLeft.Checked)
-                    _blend.img_left(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
-                else if(chkRight.Checked)
-                    _blend.img_right(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
-                else if(chkTop.Checked)
-                    _blend.img_top(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
-                else
-                    _blend.img_top(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
+                //if(chkBottom.Checked)
+                //    _blend.img_bottom(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
+                //else if(chkLeft.Checked)
+                //    _blend.img_left(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
+                //else if(chkRight.Checked)
+                //    _blend.img_right(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
+                //else if(chkTop.Checked)
+                //    _blend.img_top(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
+                //else
+                //    _blend.img_top(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent);
 
                 // transitionRender(ref this.pictureBox1, pictureBox1.Image, img_to, iPercent, 0, 1);
                 Application.DoEvents();
