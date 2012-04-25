@@ -55,8 +55,9 @@ namespace BiederDB3
         {
             //System.Diagnostics.Debug.WriteLine(e.Message + ": " + e.percentDone.ToString());
 
-            if (e.percentDone >= 99)
+            if (e.Message == "DONE")
             {
+                System.Diagnostics.Debug.WriteLine("------------ DONE ----------");
                 //next transitiontype
                 iCurrentTrans++;
                 if (iCurrentTrans == transArr.Length)
@@ -73,16 +74,19 @@ namespace BiederDB3
                     iImageNext = iImageCurrent + 1;
                     if (iImageNext > _artikelListe.Length)
                         iImageNext = 0;
-                }
-                try
-                {
-                    Image imgCurrent = Bitmap.FromFile(_artikelListe[iImageCurrent].Foto);
-                    imageTransition31.ImageA = imgCurrent;// Bitmap.FromFile(_artikelListe[iImageCurrent].Foto);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Exception for imageTransition31.ImageA: = ImageB" + "\r\n\t" + ex.Message);
-                }
+                }//random
+                //try
+                //{                    
+                //    //FreeImageAPI.FREE_IMAGE_FORMAT ff = FreeImageAPI.FREE_IMAGE_FORMAT.FIF_UNKNOWN;
+                //    //Image imgCurrent = FreeImageAPI.FreeImage.LoadBitmap(_artikelListe[iImageCurrent].Foto, FreeImageAPI.FREE_IMAGE_LOAD_FLAGS.DEFAULT,ref ff);// 
+                //    Image imgNext = Bitmap.FromFile(_artikelListe[iImageNext].Foto);
+                //    imageTransition31.ImageB = imgNext;// Bitmap.FromFile(_artikelListe[iImageCurrent].Foto);
+                //    imgNext.Dispose();
+                //}
+                //catch (Exception ex)
+                //{
+                //    System.Diagnostics.Debug.WriteLine("Exception for imageTransition31.ImageA: = ImageB" + "\r\n\t" + ex.Message);
+                //}
                 try
                 {
                     Image img = Bitmap.FromFile(_artikelListe[iImageNext].Foto);
