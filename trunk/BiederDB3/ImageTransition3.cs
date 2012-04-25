@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define USE_FORMS_TIMER
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -12,9 +13,11 @@ using System.Threading;
 
 namespace BiederDB3
 {
-    public partial class ImageTransitionControl : UserControl
+    public partial class ImageTransitionControl : UserControl,IDisposable
     {
         System.Threading.Timer t;
+        System.Windows.Forms.Timer timer;
+
         //Variables used in the timing system
         TimeSpan _transitionTime = new TimeSpan(0, 0, 0, 1, 0);
         float _currentPercentage = 0;
@@ -43,7 +46,11 @@ namespace BiederDB3
         {
             if (_running)
                 return;
+#if USE_FORMS_TIMER
+            timer.Enabled = true;
+#else
             t.Change(40, 40);
+#endif
             System.Diagnostics.Debug.WriteLine("Transformation started");
             this._currentPercentage = 0;
             _running = true;
@@ -54,7 +61,11 @@ namespace BiederDB3
         {
             try
             {
+#if USE_FORMS_TIMER
+                timer.Enabled = false;
+#else
                 t.Change(0, Timeout.Infinite);
+#endif
             }
             catch (Exception)
             {
@@ -62,6 +73,55 @@ namespace BiederDB3
             //t.Dispose();
             _running = false;
         }
+
+        public ImageTransitionControl()
+        {
+            InitializeComponent();
+            this.Width = 160;
+            this.Height = 160;
+#if USE_FORMS_TIMER
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = 40;
+            timer.Tick += new EventHandler(timer_Tick);
+#else
+            t = new System.Threading.Timer(new TimerCallback(Tick), null, 40, Timeout.Infinite);
+#endif
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
+            //pictureBox1.Paint += new PaintEventHandler(pictureBox1_Paint);
+        }
+
+        public new void Dispose()
+        {
+#if USE_FORMS_TIMER
+            timer.Enabled=false;
+#else
+            t.change(0, Timeout.Infinite);
+#endif
+            System.Diagnostics.Debug.WriteLine("Slideshow disposed");
+        }
+        
+        void timer_Tick(object sender, EventArgs e)
+        {
+            TimeSpan ts = DateTime.Now - this._startTime;
+            _currentPercentage = (float)(100f / this._transitionTime.TotalSeconds * ts.TotalSeconds);
+            if (_currentPercentage >= 100 || _running == false)
+            {
+#if USE_FORMS_TIMER
+                timer.Enabled=false;
+#else
+                t.Change(0, Timeout.Infinite);//stop timer
+#endif
+                _currentPercentage = 100;
+                _running = false;
+                System.Diagnostics.Debug.WriteLine("Transformation stopped");
+                OnRaiseTransitionDone(new TransitionEventArgs("DONE", _currentPercentage));
+            }
+            else
+                OnRaiseTransitionDone(new TransitionEventArgs(this.TransitionType.ToString(), _currentPercentage));
+            this.Invalidate();
+        }
+
+#if ! USE_FORMS_TIMER
         //Services the tick event and re-calculates the percentage done
         void Tick(object state)
         {
@@ -79,7 +139,7 @@ namespace BiederDB3
                 OnRaiseTransitionDone(new TransitionEventArgs(this.TransitionType.ToString(), _currentPercentage));
             this.Invalidate();
         }
-
+#endif
         public enum TransitionTypes
         {
             Fade,
@@ -117,8 +177,9 @@ namespace BiederDB3
             {
                 _imageA = value;
                 if (value != null)
-                    this.BackgroundImage = ImageA;
-
+                {
+                    System.Diagnostics.Debug.WriteLine("### new imageA");
+                }
                 //    scaleImage(this, _imageA);
             }
         }
@@ -129,26 +190,15 @@ namespace BiederDB3
             get { return _imageB; }
             set
             {
+                if(_imageB!=null)
+                    this.BackgroundImage = _imageB;
                 _imageB = value;
+                System.Diagnostics.Debug.WriteLine("### new imageB");
                 //if (value != null)
                 //    _imageB = scaleImage(this, _imageB);
             }
         }
 
-        public ImageTransitionControl()
-        {
-            InitializeComponent();
-            this.Width = 160;
-            this.Height = 160;
-            t = new System.Threading.Timer(new TimerCallback(Tick), null, 40, Timeout.Infinite);
-            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
-            //pictureBox1.Paint += new PaintEventHandler(pictureBox1_Paint);
-        }
-
-        void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            OnPaint(e);
-        }
         protected override void OnPaint(PaintEventArgs e)
         {
             if (_imageA == null || _imageB == null)
@@ -416,7 +466,7 @@ namespace BiederDB3
 
                     break;
             }
-
+            
             //if (_currentPercentage == 100)
             //{
             //    _running = false;
@@ -424,7 +474,8 @@ namespace BiederDB3
             //        t.Dispose();
             //    t = null;
             //}
-            //base.OnPaint(e);
+            
+            base.OnPaint(e);
         }
         //event stuff
         public class TransitionEventArgs : EventArgs
@@ -454,8 +505,8 @@ namespace BiederDB3
             EventHandler<TransitionEventArgs> handler = onTransitionDone;
             if (handler != null)
             {
-                e.Message = this.TransitionType.ToString();
-                e.percentDone = this._currentPercentage;
+                e.Message = e.Message;
+                e.percentDone = e.percentDone;
                 handler(this, e);
             }
         }
