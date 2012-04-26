@@ -32,8 +32,8 @@ namespace BiederDB3
             }
             transArr = transitionList.ToArray();
             imageTransition31.TransitionTime = _settings.showTime;
-            imageTransition31.onTransitionDone += new EventHandler<ImageTransitionControl.TransitionEventArgs>(imageTransition31_onTransitionDone);
-            
+            //imageTransition31.onTransitionProgress += new EventHandler<ImageTransitionControl.TransitionEventArgs>(imageTransition31_onTransitionProgress);
+            imageTransition31.onTransitionDone+=new EventHandler<ImageTransitionControl.TransitionEventArgs>(imageTransition31_onTransitionDone);
             this.SizeChanged+=new EventHandler(FormSlideshow2_SizeChanged);
             
             _artikelListe = artikelList;
@@ -53,21 +53,20 @@ namespace BiederDB3
 
         void imageTransition31_onTransitionDone(object sender, ImageTransitionControl.TransitionEventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine(e.Message + ": " + e.percentDone.ToString());
-
-            if (e.Message == "DONE")
-            {
                 System.Diagnostics.Debug.WriteLine("------------ DONE ----------");
                 //next transitiontype
                 iCurrentTrans++;
                 if (iCurrentTrans == transArr.Length)
                     iCurrentTrans = 0;
-                imageTransition31.TransitionType = (ImageTransitionControl.TransitionTypes)transArr[iCurrentTrans];
+                //imageTransition31.TransitionType = (ImageTransitionControl.TransitionTypes)transArr[iCurrentTrans];
+                imageTransition31.TransitionType = imageTransition31.getRandom();
                 //next image
                 if (_bRandom)
                 {
                     //calc next image
                     iImageNext = RandomNumber(0, _artikelListe.Length);
+                    if(iImageNext==iImageCurrent)
+                        iImageNext = RandomNumber(0, _artikelListe.Length);
                 }
                 else
                 {
@@ -75,29 +74,21 @@ namespace BiederDB3
                     if (iImageNext > _artikelListe.Length)
                         iImageNext = 0;
                 }//random
-                //try
-                //{                    
-                //    //FreeImageAPI.FREE_IMAGE_FORMAT ff = FreeImageAPI.FREE_IMAGE_FORMAT.FIF_UNKNOWN;
-                //    //Image imgCurrent = FreeImageAPI.FreeImage.LoadBitmap(_artikelListe[iImageCurrent].Foto, FreeImageAPI.FREE_IMAGE_LOAD_FLAGS.DEFAULT,ref ff);// 
-                //    Image imgNext = Bitmap.FromFile(_artikelListe[iImageNext].Foto);
-                //    imageTransition31.ImageB = imgNext;// Bitmap.FromFile(_artikelListe[iImageCurrent].Foto);
-                //    imgNext.Dispose();
-                //}
-                //catch (Exception ex)
-                //{
-                //    System.Diagnostics.Debug.WriteLine("Exception for imageTransition31.ImageA: = ImageB" + "\r\n\t" + ex.Message);
-                //}
                 try
                 {
                     Image img = Bitmap.FromFile(_artikelListe[iImageNext].Foto);
                     imageTransition31.ImageB = img;
+                    txtArtikelText.Text = _artikelListe[iImageNext].ArtNr + "\r\n" + _artikelListe[iImageNext].Omschrijving;
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine("Exception for imageTransition31.ImageB: " + _artikelListe[iImageNext].Foto + "\r\n\t" + ex.Message);
                 }
                 imageTransition31.Go();
-            }
+        }
+        void imageTransition31_onTransitionProgress(object sender, ImageTransitionControl.TransitionEventArgs e)
+        {
+            //System.Diagnostics.Debug.WriteLine(e.Message + ": " + e.percentDone.ToString());
         }
         private int RandomNumber(int min, int max)
         {
@@ -135,12 +126,42 @@ namespace BiederDB3
             double newWidth = Convert.ToInt32(640 * ratio);
             this.imageTransition31.Width = (int)newWidth;
             this.imageTransition31.Height = (int)newHeight;
-
+            //move to rigth
+            this.imageTransition31.Left = (int)((this.Width - newWidth)/2);
         }
 
         private void FormSlideshow2_FormClosing(object sender, FormClosingEventArgs e)
         {
             imageTransition31.stop();
+        }
+
+        private void imageTransition31_Click_1(object sender, EventArgs e)
+        {
+            if (_settings.PasswortSchutzEin)
+            {
+                FormPassword frm = new FormPassword();
+                if (frm.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                {
+                    frm.Dispose();
+                    return;
+                }
+            }
+            this.Close();
+        }
+
+        private void FormSlideshow2_Click(object sender, EventArgs e)
+        {
+            if (_settings.PasswortSchutzEin)
+            {
+                FormPassword frm = new FormPassword();
+                if (frm.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                {
+                    frm.Dispose();
+                    return;
+                }
+            }
+            this.Close();
+
         }
 
     }
