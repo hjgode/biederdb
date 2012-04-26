@@ -18,6 +18,7 @@ namespace BiederDB3
         System.Threading.Timer t;
         System.Windows.Forms.Timer timer;
 
+        Random random;
         //Variables used in the timing system
         TimeSpan _transitionTime = new TimeSpan(0, 0, 0, 1, 0);
         float _currentPercentage = 0;
@@ -40,6 +41,12 @@ namespace BiederDB3
         {
             get { return (float)_transitionTime.TotalSeconds; }
             set { _transitionTime = new TimeSpan(0, 0, 0, 0, (int)(1000 * value)); }
+        }
+        float _pauseTime = 1.5f;
+        public float pauseTime
+        {
+            get { return _pauseTime; }
+            set { _pauseTime = value; }
         }
         //Called to start the transition off
         public void Go()
@@ -77,6 +84,7 @@ namespace BiederDB3
         public ImageTransitionControl()
         {
             InitializeComponent();
+            random = new Random();
             this.Width = 160;
             this.Height = 160;
 #if USE_FORMS_TIMER
@@ -112,12 +120,15 @@ namespace BiederDB3
                 t.Change(0, Timeout.Infinite);//stop timer
 #endif
                 _currentPercentage = 100;
+                this.BackgroundImage = _imageB;
                 _running = false;
                 System.Diagnostics.Debug.WriteLine("Transformation stopped");
+                System.Threading.Thread.Sleep((int)(_pauseTime * 1000));
                 OnRaiseTransitionDone(new TransitionEventArgs("DONE", _currentPercentage));
+                //OnRaiseTransitionProgress(new TransitionEventArgs("DONE", _currentPercentage));
             }
             else
-                OnRaiseTransitionDone(new TransitionEventArgs(this.TransitionType.ToString(), _currentPercentage));
+                OnRaiseTransitionProgress(new TransitionEventArgs(this.TransitionType.ToString(), _currentPercentage));
             this.Invalidate();
         }
 
@@ -155,7 +166,12 @@ namespace BiederDB3
             Iris,
             Spiral,
             ZoomTopLeft,
-            ZoomCenter
+            ZoomCenter,
+            RotateUp,
+            RotateDown,
+            RotateLeft,
+            RotateRight,
+            Rotate
         }
         TransitionTypes _transitionType = TransitionTypes.Fade;
         public TransitionTypes TransitionType
@@ -216,6 +232,7 @@ namespace BiederDB3
             int cw, ch, row;
             Region r;
             Rectangle rc;
+            float fAngle;
             switch (this.TransitionType)
             {
                 case TransitionTypes.BarnDoor:
@@ -337,6 +354,50 @@ namespace BiederDB3
                     // the matrix modifies the Graphics object
                     e.Graphics.Transform = mx;
                     // the image is drawn
+                    e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    break;
+                //rotations
+                case TransitionTypes.RotateUp:
+                    mx = new Matrix();
+                    fAngle = -90f + (_currentPercentage/100) * 90f;
+                    mx.Rotate(-fAngle);// (-90 + _currentPercentage * 90);
+                    e.Graphics.Transform=mx;
+                    e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    break;
+                case TransitionTypes.RotateDown:
+                    //move axis to top left
+                    mx = new Matrix();
+                    mx.Translate(0, 0);
+                    fAngle = 90f - (_currentPercentage/100) * 90f;
+                    mx.RotateAt(-fAngle, new PointF(0,-this.Height));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
+                    e.Graphics.Transform=mx;
+                    e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    break;
+                case TransitionTypes.RotateLeft:
+                    //move axis to top left
+                    mx = new Matrix();
+                    mx.Translate(0, 0);
+                    fAngle = 90f - (_currentPercentage/100) * 90f;
+                    mx.RotateAt(-fAngle, new PointF(this.Width,0));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
+                    e.Graphics.Transform=mx;
+                    e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    break;
+                case TransitionTypes.RotateRight:
+                    //move axis to top left
+                    mx = new Matrix();
+                    mx.Translate(0, 0);
+                    fAngle = 90f - (_currentPercentage/100) * 90f;
+                    mx.RotateAt(-fAngle, new PointF(this.Width,this.Height));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
+                    e.Graphics.Transform=mx;
+                    e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    break;
+                case TransitionTypes.Rotate:
+                    //move axis to top left
+                    mx = new Matrix();
+                    mx.Translate(0, 0);
+                    fAngle = 180f - (_currentPercentage/100) * 180f;
+                    mx.RotateAt(-fAngle, new PointF(this.Width/2,this.Height/2));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
+                    e.Graphics.Transform=mx;
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
@@ -498,11 +559,14 @@ namespace BiederDB3
                 set { _percentDone = value; }
             }
         }
-        public delegate void transistionDone(object sender, TransitionEventArgs e);
-        public event EventHandler<TransitionEventArgs> onTransitionDone;
-        protected virtual void OnRaiseTransitionDone(TransitionEventArgs e)
+        public delegate void transistionProgress(object sender, TransitionEventArgs e);
+        /// <summary>
+        /// fired during the transition progress
+        /// </summary>
+        public event EventHandler<TransitionEventArgs> onTransitionProgress;
+        protected virtual void OnRaiseTransitionProgress(TransitionEventArgs e)
         {
-            EventHandler<TransitionEventArgs> handler = onTransitionDone;
+            EventHandler<TransitionEventArgs> handler = onTransitionProgress;
             if (handler != null)
             {
                 e.Message = e.Message;
@@ -510,25 +574,27 @@ namespace BiederDB3
                 handler(this, e);
             }
         }
-
-        //private void InitializeComponent()
-        //{
-        //    this.pictureBox1 = new System.Windows.Forms.PictureBox();
-        //    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-        //    ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-        //    this.SuspendLayout();
-        //    // 
-        //    // pictureBox1
-        //    // 
-        //    this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-        //    this.pictureBox1.Name = "pictureBox1";
-        //    this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-        //    this.pictureBox1.TabIndex = 0;
-        //    this.pictureBox1.TabStop = false;
-        //    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-        //    ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-        //    this.ResumeLayout(false);
-
-        //}
+        public delegate void transitionDone(object sender, EventArgs e);
+        /// <summary>
+        /// fired on transition is done
+        /// </summary>
+        public event EventHandler<TransitionEventArgs> onTransitionDone;
+        protected virtual void OnRaiseTransitionDone(TransitionEventArgs e)
+        {
+            EventHandler<TransitionEventArgs> handler = onTransitionDone;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        private int RandomNumber(int min, int max)
+        {
+            return random.Next(min, max);
+        }
+        public TransitionTypes getRandom()
+        {
+            int r = RandomNumber(0, Enum.GetValues(typeof(TransitionTypes)).Length);
+            return (TransitionTypes)r;
+        }
     }
 }

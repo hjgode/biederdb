@@ -116,6 +116,7 @@ namespace BiederDB3
             dataclasses.Artikel.artikel[] _art = artClass.getArtikel("");
             try
             {
+                GC.Collect();
                 FormSlideshow2 frm = new FormSlideshow2(_art, chkOrderRandom.Checked);
                 //ImageControl1 frm = new ImageControl1(_art, chkOrderRandom.Checked);
                 frm.ShowDialog();

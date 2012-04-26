@@ -38,6 +38,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Name = "ImageTransitionControl";
             this.Size = new System.Drawing.Size(497, 390);
+            //this.SizeChanged += new System.EventHandler(this.ImageTransitionControl_SizeChanged);
             this.ResumeLayout(false);
 
         }
