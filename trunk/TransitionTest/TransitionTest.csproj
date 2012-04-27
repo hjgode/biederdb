@@ -48,17 +48,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\BiederDB3\ImageTransition3.cs">
+      <Link>ImageTransition3.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\BiederDB3\ImageTransition3.designer.cs">
+      <Link>ImageTransition3.designer.cs</Link>
+      <DependentUpon>ImageTransition3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageTransitionClass2.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="..\BiederDB3\ImageTransition3.resx">
+      <Link>ImageTransition3.resx</Link>
+      <DependentUpon>ImageTransition3.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
