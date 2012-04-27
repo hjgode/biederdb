@@ -1,4 +1,4 @@
-﻿namespace BiederDB3
+﻿namespace AnimationControl
 {
     partial class ImageTransitionControl
     {

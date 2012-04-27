@@ -11,9 +11,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace BiederDB3
+namespace AnimationControl
 {
-    public partial class ImageTransitionControl : UserControl,IDisposable
+    public partial class ImageTransitionControl : UserControl, IDisposable, ISupportInitialize
     {
         System.Threading.Timer t;
         System.Windows.Forms.Timer timer;
@@ -80,6 +80,12 @@ namespace BiederDB3
             //t.Dispose();
             _running = false;
         }
+        public void BeginInit()
+        {
+        }
+        public void EndInit()
+        {
+        }
 
         public ImageTransitionControl()
         {
@@ -101,13 +107,13 @@ namespace BiederDB3
         public new void Dispose()
         {
 #if USE_FORMS_TIMER
-            timer.Enabled=false;
+            timer.Enabled = false;
 #else
             t.change(0, Timeout.Infinite);
 #endif
             System.Diagnostics.Debug.WriteLine("Slideshow disposed");
         }
-        
+
         void timer_Tick(object sender, EventArgs e)
         {
             TimeSpan ts = DateTime.Now - this._startTime;
@@ -115,7 +121,7 @@ namespace BiederDB3
             if (_currentPercentage >= 100 || _running == false)
             {
 #if USE_FORMS_TIMER
-                timer.Enabled=false;
+                timer.Enabled = false;
 #else
                 t.Change(0, Timeout.Infinite);//stop timer
 #endif
@@ -171,7 +177,52 @@ namespace BiederDB3
             RotateDown,
             RotateLeft,
             RotateRight,
-            Rotate
+            Rotate,
+            /* ################################################################################### */
+            // see http://www.codeproject.com/Articles/43605/Image-Transition-in-VB-NET-Windows-Forms
+            // sliding effect, 8 effects
+            LeftToRight,
+            RighToLeft,
+            TopToDown,
+            DownToTop,
+            TopLeftToBottomRight,
+            BottomRightToTopLeft,
+            BottomLeftToTopRight,
+            TopRightToBottomLeft,
+
+            // rotating effect , 3 effects
+            Maximize,
+            //Rotate,
+            //Spin,
+
+            // shape effect , 3 effects
+            Circular,
+            Elliptical,
+            Rectangular,
+
+            // split effect , 4 effects
+            SplitHorizontal,
+            SplitVertical,
+            SplitBoom,
+            SplitQuarter,
+
+            // chess effect , 3 effects
+            ChessBoard,
+            ChessHorizontal,
+            ChessVertical,
+
+            // panorama effect , 3 effects
+            Panorama,
+            PanoramaHorizontal,
+            PanoramaVertical,
+
+            // spiral effect , 2 effects
+            //Spiral,
+            SpiralBoom,
+
+            // fade effect , 2 effects
+            //Fade,
+            Fade2Images
         }
         TransitionTypes _transitionType = TransitionTypes.Fade;
         public TransitionTypes TransitionType
@@ -206,8 +257,11 @@ namespace BiederDB3
             get { return _imageB; }
             set
             {
-                if(_imageB!=null)
+                if (_imageB != null)
+                {
                     this.BackgroundImage = _imageB;
+                    _imageA = _imageB;
+                }
                 _imageB = value;
                 System.Diagnostics.Debug.WriteLine("### new imageB");
                 //if (value != null)
@@ -229,10 +283,16 @@ namespace BiederDB3
             int w;
             int h;
             GraphicsPath pth;
-            int cw, ch, row;
+            int cw, ch, row, col, x, y;
             Region r;
             Rectangle rc;
             float fAngle;
+            Graphics g = e.Graphics;
+            Image m_AnimatedBitmap = ImageB;
+            Control control = this;
+            float m_AnimationPercent = _currentPercentage;
+            int m_Divider = _nHDivs;
+
             switch (this.TransitionType)
             {
                 case TransitionTypes.BarnDoor:
@@ -258,9 +318,9 @@ namespace BiederDB3
                     cw = (int)(this.Width * _currentPercentage / 100) / _nHDivs;
                     ch = this.Height / _nVDivs;
                     row = 0;
-                    for (int y = 0; y < this.Height; y += ch)
+                    for (y = 0; y < this.Height; y += ch)
                     {
-                        for (int x = 0; x < this.Width; x += this.Width / _nHDivs)
+                        for (x = 0; x < this.Width; x += this.Width / _nHDivs)
                         {
                             rc = new Rectangle(x, y, cw, ch);
                             if ((row & 1) == 1)
@@ -359,45 +419,45 @@ namespace BiederDB3
                 //rotations
                 case TransitionTypes.RotateUp:
                     mx = new Matrix();
-                    fAngle = -90f + (_currentPercentage/100) * 90f;
+                    fAngle = -90f + (_currentPercentage / 100) * 90f;
                     mx.Rotate(-fAngle);// (-90 + _currentPercentage * 90);
-                    e.Graphics.Transform=mx;
+                    e.Graphics.Transform = mx;
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 case TransitionTypes.RotateDown:
                     //move axis to top left
                     mx = new Matrix();
                     mx.Translate(0, 0);
-                    fAngle = 90f - (_currentPercentage/100) * 90f;
-                    mx.RotateAt(-fAngle, new PointF(0,-this.Height));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
-                    e.Graphics.Transform=mx;
+                    fAngle = 90f - (_currentPercentage / 100) * 90f;
+                    mx.RotateAt(-fAngle, new PointF(0, -this.Height));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
+                    e.Graphics.Transform = mx;
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 case TransitionTypes.RotateLeft:
                     //move axis to top left
                     mx = new Matrix();
                     mx.Translate(0, 0);
-                    fAngle = 90f - (_currentPercentage/100) * 90f;
-                    mx.RotateAt(-fAngle, new PointF(this.Width,0));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
-                    e.Graphics.Transform=mx;
+                    fAngle = 90f - (_currentPercentage / 100) * 90f;
+                    mx.RotateAt(-fAngle, new PointF(this.Width, 0));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
+                    e.Graphics.Transform = mx;
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 case TransitionTypes.RotateRight:
                     //move axis to top left
                     mx = new Matrix();
                     mx.Translate(0, 0);
-                    fAngle = 90f - (_currentPercentage/100) * 90f;
-                    mx.RotateAt(-fAngle, new PointF(this.Width,this.Height));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
-                    e.Graphics.Transform=mx;
+                    fAngle = 90f - (_currentPercentage / 100) * 90f;
+                    mx.RotateAt(-fAngle, new PointF(this.Width, this.Height));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
+                    e.Graphics.Transform = mx;
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 case TransitionTypes.Rotate:
                     //move axis to top left
                     mx = new Matrix();
                     mx.Translate(0, 0);
-                    fAngle = 180f - (_currentPercentage/100) * 180f;
-                    mx.RotateAt(-fAngle, new PointF(this.Width/2,this.Height/2));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
-                    e.Graphics.Transform=mx;
+                    fAngle = 180f - (_currentPercentage / 100) * 180f;
+                    mx.RotateAt(-fAngle, new PointF(this.Width / 2, this.Height / 2));//, MatrixOrder.Append);// (-90 + _currentPercentage * 90);
+                    e.Graphics.Transform = mx;
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
@@ -420,6 +480,7 @@ namespace BiederDB3
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
+                case TransitionTypes.LeftToRight:
                 case TransitionTypes.SlideLeft:
                     // a matrix is used to set the offset of the image
                     mx = new Matrix(1, 0, 0, 1, (this.Width * _currentPercentage / 100) - this.Width, 0);
@@ -429,6 +490,7 @@ namespace BiederDB3
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
+                case TransitionTypes.RighToLeft:
                 case TransitionTypes.SlideRight:
                     /*a translation transformation of movement of 3 in x-axis and 2 in the y-axis would be represented as:
                      * [ 1 0 ]
@@ -442,6 +504,7 @@ namespace BiederDB3
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
+                case TransitionTypes.TopToDown:
                 case TransitionTypes.SlideDown:
                     /*a translation transformation of movement of 3 in x-axis and 2 in the y-axis would be represented as:
                      * [ 1 0 ]
@@ -456,6 +519,7 @@ namespace BiederDB3
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
+                case TransitionTypes.DownToTop:
                 case TransitionTypes.SlideUp:
                     /*a translation transformation of movement of 3 in x-axis and 2 in the y-axis would be represented as:
                      * [ 1 0 ]
@@ -463,11 +527,40 @@ namespace BiederDB3
                      * [ 3 2 ]
                     */
                     //start at bottom and go up to top
-                    mx = new Matrix(1, 0, 0, 1, 0, this.Height - (this.Height * _currentPercentage / 100));
+                    mx = new Matrix(1, 0, 0, 1, 0, this.Height - (this.Height * _currentPercentage / 100f));
                     // the matrix modifies the Graphics object
                     e.Graphics.Transform = mx;
                     // the image is drawn
                     e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    break;
+                case TransitionTypes.TopLeftToBottomRight:
+                    mx = new System.Drawing.Drawing2D.Matrix(1, 0, 0, 1, (this.Width * _currentPercentage / 100f) - this.Width, (this.Height * _currentPercentage / 100f) - this.Height);
+                    e.Graphics.Transform = mx;
+                    e.Graphics.DrawImage(_imageB, this.ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    mx.Dispose();
+
+                    break;
+                case TransitionTypes.TopRightToBottomLeft:
+                    // Image slide from top right to bottom left effect
+
+                    mx = new System.Drawing.Drawing2D.Matrix(1, 0, 0, 1, -(this.Width * _currentPercentage / 100) + this.Width, (this.Height * _currentPercentage / 100) - this.Height);
+                    g.Transform = mx;
+                    g.DrawImage(_imageB, this.ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    mx.Dispose();
+                    break;
+                case TransitionTypes.BottomRightToTopLeft:
+                    // Image Slides from bottom right to top left
+                    mx = new System.Drawing.Drawing2D.Matrix(1, 0, 0, 1, -(control.Width * m_AnimationPercent / 100) + control.Width, -(control.Height * m_AnimationPercent / 100) + control.Height);
+                    g.Transform = mx;
+                    g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    mx.Dispose();
+                    break;
+                case TransitionTypes.BottomLeftToTopRight:
+                    // Image Slides from bottom left to top right effect
+                    mx = new System.Drawing.Drawing2D.Matrix(1, 0, 0, 1, (control.Width * m_AnimationPercent / 100) - control.Width, -(control.Height * m_AnimationPercent / 100) + control.Height);
+                    g.Transform = mx;
+                    g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    mx.Dispose();
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
                 case TransitionTypes.Spin:
@@ -494,7 +587,7 @@ namespace BiederDB3
                 /////////////////////////////////////////////////////////////////////////////////
                 case TransitionTypes.BlindsHorizontal:
                     // blinds divide the image into n horizontal stripes
-                    for (int y = 0; y < _nHDivs; y++)
+                    for (y = 0; y < _nHDivs; y++)
                     {
                         //for each stripe, find the source in the overlay image
                         Rectangle src = new Rectangle(0, y * (_imageB.Height / _nHDivs), _imageB.Width, _imageB.Height / _nHDivs);
@@ -509,7 +602,7 @@ namespace BiederDB3
                 /////////////////////////////////////////////////////////////////////////////////
                 case TransitionTypes.BlindsVertical:
                     // blinds divide the image into n horizontal stripes
-                    for (int y = 0; y < _nVDivs; y++)
+                    for (y = 0; y < _nVDivs; y++)
                     {
                         //for each stripe, find the source in the overlay image
                         Rectangle src = new Rectangle(
@@ -526,8 +619,310 @@ namespace BiederDB3
                     }
 
                     break;
+                case TransitionTypes.ChessBoard:
+                    // Image chess board effect
+
+                    GraphicsPath Path = new GraphicsPath();
+                    cw = Convert.ToInt32((control.Width * m_AnimationPercent / 100)) / m_Divider;
+                    ch = Convert.ToInt32((control.Height * m_AnimationPercent / 100)) / m_Divider;
+                    row = 0;
+                    col = 0;
+
+                    y = 0;
+                    while (y < control.Height)
+                    {
+                        x = 0;
+                        while (x < control.Width)
+                        {
+                            rc = new Rectangle(x, y, cw, ch);
+                            if ((row & 1) == 1)
+                            {
+                                if ((col & 1) == 1)
+                                {
+                                    rc.Offset(control.Width / (2 * m_Divider), control.Height / (2 * m_Divider));
+                                }
+                            }
+                            Path.AddRectangle(rc);
+                            if (m_AnimationPercent >= 50 && (row & 1) == 1 && x == 0)
+                            {
+                                if (m_AnimationPercent >= 50 && (col & 1) == 1 && y == 0)
+                                {
+                                    rc.Offset((control.Width / m_Divider), (control.Height / m_Divider));
+                                    Path.AddRectangle(rc);
+
+                                }
+                            }
+                            x += control.Width / m_Divider;
+                        }
+                        row += 1;
+                        y += control.Height / m_Divider;
+                    }
+                    col += 1;
+
+                    r = new Region(Path);
+                    g.SetClip(r, CombineMode.Intersect);
+                    g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    r.Dispose();
+                    Path.Dispose();
+                    break; // TODO: might not be correct. Was : Exit Select
+                case TransitionTypes.ChessHorizontal:
+                    // Image chess board horizontal effect
+
+                    Path = new GraphicsPath();
+                    cw = Convert.ToInt32((control.Width * m_AnimationPercent / 100)) / m_Divider;
+                    ch = control.Height / m_Divider;
+                    row = 0;
+                    y = 0;
+                    while (y < control.Height)
+                    {
+                        x = 0;
+                        while (x < control.Width)
+                        {
+                            rc = new Rectangle(x, y, cw, ch);
+                            if ((row & 1) == 1)
+                            {
+                                rc.Offset(control.Width / (2 * m_Divider), 0);
+                            }
+                            Path.AddRectangle(rc);
+                            if (m_AnimationPercent >= 50 && (row & 1) == 1 && x == 0)
+                            {
+                                rc.Offset(-(control.Width / m_Divider), 0);
+                                Path.AddRectangle(rc);
+                            }
+                            x += control.Width / m_Divider;
+                        }
+                        row += 1;
+                        y += ch;
+                    }
+                    r = new Region(Path);
+                    g.SetClip(r, CombineMode.Intersect);
+                    g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    r.Dispose();
+                    Path.Dispose();
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.ChessVertical:
+                    // Image chess board vertical effect
+                    Path = new GraphicsPath();
+                    cw = control.Width / m_Divider;
+                    System.Diagnostics.Debug.WriteLine("m_AnimationPercent=" + m_AnimationPercent.ToString());
+                    ch = Convert.ToInt32((control.Height * m_AnimationPercent / 100)) / m_Divider;
+                    col = 0;
+                    x = 0;
+
+                    while (x < control.Width)
+                    {
+                        y = 0;
+                        while (y < control.Height)
+                        {
+                            rc = new Rectangle(x, y, cw, ch);
+                            if ((col & 1) == 1)
+                            {
+                                rc.Offset(0, control.Height / (2 * m_Divider));
+                            }
+                            Path.AddRectangle(rc);
+                            if (m_AnimationPercent >= 50 && (col & 1) == 1 && y == 0)
+                            {
+                                rc.Offset(0, -(control.Height / m_Divider));
+                                Path.AddRectangle(rc);
+                            }
+                            y += control.Height / m_Divider;
+                        }
+                        col += 1;
+                        x += cw;
+                    }
+                    r = new Region(Path);
+                    g.SetClip(r, CombineMode.Intersect);
+                    g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    r.Dispose();
+                    Path.Dispose();
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.Circular:
+                    // Image circular effect
+
+                    Path = new System.Drawing.Drawing2D.GraphicsPath();
+                    w = Convert.ToInt32(((control.Width * 1.414f) * m_AnimationPercent / 200f));
+                    h = Convert.ToInt32(((control.Height * 1.414f) * m_AnimationPercent / 200f));
+
+                    Path.AddEllipse(Convert.ToInt32(control.Width / 2) - w, Convert.ToInt32(control.Height / 2) - h, 2 * w, 2 * h);
+                    g.SetClip(Path, System.Drawing.Drawing2D.CombineMode.Replace);
+                    g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    Path.Dispose();
+
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.Fade2Images:
+                    // fade two image effect
+
+
+                    if (true)
+                    {
+                        if (m_AnimationPercent < 100)
+                        {
+                            if (_imageA != null)
+                            {
+                                g.DrawImage(_imageA, control.ClientRectangle, 0, 0, _imageA.Width, _imageA.Height, GraphicsUnit.Pixel);
+                            }
+                        }
+
+                        ImageAttributes attr = new ImageAttributes();
+                        ColorMatrix cmx = new ColorMatrix();
+                        cmx.Matrix33 = 1f / 255f * (255f * m_AnimationPercent / 100f);
+                        attr.SetColorMatrix(cmx);
+                        g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel, attr);
+                        attr.Dispose();
+
+                    }
+
+                    break; // TODO: might not be correct. Was : Exit Select
+                case TransitionTypes.Elliptical:
+                    // Image elliptical effect
+
+                    Path = new System.Drawing.Drawing2D.GraphicsPath();
+                    w = Convert.ToInt32(((control.Width * 1.1 * 1.42f) * m_AnimationPercent / 200f));
+                    h = Convert.ToInt32(((control.Height * 1.3 * 1.42f) * m_AnimationPercent / 200f));
+
+                    Path.AddEllipse(Convert.ToInt32(control.Width / 2) - w, Convert.ToInt32(control.Height / 2) - h, 2 * w, 2 * h);
+                    g.SetClip(Path, System.Drawing.Drawing2D.CombineMode.Replace);
+                    g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    Path.Dispose();
+
+                    break; // TODO: might not be correct. Was : Exit Select
+                case TransitionTypes.Maximize:
+                    // Image maximize effect
+
+                    float m_scale = m_AnimationPercent / 100f;
+                    float cX = control.Width / 2f;
+                    float cY = control.Height / 2f;
+
+                    if (m_scale == 0)
+                    {
+                        m_scale = 0.0001f;
+                    }
+                    mx = new System.Drawing.Drawing2D.Matrix(m_scale, 0, 0, m_scale, cX, cY);
+                    g.Transform = mx;
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(-control.Width / 2, -control.Height / 2, control.Width, control.Height), 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.Rectangular:
+                    // Image rectangular effect
+                    System.Diagnostics.Debug.WriteLine("m_AnimationPercent=" + m_AnimationPercent.ToString());
+
+                    Path = new System.Drawing.Drawing2D.GraphicsPath();
+                    w = Convert.ToInt32(((control.Width * 1.414f) * m_AnimationPercent / 200f));
+                    h = Convert.ToInt32(((control.Height * 1.414f) * m_AnimationPercent / 200f));
+
+                    Rectangle rect = new Rectangle(Convert.ToInt32(control.Width / 2) - w, Convert.ToInt32(control.Height / 2) - h, 2 * w, 2 * h);
+                    Path.AddRectangle(rect);
+
+                    g.SetClip(Path, System.Drawing.Drawing2D.CombineMode.Replace);
+                    g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    Path.Dispose();
+
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.SplitHorizontal:
+                    // Image split horizontal effect
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, 0, Convert.ToInt32((control.Width * m_AnimationPercent / 200)), control.Height), 0, 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(Convert.ToInt32((control.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), 0, Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), control.ClientRectangle.Height), Convert.ToInt32(m_AnimatedBitmap.Width / 2), 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.SplitQuarter:
+                    // Image split quarter effect
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, 0, Convert.ToInt32((control.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.Height * m_AnimationPercent / 200))), 0, 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(Convert.ToInt32((control.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), 0, Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), Convert.ToInt32(m_AnimatedBitmap.Width / 2), 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, Convert.ToInt32((control.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), 0, Convert.ToInt32(m_AnimatedBitmap.Height / 2), Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(Convert.ToInt32((control.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), Convert.ToInt32((control.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.SplitBoom:
+                    // Image split shake effect
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, 0, Convert.ToInt32((control.Width * m_AnimationPercent / 200)), control.ClientRectangle.Height), 0, 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(Convert.ToInt32((control.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), 0, Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), control.ClientRectangle.Height), Convert.ToInt32(m_AnimatedBitmap.Width / 2), 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, 0, control.Width, Convert.ToInt32((control.Height * m_AnimationPercent / 200))), 0, 0, m_AnimatedBitmap.Width, Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, Convert.ToInt32((control.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), control.ClientRectangle.Width, Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), 0, Convert.ToInt32(m_AnimatedBitmap.Height / 2), m_AnimatedBitmap.Width, Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.SplitVertical:
+                    // Image split vertical effect
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, 0, control.Width, Convert.ToInt32((control.Height * m_AnimationPercent / 200))), 0, 0, m_AnimatedBitmap.Width, Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, Convert.ToInt32((control.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), control.ClientRectangle.Width, Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), 0, Convert.ToInt32(m_AnimatedBitmap.Height / 2), m_AnimatedBitmap.Width, Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.Panorama:
+                    // Image panorama effect
+                    for (y = 0; y <= m_Divider - 1; y++)
+                    {
+                        for (x = 0; x <= m_Divider - 1; x++)
+                        {
+                            Rectangle src = new Rectangle(x * (m_AnimatedBitmap.Width / m_Divider), y * (m_AnimatedBitmap.Height / m_Divider), m_AnimatedBitmap.Width / m_Divider, m_AnimatedBitmap.Height / m_Divider);
+                            Rectangle drc = new Rectangle(x * (control.Width / m_Divider), y * (control.Height / m_Divider), Convert.ToInt32(((control.Width / m_Divider) * m_AnimationPercent / 100)), Convert.ToInt32(((control.Height / m_Divider) * m_AnimationPercent / 100)));
+                            drc.Offset((control.Width / (m_Divider * 2)) - drc.Width / 2, (control.Height / (m_Divider * 2)) - drc.Height / 2);
+                            g.DrawImage(m_AnimatedBitmap, drc, src, GraphicsUnit.Pixel);
+                        }
+                    }
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.PanoramaHorizontal:
+                    // Image panorama horizontal effect
+                    for (y = 0; y <= m_Divider - 1; y++)
+                    {
+                        Rectangle src = new Rectangle(0, y * (m_AnimatedBitmap.Height / m_Divider), m_AnimatedBitmap.Width, m_AnimatedBitmap.Height / m_Divider);
+                        Rectangle drc = new Rectangle(0, y * (control.Height / m_Divider), control.Width, Convert.ToInt32(((control.Height / m_Divider) * m_AnimationPercent / 100)));
+                        drc.Offset(0, (control.Height / (m_Divider * 2)) - drc.Height / 2);
+                        g.DrawImage(m_AnimatedBitmap, drc, src, GraphicsUnit.Pixel);
+                    }
+                    break; // TODO: might not be correct. Was : Exit Select
+                // --------------->
+                case TransitionTypes.PanoramaVertical:
+                    // Image panorama vetical effect
+                    for (x = 0; x <= m_Divider - 1; x++)
+                    {
+                        Rectangle src = new Rectangle(x * (m_AnimatedBitmap.Width / m_Divider), 0, m_AnimatedBitmap.Width / m_Divider, m_AnimatedBitmap.Height);
+                        Rectangle drc = new Rectangle(x * (control.Width / m_Divider), 0, Convert.ToInt32(((control.Width / m_Divider) * m_AnimationPercent / 100)), control.Height);
+                        drc.Offset((control.Width / (m_Divider * 2)) - drc.Width / 2, 0);
+                        g.DrawImage(m_AnimatedBitmap, drc, src, GraphicsUnit.Pixel);
+                    }
+                    break;
+                case TransitionTypes.SpiralBoom:
+                    // Image spiral boom effect
+                    if (m_AnimationPercent < 100)
+                    {
+                        double percentageAngle = m_Divider * (Math.PI * 2) / 100;
+                        double percentageDistance = Math.Max(control.Width, control.Height) / 100;
+                        Path = new GraphicsPath(FillMode.Winding);
+                        float cx = control.Width / 2;
+                        float cy = control.Height / 2;
+                        double pc1 = m_AnimationPercent - 100;
+                        double pc2 = m_AnimationPercent;
+                        if (pc1 < 0)
+                        {
+                            pc1 = 0;
+                        }
+                        double a = percentageAngle * pc2;
+                        PointF last = new PointF(Convert.ToSingle((cx + (pc1 * percentageDistance * Math.Cos(a)))), Convert.ToSingle((cy + (pc1 * percentageDistance * Math.Sin(a)))));
+                        a = percentageAngle * pc1;
+                        while (pc1 <= pc2)
+                        {
+                            PointF thisPoint = new PointF(Convert.ToSingle((cx + (pc1 * percentageDistance * Math.Cos(a)))), Convert.ToSingle((cy + (pc1 * percentageDistance * Math.Sin(a)))));
+                            Path.AddLine(last, thisPoint);
+                            last = thisPoint;
+                            pc1 += 0.1;
+                            a += percentageAngle / 10;
+                        }
+
+                        Path.CloseFigure();
+                        g.SetClip(Path, CombineMode.Exclude);
+                        Path.Dispose();
+                    }
+                    g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
+                    break; // TODO: might not be correct. Was : Exit Select
+                default:
+                    throw new NotImplementedException("No transition called '" + this.TransitionType.ToString()+"'");
             }
-            
+
             //if (_currentPercentage == 100)
             //{
             //    _running = false;
@@ -535,7 +930,7 @@ namespace BiederDB3
             //        t.Dispose();
             //    t = null;
             //}
-            
+
             base.OnPaint(e);
         }
         //event stuff

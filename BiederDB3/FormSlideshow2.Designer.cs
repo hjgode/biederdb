@@ -1,4 +1,6 @@
-﻿namespace BiederDB3
+﻿using AnimationControl;
+
+namespace BiederDB3
 {
     partial class FormSlideshow2
     {
@@ -29,7 +31,7 @@
         private void InitializeComponent()
         {
             this.txtArtikelText = new System.Windows.Forms.TextBox();
-            this.imageTransition31 = new BiederDB3.ImageTransitionControl();
+            this.imageTransition31 = new ImageTransitionControl();
             this.SuspendLayout();
             // 
             // txtArtikelText
@@ -56,7 +58,7 @@
             this.imageTransition31.Size = new System.Drawing.Size(792, 500);
             this.imageTransition31.TabIndex = 0;
             this.imageTransition31.TransitionTime = 1F;
-            this.imageTransition31.TransitionType = BiederDB3.ImageTransitionControl.TransitionTypes.Fade;
+            this.imageTransition31.TransitionType = ImageTransitionControl.TransitionTypes.Fade;
             this.imageTransition31.Click += new System.EventHandler(this.imageTransition31_Click_1);
             // 
             // FormSlideshow2

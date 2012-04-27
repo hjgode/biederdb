@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using AnimationControl;
+
 namespace BiederDB3
 {
     public partial class FormSlideshow2 : Form
