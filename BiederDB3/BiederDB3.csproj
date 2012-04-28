@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{938A24C8-0926-4FEB-96D3-273F2371231A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -186,7 +186,6 @@
     <Compile Include="ImageTransition3.Designer.cs">
       <DependentUpon>ImageTransition3.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageTransitionsClass.cs" />
     <Compile Include="LoggerClass.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
@@ -246,6 +245,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSlideshow2.resx">
       <DependentUpon>FormSlideshow2.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTextEdit.resx">
       <DependentUpon>FormTextEdit.cs</DependentUpon>
@@ -257,6 +257,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImageTransition3.resx">
       <DependentUpon>ImageTransition3.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
