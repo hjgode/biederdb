@@ -80,13 +80,13 @@ namespace TransitionTest
             // imageTransitionControl1
             // 
             this.imageTransitionControl1.BackColor = System.Drawing.SystemColors.Highlight;
-            this.imageTransitionControl1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.imageTransitionControl1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.imageTransitionControl1.ImageA = null;
             this.imageTransitionControl1.ImageB = null;
             this.imageTransitionControl1.Location = new System.Drawing.Point(8, 10);
             this.imageTransitionControl1.Name = "imageTransitionControl1";
             this.imageTransitionControl1.pauseTime = 1.5F;
-            this.imageTransitionControl1.Size = new System.Drawing.Size(317, 336);
+            this.imageTransitionControl1.Size = new System.Drawing.Size(320, 320);
             this.imageTransitionControl1.TabIndex = 7;
             this.imageTransitionControl1.TransitionTime = 1F;
             this.imageTransitionControl1.TransitionType = AnimationControl.ImageTransitionControl.TransitionTypes.Fade;

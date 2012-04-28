@@ -246,8 +246,8 @@ namespace AnimationControl
                 if (value != null)
                 {
                     System.Diagnostics.Debug.WriteLine("### new imageA");
+                    _imageA = centerImage(value, this.Width, this.Height);
                 }
-                //    scaleImage(this, _imageA);
             }
         }
 
@@ -262,10 +262,11 @@ namespace AnimationControl
                     this.BackgroundImage = _imageB;
                     _imageA = _imageB;
                 }
-                _imageB = value;
-                System.Diagnostics.Debug.WriteLine("### new imageB");
-                //if (value != null)
-                //    _imageB = scaleImage(this, _imageB);
+                if (value != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("### new imageB");
+                    _imageB = centerImage(value, this.Width, this.Height);
+                }
             }
         }
 
@@ -990,6 +991,59 @@ namespace AnimationControl
         {
             int r = RandomNumber(0, Enum.GetValues(typeof(TransitionTypes)).Length);
             return (TransitionTypes)r;
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            if(_imageA!=null)
+                _imageA = centerImage(_imageA, this.Width, this.Height);
+            if(_imageB!=null)
+                _imageB = centerImage(_imageB, this.Width, this.Height);
+            base.OnSizeChanged(e);
+        }
+        private Image ScaleImage(Image source, int MaxWidth, int MaxHeight)
+        {
+            float MaxRatio = MaxWidth / (float)MaxHeight;
+            float ImgRatio = source.Width / (float)source.Height;
+
+            if (source.Width > MaxWidth)
+                return new Bitmap(source, new Size(MaxWidth, (int)Math.Round(MaxWidth /
+                ImgRatio, 0)));
+
+            if (source.Height > MaxHeight)
+                return new Bitmap(source, new Size((int)Math.Round(MaxWidth * ImgRatio,
+                0), MaxHeight));
+
+            return source;
+        }
+        private Image centerImage(Image source, int MaxWidth, int MaxHeight)
+        {
+            //first create an image of the desired size with a filled backgound
+            Bitmap bmpBackground = (Bitmap) ScaleImage(source, MaxWidth, MaxHeight);
+            Bitmap finalImage = new Bitmap(bmpBackground, MaxWidth, MaxHeight);
+            //fill the background
+            Graphics gBackground = Graphics.FromImage(finalImage);
+            gBackground.Clear(Color.LightBlue);
+            int xOff = (int)((MaxWidth - bmpBackground.Width) / 2);
+            int yOff = (int)((MaxHeight - bmpBackground.Height) / 2);
+            
+            gBackground.DrawRectangle(new Pen(Brushes.AliceBlue), new Rectangle(0, 0, MaxWidth, MaxHeight));
+
+            System.Diagnostics.Debug.WriteLine(string.Format("centerImage: {0}/{1}, {2}/{3}, Offset: {4},{5}",
+                MaxWidth, MaxHeight,
+                bmpBackground.Width, bmpBackground.Height,
+                xOff, yOff));
+            gBackground.DrawImage(
+                source, new Rectangle(
+                xOff,
+                yOff,
+                bmpBackground.Width,
+                bmpBackground.Height
+                ));
+            
+            gBackground.Dispose();
+            System.Diagnostics.Debug.WriteLine(string.Format("finalImage: {0}/{1}", finalImage.Width, finalImage.Height));
+            return finalImage;
         }
     }
 }
