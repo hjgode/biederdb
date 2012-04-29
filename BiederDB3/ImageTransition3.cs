@@ -28,7 +28,7 @@ namespace AnimationControl
         /// <summary>
         /// number of horiz. tiles
         /// </summary>
-        public int _nHDivs = 4;
+        public int _nHDivs = 5;
         /// <summary>
         /// number of vert. tiles
         /// </summary>
@@ -222,7 +222,8 @@ namespace AnimationControl
 
             // fade effect , 2 effects
             //Fade,
-            Fade2Images
+            Fade2Images,
+			RectanglesRunLeft
         }
         TransitionTypes _transitionType = TransitionTypes.Fade;
         public TransitionTypes TransitionType
@@ -296,6 +297,24 @@ namespace AnimationControl
 
             switch (this.TransitionType)
             {
+			case TransitionTypes.RectanglesRunLeft:
+				w=ImageB.Width/_nHDivs;
+				h=ImageB.Height/_nVDivs;
+				int numRects=_nHDivs*_nVDivs;
+				int nRect=(int)(_currentPercentage/100) * numRects;
+				pth=new GraphicsPath();
+				for(x=0;x<nRect;x++){
+					row=x % _nVDivs;
+					col=x-(row*_nVDivs);
+					pth.AddRectangle(new Rectangle(col*w,row*h,w,h));
+				}
+                    r = new Region(pth);
+                    e.Graphics.SetClip(r, CombineMode.Replace);
+                    e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    r.Dispose();
+                    pth.Dispose();
+				break;
+				
                 case TransitionTypes.BarnDoor:
                     //has the effect of a barn door closing over the image
                     //First, the left-side is drawn
@@ -463,22 +482,26 @@ namespace AnimationControl
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
                 case TransitionTypes.ZoomCenter:
+				if(_currentPercentage==0)
+					break;
                     /*A composite transformation is made up of the product of two or more matrices. Take for example, a scaling matrix with factor 2 in x-axis and 3 in y-axis.
                      * [ 2 0 ]
                      * [ 0 3 ]
                      * [ 0 0 ]  //move
                      */
                     // a matrix is used to set the offset of the image
+				w=ImageB.Width;
+				h=ImageB.Height;
                     mx = new Matrix(
-                        _currentPercentage / 100 + 0.1f, 0,
-                        0, _currentPercentage / 100 + 0.1f,
-                        (this.Width / 2) - (this.Width / 2 * (_currentPercentage / 100)),
-                        (this.Height / 2) - (this.Height / 2 * (_currentPercentage / 100))
+                        _currentPercentage / 100f, 0,
+                        0, _currentPercentage / 100f,
+                        (w / 2) - (w / 2 * (_currentPercentage / 100)),
+                        (h / 2) - (h / 2 * (_currentPercentage / 100))
                         );// (this.Width * _currentPercentage / 100) - this.Width
                     // the matrix modifies the Graphics object
                     e.Graphics.Transform = mx;
                     // the image is drawn
-                    e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    e.Graphics.DrawImage(_imageB, new Rectangle(0,0,w,h), 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
                 case TransitionTypes.LeftToRight:
@@ -832,10 +855,47 @@ namespace AnimationControl
                 // --------------->
                 case TransitionTypes.SplitQuarter:
                     // Image split quarter effect
-                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, 0, Convert.ToInt32((control.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.Height * m_AnimationPercent / 200))), 0, 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
-                    g.DrawImage(m_AnimatedBitmap, new Rectangle(Convert.ToInt32((control.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), 0, Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), Convert.ToInt32(m_AnimatedBitmap.Width / 2), 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
-                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, Convert.ToInt32((control.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), 0, Convert.ToInt32(m_AnimatedBitmap.Height / 2), Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
-                    g.DrawImage(m_AnimatedBitmap, new Rectangle(Convert.ToInt32((control.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), Convert.ToInt32((control.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, 
+			new Rectangle(
+			0, 
+			0, 
+			Convert.ToInt32((ClientRectangle.Width * m_AnimationPercent / 200)), 
+			Convert.ToInt32((ClientRectangle.Height * m_AnimationPercent / 200))), 
+			0, 
+			0, 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
+			GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, 
+			new Rectangle(
+			Convert.ToInt32((ClientRectangle.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), 0, 
+			Convert.ToInt32((ClientRectangle.Width * m_AnimationPercent / 200)), 
+			Convert.ToInt32((ClientRectangle.Height * m_AnimationPercent / 200))), 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 0, 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, 
+			new Rectangle(
+			0, 
+			Convert.ToInt32((ClientRectangle.Height - Convert.ToInt32(ClientRectangle.Height * m_AnimationPercent / 200))), 
+			Convert.ToInt32((ClientRectangle.Width * m_AnimationPercent / 200)), 
+			Convert.ToInt32((ClientRectangle.Height * m_AnimationPercent / 200))), 
+			0, 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
+			GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, 
+			new Rectangle(
+			Convert.ToInt32((ClientRectangle.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), 
+			Convert.ToInt32((ClientRectangle.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), 
+			Convert.ToInt32((ClientRectangle.Width * m_AnimationPercent / 200)), 
+			Convert.ToInt32((ClientRectangle.Height * m_AnimationPercent / 200))), 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
+			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
+			GraphicsUnit.Pixel);
                     break; // TODO: might not be correct. Was : Exit Select
                 // --------------->
                 case TransitionTypes.SplitBoom:
