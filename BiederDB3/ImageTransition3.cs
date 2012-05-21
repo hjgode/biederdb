@@ -28,7 +28,7 @@ namespace AnimationControl
         /// <summary>
         /// number of horiz. tiles
         /// </summary>
-        public int _nHDivs = 5;
+        public int _nHDivs = 4;
         /// <summary>
         /// number of vert. tiles
         /// </summary>
@@ -223,7 +223,35 @@ namespace AnimationControl
             // fade effect , 2 effects
             //Fade,
             Fade2Images,
-			RectanglesRunLeft
+
+            //##############
+            pieRight,
+            pieLeft,
+            pieTopLeft,
+            pieTopRight,
+            pieBottomRight,
+            pieBottomLeftClock,
+            pieBottomLeftCounterClock,
+            checkersDiagonal,
+            checkersBottomRightHorizontal,
+            checkersBottomRightVertical,
+            checkersTopLeftHorizontal,
+            checkersTopLeftVertical,
+			//pieRight(e.Graphics, _currentPercentage);     //OK
+            //pieLeft(e.Graphics, _currentPercentage);      //OK
+            //pieTopLeft(e.Graphics, _currentPercentage);     //OK
+            //pieTopRight(e.Graphics, _currentPercentage);      //OK
+            //pieBottomRight(e.Graphics, _currentPercentage);   //OK
+            //pieBottomLeft(e.Graphics, _currentPercentage, direction.clockwise); //OK
+            //pieBottomLeft(e.Graphics, _currentPercentage, direction.counterClockwise);  //OK
+            
+            //checkers(e.Graphics, _currentPercentage, checkerDir.TopLeftDiagonal); 
+            //TopLeftDiagonal:          OK
+            //BottomRightHorizontal:    OK
+            //BottomRightVertical:      OK
+            //TopLeftHorizontal:        OK
+            //TopLeftVertical:          OK
+
         }
         TransitionTypes _transitionType = TransitionTypes.Fade;
         public TransitionTypes TransitionType
@@ -247,8 +275,8 @@ namespace AnimationControl
                 if (value != null)
                 {
                     System.Diagnostics.Debug.WriteLine("### new imageA");
-                    _imageA = centerImage(value, this.Width, this.Height);
                 }
+                //    scaleImage(this, _imageA);
             }
         }
 
@@ -263,11 +291,10 @@ namespace AnimationControl
                     this.BackgroundImage = _imageB;
                     _imageA = _imageB;
                 }
-                if (value != null)
-                {
-                    System.Diagnostics.Debug.WriteLine("### new imageB");
-                    _imageB = centerImage(value, this.Width, this.Height);
-                }
+                _imageB = value;
+                System.Diagnostics.Debug.WriteLine("### new imageB");
+                //if (value != null)
+                //    _imageB = scaleImage(this, _imageB);
             }
         }
 
@@ -297,24 +324,6 @@ namespace AnimationControl
 
             switch (this.TransitionType)
             {
-			case TransitionTypes.RectanglesRunLeft:
-				w=ImageB.Width/_nHDivs;
-				h=ImageB.Height/_nVDivs;
-				int numRects=_nHDivs*_nVDivs;
-				int nRect=(int)(_currentPercentage/100) * numRects;
-				pth=new GraphicsPath();
-				for(x=0;x<nRect;x++){
-					row=x % _nVDivs;
-					col=x-(row*_nVDivs);
-					pth.AddRectangle(new Rectangle(col*w,row*h,w,h));
-				}
-                    r = new Region(pth);
-                    e.Graphics.SetClip(r, CombineMode.Replace);
-                    e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
-                    r.Dispose();
-                    pth.Dispose();
-				break;
-				
                 case TransitionTypes.BarnDoor:
                     //has the effect of a barn door closing over the image
                     //First, the left-side is drawn
@@ -482,26 +491,22 @@ namespace AnimationControl
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
                 case TransitionTypes.ZoomCenter:
-				if(_currentPercentage==0)
-					break;
                     /*A composite transformation is made up of the product of two or more matrices. Take for example, a scaling matrix with factor 2 in x-axis and 3 in y-axis.
                      * [ 2 0 ]
                      * [ 0 3 ]
                      * [ 0 0 ]  //move
                      */
                     // a matrix is used to set the offset of the image
-				w=ImageB.Width;
-				h=ImageB.Height;
                     mx = new Matrix(
-                        _currentPercentage / 100f, 0,
-                        0, _currentPercentage / 100f,
-                        (w / 2) - (w / 2 * (_currentPercentage / 100)),
-                        (h / 2) - (h / 2 * (_currentPercentage / 100))
+                        _currentPercentage / 100 + 0.1f, 0,
+                        0, _currentPercentage / 100 + 0.1f,
+                        (this.Width / 2) - (this.Width / 2 * (_currentPercentage / 100)),
+                        (this.Height / 2) - (this.Height / 2 * (_currentPercentage / 100))
                         );// (this.Width * _currentPercentage / 100) - this.Width
                     // the matrix modifies the Graphics object
                     e.Graphics.Transform = mx;
                     // the image is drawn
-                    e.Graphics.DrawImage(_imageB, new Rectangle(0,0,w,h), 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+                    e.Graphics.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
                     break;
                 /////////////////////////////////////////////////////////////////////////////////
                 case TransitionTypes.LeftToRight:
@@ -855,47 +860,10 @@ namespace AnimationControl
                 // --------------->
                 case TransitionTypes.SplitQuarter:
                     // Image split quarter effect
-                    g.DrawImage(m_AnimatedBitmap, 
-			new Rectangle(
-			0, 
-			0, 
-			Convert.ToInt32((ClientRectangle.Width * m_AnimationPercent / 200)), 
-			Convert.ToInt32((ClientRectangle.Height * m_AnimationPercent / 200))), 
-			0, 
-			0, 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
-			GraphicsUnit.Pixel);
-                    g.DrawImage(m_AnimatedBitmap, 
-			new Rectangle(
-			Convert.ToInt32((ClientRectangle.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), 0, 
-			Convert.ToInt32((ClientRectangle.Width * m_AnimationPercent / 200)), 
-			Convert.ToInt32((ClientRectangle.Height * m_AnimationPercent / 200))), 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 0, 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), GraphicsUnit.Pixel);
-                    g.DrawImage(m_AnimatedBitmap, 
-			new Rectangle(
-			0, 
-			Convert.ToInt32((ClientRectangle.Height - Convert.ToInt32(ClientRectangle.Height * m_AnimationPercent / 200))), 
-			Convert.ToInt32((ClientRectangle.Width * m_AnimationPercent / 200)), 
-			Convert.ToInt32((ClientRectangle.Height * m_AnimationPercent / 200))), 
-			0, 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
-			GraphicsUnit.Pixel);
-                    g.DrawImage(m_AnimatedBitmap, 
-			new Rectangle(
-			Convert.ToInt32((ClientRectangle.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), 
-			Convert.ToInt32((ClientRectangle.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), 
-			Convert.ToInt32((ClientRectangle.Width * m_AnimationPercent / 200)), 
-			Convert.ToInt32((ClientRectangle.Height * m_AnimationPercent / 200))), 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Width / 2), 
-			Convert.ToInt32(/*m_AnimatedBitmap*/ClientRectangle.Height / 2), 
-			GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, 0, Convert.ToInt32((control.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.Height * m_AnimationPercent / 200))), 0, 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(Convert.ToInt32((control.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), 0, Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), Convert.ToInt32(m_AnimatedBitmap.Width / 2), 0, Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(0, Convert.ToInt32((control.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), 0, Convert.ToInt32(m_AnimatedBitmap.Height / 2), Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
+                    g.DrawImage(m_AnimatedBitmap, new Rectangle(Convert.ToInt32((control.Width - Convert.ToInt32(control.Width * m_AnimationPercent / 200))), Convert.ToInt32((control.Height - Convert.ToInt32(control.Height * m_AnimationPercent / 200))), Convert.ToInt32((control.ClientRectangle.Width * m_AnimationPercent / 200)), Convert.ToInt32((control.ClientRectangle.Height * m_AnimationPercent / 200))), Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), Convert.ToInt32(m_AnimatedBitmap.Width / 2), Convert.ToInt32(m_AnimatedBitmap.Height / 2), GraphicsUnit.Pixel);
                     break; // TODO: might not be correct. Was : Exit Select
                 // --------------->
                 case TransitionTypes.SplitBoom:
@@ -980,6 +948,57 @@ namespace AnimationControl
                     }
                     g.DrawImage(m_AnimatedBitmap, control.ClientRectangle, 0, 0, m_AnimatedBitmap.Width, m_AnimatedBitmap.Height, GraphicsUnit.Pixel);
                     break; // TODO: might not be correct. Was : Exit Select
+                    /*
+            pieRight,
+            pieLeft,
+            pieTopLeft,
+            pieTopRight,
+            pieBottomRight,
+            pieBottomLeftClock,
+            pieBottomLeftCounterClock,
+            checkersDiagonal,
+            checkersBottomRightHorizontal,
+            checkersBottomRightVertical,
+            checkersTopLeftHorizontal,
+            checkersTopLeftVertical,
+*/
+                case TransitionTypes.pieRight:
+                    pieRight(g, _currentPercentage);                    
+                    break;
+                case TransitionTypes.pieLeft:
+                    pieLeft(g, _currentPercentage);
+                    break;
+                case TransitionTypes.pieTopLeft:
+                    pieTopLeft(g, _currentPercentage);
+                    break;
+                case TransitionTypes.pieTopRight:
+                    pieTopRight(g, _currentPercentage);
+                    break;
+
+                case TransitionTypes.pieBottomRight:
+                    pieBottomRight(g,_currentPercentage);
+                    break;
+                case TransitionTypes.pieBottomLeftClock:
+                    pieBottomLeft(g,_currentPercentage,direction.clockwise);
+                    break;
+                case TransitionTypes.pieBottomLeftCounterClock:
+                    pieBottomLeft(g,_currentPercentage,direction.counterClockwise);
+                    break;
+                case TransitionTypes.checkersDiagonal:
+                    checkers(g,_currentPercentage,checkerDir.TopLeftDiagonal);
+                    break;
+                case TransitionTypes.checkersBottomRightHorizontal:
+                    checkers(g,_currentPercentage,checkerDir.BottomRightHorizontal);
+                    break;
+                case TransitionTypes.checkersBottomRightVertical:
+                    checkers(g,_currentPercentage,checkerDir.BottomRightVertical );
+                    break;
+                case TransitionTypes.checkersTopLeftHorizontal:
+                    checkers(g,_currentPercentage,checkerDir.TopLeftHorizontal);
+                    break;
+                case TransitionTypes.checkersTopLeftVertical:
+                    checkers(g, _currentPercentage, checkerDir.TopLeftVertical);
+                    break;
                 default:
                     throw new NotImplementedException("No transition called '" + this.TransitionType.ToString()+"'");
             }
@@ -994,6 +1013,290 @@ namespace AnimationControl
 
             base.OnPaint(e);
         }
+
+#region NewTransitions2
+        public enum checkerDir
+        {
+            TopLeftVertical,
+            TopLeftHorizontal,
+            BottomRightVertical,
+            BottomRightHorizontal,
+            TopLeftDiagonal
+        }
+        private void checkers(Graphics g, float _currentPercentage, checkerDir checkerdir)
+        {
+            System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+
+            path.FillMode = FillMode.Winding; //essential or you get every second rectangle left off
+
+            // add a set of points that define the shape
+            int w = this.Width / _nHDivs;
+            int h = this.Height / _nVDivs;// (int)(_currentPercentage/100f * this.Height);
+            int numRect = _nHDivs * _nVDivs;
+            int nRect = (int)(_currentPercentage / 100f * numRect);
+            int xDiv = 0;
+            int yDiv = 0;
+            int xRest = 0;
+            int yRest = 0;
+            for (int i = 0; i < nRect; i++)//  0 1 2 3 4 ... 20
+            {
+                xRest = i % _nHDivs; //integer division
+                yRest = i % _nVDivs;
+                xDiv = i / _nHDivs; //modulo => Rest of Division
+                yDiv = i / _nVDivs;
+                switch (checkerdir)
+                {
+                    case checkerDir.TopLeftDiagonal:
+                        //diagonal fill
+                        path.AddRectangle(new Rectangle(xRest * w, yRest * h, w, h));
+                        break;
+                    case checkerDir.TopLeftHorizontal:
+                        //left to right, top to bottom
+                        for (int x = 0; x <= xRest; x++)
+                        {
+                            for (int y = 0; y <= xDiv; y++)
+                            {
+                                path.AddRectangle(new Rectangle(x * w, y * h, w, h));
+                            }
+                        }
+                        break;
+                    case checkerDir.BottomRightHorizontal:
+                        //right to left, bottom to top
+                        for (int x = 0; x <= xRest; x++)
+                        {
+                            for (int y = 0; y <= xDiv; y++)
+                            {
+                                path.AddRectangle(new Rectangle((_nHDivs - x - 1) * w, (_nVDivs - y - 1) * h, w, h));
+                            }
+                        }
+                        break;
+                    case checkerDir.TopLeftVertical:
+                        //vertical from left
+                        for (int x = 0; x <= yDiv; x++)
+                        {
+                            for (int y = 0; y <= yRest; y++)
+                            {
+                                path.AddRectangle(new Rectangle(x * w, y * h, w, h));
+                            }
+                        }
+                        break;
+                    //vertical from right
+                    case checkerDir.BottomRightVertical:
+                        for (int x = 0; x <= yDiv; x++)
+                        {
+                            for (int y = 0; y <= yRest; y++)
+                            {
+                                path.AddRectangle(new Rectangle((_nHDivs - x - 1) * w, (_nVDivs - y - 1) * h, w, h));
+                            }
+                        }
+                        break;
+                }
+
+            } // next i
+
+            // close the shape
+            path.CloseAllFigures();
+
+            // set the clop region of the forms graphic object to be the new shape
+            g.Clip = new Region(path);
+            // draw the image cliped to the custom shape
+            g.DrawImage(_imageB, new Point(0, 0));
+        }
+
+        private void btnOK_Click(object sender, System.EventArgs e)
+        {
+            _currentPercentage += 5;
+            if (_currentPercentage > 100)
+                _currentPercentage = 0;
+            //_tb.Text=_currentPercentage.ToString();
+            this.Invalidate();
+        }
+        private void pieRight(Graphics g, float _currentPercentage)
+        {
+            if (_currentPercentage < 100)
+            {
+                double percentageAngle = _nHDivs * (Math.PI * 2) / 100;
+
+                GraphicsPath pth = new GraphicsPath(FillMode.Winding);
+                percentageAngle = _currentPercentage / 100 * 360;
+
+                System.Console.WriteLine("percentageAngle=" + percentageAngle.ToString());
+                int wOffs = (int)((this.Width - 1.4 * this.Width) / 2);
+                int hOffs = (int)((this.Height - 1.4 * this.Height) / 2);
+                pth.AddPie(new Rectangle(wOffs,
+                                         hOffs,
+                                         (int)(1.4 * this.Width), (int)(1.4 * this.Height)),
+                           -90f, (float)percentageAngle);
+
+                g.SetClip(pth, CombineMode.Replace);
+                pth.Dispose();
+            }
+            g.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+
+        }
+        private void pieLeft(Graphics g, float _currentPercentage)
+        {
+            if (_currentPercentage < 100)
+            {
+                double percentageAngle = _nHDivs * (Math.PI * 2) / 100;
+
+                GraphicsPath pth = new GraphicsPath(FillMode.Winding);
+                percentageAngle = _currentPercentage / 100 * 360;
+
+                System.Console.WriteLine("percentageAngle=" + percentageAngle.ToString());
+                int wOffs = (int)((this.Width - 1.4 * this.Width) / 2);
+                int hOffs = (int)((this.Height - 1.4 * this.Height) / 2);
+                pth.AddPie(new Rectangle(wOffs,
+                                         hOffs,
+                                         (int)(1.4 * this.Width), (int)(1.4 * this.Height)),
+                           -90f, (float)-percentageAngle);
+
+                g.SetClip(pth, CombineMode.Replace);
+                pth.Dispose();
+            }
+            g.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+
+        }
+        private void pieTopLeft(Graphics g, float _currentPercentage)
+        {
+            if (_currentPercentage < 100)
+            {
+                double percentageAngle = _nHDivs * (Math.PI * 2) / 100;
+
+                GraphicsPath pth = new GraphicsPath(FillMode.Winding);
+                percentageAngle = _currentPercentage / 100 * 90;
+                //pie radius
+                int r1 = (int)Math.Sqrt(this.Width * this.Width + this.Height * this.Height);
+
+                System.Console.WriteLine("percentageAngle=" + percentageAngle.ToString());
+                System.Console.WriteLine("r1=" + r1.ToString());
+
+                //the rectangle must be big enough to hold the effect
+                Rectangle rect = new Rectangle(0, 0,
+                                         2 * r1, 2 * r1);//(int)(r1*2), (int)(r1*2));
+
+                pth.AddPie(rect, 0f, (float)percentageAngle);
+                //now move the path
+                Matrix matrix = new Matrix();
+                matrix.Translate(-r1, -r1);
+                pth.Transform(matrix);
+
+                g.SetClip(pth, CombineMode.Replace);
+                pth.Dispose();
+            }
+            g.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+
+        }
+        private void pieTopRight(Graphics g, float _currentPercentage)
+        {
+            if (_currentPercentage < 100)
+            {
+                double percentageAngle = _nHDivs * (Math.PI * 2) / 100;
+
+                GraphicsPath pth = new GraphicsPath(FillMode.Winding);
+                percentageAngle = _currentPercentage / 100 * 90;
+                //pie radius
+                int r1 = (int)Math.Sqrt(this.Width * this.Width + this.Height * this.Height);
+
+                System.Console.WriteLine("percentageAngle=" + percentageAngle.ToString());
+                System.Console.WriteLine("r1=" + r1.ToString());
+
+                //the rectangle must be big enough to hold the effect
+                Rectangle rect = new Rectangle(0, 0,
+                                         2 * r1, 2 * r1);//(int)(r1*2), (int)(r1*2));
+
+                pth.AddPie(rect, 90f, (float)percentageAngle);
+
+                //now move the path upper and right
+                Matrix matrix = new Matrix();
+                matrix.Translate(-r1, -r1);
+                matrix.Translate(this.Width, 0);
+
+                pth.Transform(matrix);
+
+                g.SetClip(pth, CombineMode.Replace);
+                pth.Dispose();
+            }
+            g.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+
+        }
+        private void pieBottomRight(Graphics g, float _currentPercentage)
+        {
+            if (_currentPercentage < 100)
+            {
+                double percentageAngle = _nHDivs * (Math.PI * 2) / 100;
+
+                GraphicsPath pth = new GraphicsPath(FillMode.Winding);
+                percentageAngle = _currentPercentage / 100 * 90;
+                //pie radius
+                int r1 = (int)Math.Sqrt(this.Width * this.Width + this.Height * this.Height);
+
+                System.Console.WriteLine("percentageAngle=" + percentageAngle.ToString());
+                System.Console.WriteLine("r1=" + r1.ToString());
+
+                //the rectangle must be big enough to hold the effect
+                Rectangle rect = new Rectangle(0, 0,
+                                         2 * r1, 2 * r1);//(int)(r1*2), (int)(r1*2));
+
+                pth.AddPie(rect, 180f, (float)percentageAngle);
+
+                //now move the path upper and right
+                Matrix matrix = new Matrix();
+                matrix.Translate(-r1, -r1);
+                matrix.Translate(this.Width, this.Height);
+
+                pth.Transform(matrix);
+
+                g.SetClip(pth, CombineMode.Replace);
+                pth.Dispose();
+            }
+            g.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+
+        }
+        public enum direction
+        {
+            clockwise,
+            counterClockwise
+        }
+        private void pieBottomLeft(Graphics g, float _currentPercentage, direction dirP)
+        {
+            if (_currentPercentage < 100)
+            {
+                double percentageAngle = _nHDivs * (Math.PI * 2) / 100;
+
+                GraphicsPath pth = new GraphicsPath(FillMode.Winding);
+                percentageAngle = _currentPercentage / 100 * 90;
+                //pie radius
+                int r1 = (int)Math.Sqrt(this.Width * this.Width + this.Height * this.Height);
+
+                System.Console.WriteLine("percentageAngle=" + percentageAngle.ToString());
+                System.Console.WriteLine("r1=" + r1.ToString());
+
+                //the rectangle must be big enough to hold the effect
+                Rectangle rect = new Rectangle(0, 0,
+                                         2 * r1, 2 * r1);//(int)(r1*2), (int)(r1*2));
+                if (dirP == direction.counterClockwise)
+                    pth.AddPie(rect, 0f, -(float)percentageAngle);
+                else
+                    pth.AddPie(rect, 270f, (float)percentageAngle);
+
+                //now move the path upper and right
+                Matrix matrix = new Matrix();
+                matrix.Translate(-r1, -r1);
+                matrix.Translate(this.Width, this.Height);
+                matrix.Translate(-this.Width, 0);
+
+                pth.Transform(matrix);
+
+                g.SetClip(pth, CombineMode.Replace);
+                pth.Dispose();
+            }
+            g.DrawImage(_imageB, ClientRectangle, 0, 0, _imageB.Width, _imageB.Height, GraphicsUnit.Pixel);
+
+        }
+#endregion
+        //######### end transitions 2 ##################
+
         //event stuff
         public class TransitionEventArgs : EventArgs
         {
@@ -1050,60 +1353,8 @@ namespace AnimationControl
         public TransitionTypes getRandom()
         {
             int r = RandomNumber(0, Enum.GetValues(typeof(TransitionTypes)).Length);
+            System.Diagnostics.Debug.WriteLine("getRandom transition: " + ((TransitionTypes)r).ToString());
             return (TransitionTypes)r;
-        }
-
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            if(_imageA!=null)
-                _imageA = centerImage(_imageA, this.Width, this.Height);
-            if(_imageB!=null)
-                _imageB = centerImage(_imageB, this.Width, this.Height);
-            base.OnSizeChanged(e);
-        }
-        private Image ScaleImage(Image source, int MaxWidth, int MaxHeight)
-        {
-            float MaxRatio = MaxWidth / (float)MaxHeight;
-            float ImgRatio = source.Width / (float)source.Height;
-
-            if (source.Width > MaxWidth)
-                return new Bitmap(source, new Size(MaxWidth, (int)Math.Round(MaxWidth /
-                ImgRatio, 0)));
-
-            if (source.Height > MaxHeight)
-                return new Bitmap(source, new Size((int)Math.Round(MaxWidth * ImgRatio,
-                0), MaxHeight));
-
-            return source;
-        }
-        private Image centerImage(Image source, int MaxWidth, int MaxHeight)
-        {
-            //first create an image of the desired size with a filled backgound
-            Bitmap bmpBackground = (Bitmap) ScaleImage(source, MaxWidth, MaxHeight);
-            Bitmap finalImage = new Bitmap(bmpBackground, MaxWidth, MaxHeight);
-            //fill the background
-            Graphics gBackground = Graphics.FromImage(finalImage);
-            gBackground.Clear(Color.LightBlue);
-            int xOff = (int)((MaxWidth - bmpBackground.Width) / 2);
-            int yOff = (int)((MaxHeight - bmpBackground.Height) / 2);
-            
-            gBackground.DrawRectangle(new Pen(Brushes.AliceBlue), new Rectangle(0, 0, MaxWidth, MaxHeight));
-
-            System.Diagnostics.Debug.WriteLine(string.Format("centerImage: {0}/{1}, {2}/{3}, Offset: {4},{5}",
-                MaxWidth, MaxHeight,
-                bmpBackground.Width, bmpBackground.Height,
-                xOff, yOff));
-            gBackground.DrawImage(
-                source, new Rectangle(
-                xOff,
-                yOff,
-                bmpBackground.Width,
-                bmpBackground.Height
-                ));
-            
-            gBackground.Dispose();
-            System.Diagnostics.Debug.WriteLine(string.Format("finalImage: {0}/{1}", finalImage.Width, finalImage.Height));
-            return finalImage;
         }
     }
 }
