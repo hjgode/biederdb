@@ -54,7 +54,7 @@ namespace TransitionTest
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            button2_Click(sender, e);
             int iSel = cboTransType.SelectedIndex;
             if (iSel == -1)
                 return;
